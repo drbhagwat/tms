@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    api:
+      build:
+        context: ./api
+           #restart: always
+    tmsui:
+      build:
+        context: ./tmsui
+      ports: 
+        - 8000:8000
+      depends_on:
+        - api
+
+          #restart: always
+
