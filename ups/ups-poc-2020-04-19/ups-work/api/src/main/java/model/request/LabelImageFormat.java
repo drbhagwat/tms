@@ -13,4 +13,7 @@ import org.springframework.stereotype.Component;
 public class LabelImageFormat {
   @JsonProperty("Code")
   private String code;
+
+  @JsonProperty("Description")
+  private String description;
 }

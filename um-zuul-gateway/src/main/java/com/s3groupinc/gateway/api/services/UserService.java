@@ -20,8 +20,12 @@ import com.s3groupinc.gateway.api.errors.TokenExpired;
 import com.s3groupinc.gateway.api.errors.UserAlreadyExists;
 import com.s3groupinc.gateway.api.errors.UserDoesNotMatchWithRequestedToken;
 import com.s3groupinc.gateway.api.errors.UserNotFound;
-import com.s3groupinc.gateway.api.repo.*;
-
+import com.s3groupinc.gateway.api.repo.GroupsRepository;
+import com.s3groupinc.gateway.api.repo.MenuRepository;
+import com.s3groupinc.gateway.api.repo.PasswordResetTokenRepository;
+import com.s3groupinc.gateway.api.repo.PermissionsRepository;
+import com.s3groupinc.gateway.api.repo.RoleRepository;
+import com.s3groupinc.gateway.api.repo.UserRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,10 +104,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         Optional<User> userDetails = userRepository.findOneByUsername(username);
-        if (userDetails.isPresent()) {
-            return userDetails.get();
-        }
-        throw new UserNotFound("No User");
+        return userDetails.orElseThrow(() -> new UserNotFound("No User"));
     }
 
     /**
@@ -194,6 +195,7 @@ public class UserService implements UserDetailsService {
         // save the name, name and email you got from JSON
         newUser.setUsername(userName.trim());
         newUser.setFullName(name.trim());
+        newUser.setTenantId(users.getTenantId());
         newUser.setEmail(email.trim());
         // make the user active by default.
         newUser.setActive(true);
@@ -234,8 +236,6 @@ public class UserService implements UserDetailsService {
                             throw new MenuNotFound("Menu name with " + menu.getName() + " is not found.");
                         }
                         menu.setId(null);
-                        //menu.setComponentName(null);
-                        //menu.setPath(null);
                         newMenu.add(menu);
                     }
                 }
@@ -423,8 +423,6 @@ public class UserService implements UserDetailsService {
                         throw new Exception("Menu name with " + menu.getName() + " is not found.");
                     }
                     menu.setId(null);
-                   // menu.setComponentName(null);
-                    //menu.setPath(null);
                     newMenu.add(menu);
                 }
                 newMenu = newMenu.stream().distinct().collect(Collectors.toList());
@@ -435,6 +433,7 @@ public class UserService implements UserDetailsService {
         }
         updatedUser.setUsername(userName.trim());
         updatedUser.setFullName(name.trim());
+        updatedUser.setTenantId(updatedUser.getTenantId());
         updatedUser.setEmail(email.trim());
         // make the user active by default.
         updatedUser.setActive(true);

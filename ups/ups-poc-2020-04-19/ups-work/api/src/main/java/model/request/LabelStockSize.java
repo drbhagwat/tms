@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class GlobalRequest {
-  @JsonProperty("ShipmentRequest")
-  private ShipmentRequest shipmentRequest =
-      new ShipmentRequest(new Shipment(), new LabelSpecification());
+public class LabelStockSize {
+  @JsonProperty("Width")
+  private String width;
+
+  @JsonProperty("Height")
+  private String height;
 }

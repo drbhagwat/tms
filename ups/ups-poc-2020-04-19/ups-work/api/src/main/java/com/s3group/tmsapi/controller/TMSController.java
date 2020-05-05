@@ -2,8 +2,8 @@ package com.s3group.tmsapi.controller;
 
 
 import com.s3group.tmsapi.service.TMSClientService;
-import model.request.ShipTo;
-import model.response.GlobalResponse;
+import model.request.ParcelRequest;
+import model.response.ParcelResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,8 @@ public class TMSController {
   private TMSClientService tmsClientService;
 
   @PostMapping("/shipments")
-  public Mono<GlobalResponse> getShipmentTypeInfo(@RequestBody @Valid ShipTo shipTo) throws IOException {
-    return tmsClientService.ship(shipTo);
+  public Mono<ParcelResponse> getShipmentTypeInfo(@RequestBody @Valid ParcelRequest parcelRequest) throws IOException {
+    return tmsClientService.ship(parcelRequest);
   }
 
   @ExceptionHandler(WebClientResponseException.class)

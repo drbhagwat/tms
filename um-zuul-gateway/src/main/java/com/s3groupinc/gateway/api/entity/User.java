@@ -62,6 +62,10 @@ public class User implements UserDetails {
     @NotBlank(message = "{FULLNAME_CANNOT_BE_BLANK}")
     private String fullName;
 
+    @NotNull(message = "{TENANT_ID_MANDATORY}")
+    @NotBlank(message = "{TENANT_ID_CANNOT_BE_BLANK}")
+    private String tenantId;
+
     @NotNull(message = "{EMAIL_MANDATORY}")
     @NotBlank(message = "{EMAIL_CANNOT_BE_BLANK}")
     @Email

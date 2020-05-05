@@ -13,8 +13,8 @@ CREATE
 		IS_ADMIN BOOLEAN NOT NULL,
 		API_ENABLED BOOLEAN NOT NULL,
         FIRST_LOGIN BOOLEAN NOT NULL,
-		EXPIRED_DATE DATE
-);
+		EXPIRED_DATE DATE,
+		TENANT_ID VARCHAR(255) NOT NULL);
 
 CREATE
 	TABLE
@@ -62,14 +62,14 @@ insert
 		IS_ADMIN,
 		API_ENABLED,
 		FIRST_LOGIN,
-		EXPIRED_DATE)
+		EXPIRED_DATE, TENANT_ID)
 	values ('umadmin', 'UM Administrator', 'bdinesh@s3groupinc.com',
 	'$2a$10$53soz/n.T.ShzzZQPfIonOG.vF8URPGHGPRULwdI8CkhX0inkCHaO',
 	TRUE,
 	FALSE,
 	FALSE,
 	FALSE, TRUE, TRUE, TRUE, TRUE,
-     now() + interval '60 days');
+     now() + interval '60 days', 'tenant');
 
 insert	into ROLE (NAME, USERS_ID) values ('ROLE_ADMIN', 1), ('ROLE_USER', 1);
 

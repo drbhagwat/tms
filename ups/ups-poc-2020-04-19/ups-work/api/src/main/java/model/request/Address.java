@@ -14,6 +14,12 @@ public class Address {
   @JsonProperty("AddressLine")
   private String addressLine;
 
+  @JsonProperty("AddressLine2")
+  private String addressLine2;
+
+  @JsonProperty("AddressLine3")
+  private String addressLine3;
+
   @JsonProperty("City")
   private String city;
 

@@ -1,9 +1,9 @@
 package com.s3group.tmsapi.service;
 
-import model.common.UnitOfMeasurement;
-import model.request.*;
-import model.response.GlobalResponse;
-import model.response.PackageResultsElement;
+
+import model.request.ParcelRequest;
+import model.response.ParcelResponse;
+import model.response.PackageResults;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,7 +27,7 @@ public class TMSClientServiceImpl implements TMSClientService {
 
   private final WebClient webClient;
 
-  private GlobalRequest globalRequest = new GlobalRequest();
+  private ParcelRequest globalRequest = new ParcelRequest();
 
   public TMSClientServiceImpl(WebClient.Builder webClientBuilder) {
     webClient = webClientBuilder.baseUrl(UPS_BASE_URL)
@@ -44,56 +44,70 @@ public class TMSClientServiceImpl implements TMSClientService {
   }
 
   @Override
-  public Mono<GlobalResponse> ship(ShipTo shipTo) throws IOException {
-    globalRequest.getShipmentRequest().getShipment().setShipTo(shipTo);
-    globalRequest.getShipmentRequest().getShipment().getPackageElements().add(new PackageElement("International Goods", new Packaging("02"), new PackageWeight(new UnitOfMeasurement("LBS"), "10"), ""));
-    globalRequest.getShipmentRequest().getShipment().getPackageElements().add(new PackageElement("International Goods", new Packaging("02"), new PackageWeight(new UnitOfMeasurement("LBS"), "20"), ""));
-
-    Mono<GlobalResponse> globalResponse = webClient.post()
-        .uri("/ship/v1/shipments")
+  public Mono<ParcelResponse> ship(ParcelRequest request) throws IOException {
+    Mono<ParcelResponse> globalResponse = webClient.post()
+        .uri("/ship/v1801/shipments")
         .syncBody(globalRequest)
         .retrieve()
-        .bodyToMono(GlobalResponse.class);
+        .bodyToMono(ParcelResponse.class);
 
-    GlobalResponse tempGlobalResponse = globalResponse.block();
+    ParcelResponse tempParcelResponse = globalResponse.block();
 
-    List<PackageResultsElement> packageResultsElement =
-        tempGlobalResponse.getShipmentResponse().getShipmentResults().getPackageResultsElement();
+    List<PackageResults> packageResults =
+        tempParcelResponse.getShipmentResponse().getShipmentResults().getPackageResults();
 
-    int size = packageResultsElement.size();
+    int size = packageResults.size();
 
     for (int i = 0; i < size; i++) {
       String base64 =
-          packageResultsElement.get(i).getShippingLabel().getGraphicImage();
+          packageResults.get(i).getShippingLabel().getGraphicImage();
       byte[] base64Val = convertToImg(base64);
-      String image = "image" + i + ".png";
-      writeByteToImageFile(base64Val, image);
+
+      String imageFormat = getImageFormat(request);
+      String image = null;
+
+      // according to the type of the image, init the right extension
+      switch (imageFormat) {
+        case "ZPL": {
+          image = "image" + i + ".zpl";
+          break;
+        }
+        default: {
+          image = "image" + i + ".gif";
+          break;
+        }
+      }
+      writeBytesToImageFile(base64Val, image);
 
       base64 =
-          packageResultsElement.get(i).getShippingLabel().getHTMLImage();
+          packageResults.get(i).getShippingLabel().getHTMLImage();
       base64Val = convertToImg(base64);
       String text = "text" + i + ".html";
-      writeByteToHtmlFile(base64Val, text);
+      writeBytesToHtmlFile(base64Val, text);
     }
     return globalResponse;
+  }
+
+  public static String getImageFormat(ParcelRequest request) {
+    return request.getShipmentRequest().getLabelSpecification().getLabelImageFormat().getCode().toUpperCase();
   }
 
   public static byte[] convertToImg(String base64) throws IOException {
     return Base64.decodeBase64(base64);
   }
 
-  public static void writeByteToImageFile(byte[] imgBytes,
-                                          String imgFileName) throws IOException {
+  public static void writeBytesToImageFile(byte[] imgBytes,
+                                           String imgFileName) throws IOException {
     File imgFile = new File(imgFileName);
     BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
-    ImageIO.write(img, "png", imgFile);
+    String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
+    ImageIO.write(img, extension, imgFile);
   }
 
-  public static void writeByteToHtmlFile(byte[] htmlBytes,
+  public static void writeBytesToHtmlFile(byte[] htmlBytes,
                                           String htmlFileName) throws IOException {
     File file = new File(htmlFileName);
-    OutputStream  os = new FileOutputStream(file);
-    // Starts writing the bytes in it
+    OutputStream os = new FileOutputStream(file);
     os.write(htmlBytes);
   }
 }

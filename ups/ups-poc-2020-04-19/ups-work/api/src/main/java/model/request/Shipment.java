@@ -15,42 +15,35 @@ import java.util.List;
 @Component
 public class Shipment {
   @JsonProperty("Description")
-  private String description = "1206 PTR";
+  private String description;
 
   @JsonProperty("Shipper")
-  private Shipper shipper = new Shipper("ShipperName", "AttentionName",
-      "TaxID", new Phone("1234567890"), "F47128", new Address("4124 " +
-      "Chattahoochee Trace", "Duluth", "GA", "30097", "US"));
+  private ShippingInfo shipper;
 
   @JsonProperty("ShipTo")
-  private ShipTo shipTo;
+  private ShippingInfo shipTo;
 
   @JsonProperty("ShipFrom")
-  private ShipFrom shipFrom = new ShipFrom("ShipperName", "AttentionName",
-      new Phone("1234567890"), "1234567999", "456999", new Address("4124 " +
-      "Chattahoochee Trace", "Duluth", "GA", "30097", "US"));
-  ;
+  private ShippingInfo shipFrom;
 
   @JsonProperty("PaymentInformation")
-  private PaymentInformation paymentInformation =
-      new PaymentInformation(new ShipmentCharge("01", new BillShipper("F47128"
-      )));
+  private PaymentInformation paymentInformation;
 
   @JsonProperty("Service")
-  private MyService service = new MyService("01", "Expedited");
+  private MyService service;
 
   @JsonProperty("Package")
-  private List<PackageElement> packageElements = new ArrayList<>();
+  private List<PackageElement> packageElements;
 
   @JsonProperty("ItemizedChargesRequestedIndicator")
-  private String itemizedChargesRequestedIndicator = "";
+  private String itemizedChargesRequestedIndicator;
 
   @JsonProperty("RatingMethodRequestedIndicator")
-  private String ratingMethodRequestedIndicator = "";
+  private String ratingMethodRequestedIndicator;
 
   @JsonProperty("TaxInformationIndicator")
-  private String taxInformationIndicator = "";
+  private String taxInformationIndicator;
 
   @JsonProperty("ShipmentRatingOptions")
-  private ShipmentRatingOptions shipmentRatingOptions = new ShipmentRatingOptions("");
+  private ShipmentRatingOptions shipmentRatingOptions;
 }

@@ -1,5 +1,6 @@
 package model.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,5 +31,6 @@ public class ShipmentResults {
   private String shipmentIdentificationNumber;
 
   @JsonProperty("PackageResults")
-  private List<PackageResultsElement> packageResultsElement;
+  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+  private List<PackageResults> packageResults;
 }

@@ -1,11 +1,11 @@
 package com.s3group.tmsapi.service;
 
-import model.request.ShipTo;
-import model.response.GlobalResponse;
+import model.request.ParcelRequest;
+import model.response.ParcelResponse;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
 public interface TMSClientService {
-  Mono<GlobalResponse> ship(ShipTo shipTo) throws IOException;
+  Mono<ParcelResponse> ship(ParcelRequest request) throws IOException;
 }

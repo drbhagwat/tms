@@ -12,5 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabelSpecification {
   @JsonProperty("LabelImageFormat")
-  private LabelImageFormat labelImageFormat = new LabelImageFormat("GIF");
+  private LabelImageFormat labelImageFormat;
+
+  @JsonProperty("LabelStockSize")
+  private LabelStockSize labelStockSize;
+
+  @JsonProperty("HTTPUserAgent")
+  private String hTTPUserAgent = "Mozilla/4.5";
+
+  @JsonProperty("Instruction")
+  private Instruction instruction;
+
+  @JsonProperty("CharSet")
+  private String charSet = "eng";
 }

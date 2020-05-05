@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GlobalResponse {
+public class ParcelResponse {
   @JsonProperty("ShipmentResponse")
   private ShipmentResponse shipmentResponse;
 }

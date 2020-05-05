@@ -1,4 +1,4 @@
-package model.common;
+package model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UnitOfMeasurement {
-  @JsonProperty("Code")
-  private String code;
-
-  @JsonProperty("Description")
-  private String description;
+public class ParcelRequest {
+  @JsonProperty("ShipmentRequest")
+  private ShipmentRequest shipmentRequest;
 }

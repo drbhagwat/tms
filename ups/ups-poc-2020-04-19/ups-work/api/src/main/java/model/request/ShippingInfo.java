@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class Shipper {
+public class ShippingInfo {
   @JsonProperty("Name")
   private String name;
 
   @JsonProperty("AttentionName")
   private String attentionName;
 
-  @JsonProperty("TaxIdentificationNumber")
-  private String taxIdentificationNumber;
-
   @JsonProperty("Phone")
   private Phone phone;
 
-  @JsonProperty("ShipperNumber")
-  private String shipperNumber;
+  @JsonProperty("FaxNumber")
+  private String faxNumber;
+
+  @JsonProperty("TaxIdentificationNumber")
+  private String taxIdentificationNumber;
 
   @JsonProperty("Address")
   private Address address;

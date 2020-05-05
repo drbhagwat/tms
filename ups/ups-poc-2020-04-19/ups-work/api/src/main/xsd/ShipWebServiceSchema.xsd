@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xsd:schema targetNamespace="http://www.ups.com/XMLSchema/XOLTWS/Ship/v1.0" xmlns:ups="http://www.ups.com/XMLSchema" xmlns:ship="http://www.ups.com/XMLSchema/XOLTWS/Ship/v1.0" xmlns:ifs="http://www.ups.com/XMLSchema/XOLTWS/IF/v1.0" xmlns:common="http://www.ups.com/XMLSchema/XOLTWS/Common/v1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="201801">
 	<xsd:import namespace="http://www.ups.com/XMLSchema/XOLTWS/Common/v1.0" schemaLocation="common.xsd"/>
 	<xsd:import namespace="http://www.ups.com/XMLSchema/XOLTWS/IF/v1.0" schemaLocation="IFWS.xsd"/>

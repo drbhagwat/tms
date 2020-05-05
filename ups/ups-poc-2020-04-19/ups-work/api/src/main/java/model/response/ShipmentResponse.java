@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShipmentResponse {
   @JsonProperty("Response")
-  private Response response;
+  private ParcelResponse response;
 
   @JsonProperty("ShipmentResults")
   private ShipmentResults shipmentResults;

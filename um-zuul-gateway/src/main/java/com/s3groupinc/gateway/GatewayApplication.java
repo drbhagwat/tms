@@ -23,10 +23,10 @@ class DataSetup implements ApplicationRunner {
 	}
 }
 
-@SpringBootApplication
 @EnableZuulProxy
 @EnableEurekaClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@SpringBootApplication
 public class GatewayApplication {
 
 	public static void main(String[] args) {
