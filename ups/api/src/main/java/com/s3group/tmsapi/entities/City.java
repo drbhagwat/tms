@@ -1,8 +1,8 @@
+/*
 package com.s3group.tmsapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import com.s3group.tmsapi.config.multitenant.database.TenantSupport;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,4 +35,4 @@ public class City implements Serializable, TenantSupport {
   private String name;
 
   private String tenantId;
-}
+}*/

@@ -1,10 +1,11 @@
 package com.s3group.tmsapi.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.s3group.tmsapi.entities.request.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.request.Address;
+
 import org.springframework.stereotype.Component;
 
 import javax.persistence.CascadeType;

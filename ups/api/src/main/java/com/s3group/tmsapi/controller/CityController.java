@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.controller;
 
 import com.s3group.tmsapi.config.multitenant.TenantContext;
@@ -46,4 +47,4 @@ public class CityController {
     cityService.delete(name);
     return new ResponseEntity<>(HttpStatus.OK);
   }
-}
+}*/

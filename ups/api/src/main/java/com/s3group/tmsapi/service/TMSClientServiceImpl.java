@@ -1,10 +1,11 @@
 package com.s3group.tmsapi.service;
 
 
-import model.request.ParcelRequest;
-import model.response.ParcelResponse;
-import model.response.PackageResults;
+import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.response.ParcelResponse;
+import com.s3group.tmsapi.repo.ParcelRequestRepository;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -12,7 +13,6 @@ import reactor.core.publisher.Mono;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.List;
 
 @Service
 public class TMSClientServiceImpl implements TMSClientService {
@@ -27,7 +27,8 @@ public class TMSClientServiceImpl implements TMSClientService {
 
   private final WebClient webClient;
 
-  private ParcelRequest globalRequest = new ParcelRequest();
+  @Autowired
+  ParcelRequestRepository parcelRequestRepository;
 
   public TMSClientServiceImpl(WebClient.Builder webClientBuilder) {
     webClient = webClientBuilder.baseUrl(UPS_BASE_URL)
@@ -44,15 +45,20 @@ public class TMSClientServiceImpl implements TMSClientService {
   }
 
   @Override
-  public Mono<ParcelResponse> ship(ParcelRequest request) throws IOException {
+  public Mono<ParcelResponse> ship(ParcelRequest parcelRequest) throws IOException {
+/*
     Mono<ParcelResponse> globalResponse = webClient.post()
         .uri("/ship/v1801/shipments")
-        .syncBody(globalRequest)
+        .syncBody(parcelRequest)
         .retrieve()
         .bodyToMono(ParcelResponse.class);
+*/
 
-    ParcelResponse tempParcelResponse = globalResponse.block();
+    parcelRequestRepository.save(parcelRequest);
 
+//    ParcelResponse tempParcelResponse = globalResponse.block();
+
+/*
     List<PackageResults> packageResults =
         tempParcelResponse.getShipmentResponse().getShipmentResults().getPackageResults();
 
@@ -85,12 +91,13 @@ public class TMSClientServiceImpl implements TMSClientService {
       String text = "text" + i + ".html";
       writeBytesToHtmlFile(base64Val, text);
     }
-    return globalResponse;
+*/
+    return null;
   }
 
-  public static String getImageFormat(ParcelRequest request) {
+ /* public static String getImageFormat(ParcelRequest request) {
     return request.getShipmentRequest().getLabelSpecification().getLabelImageFormat().getCode().toUpperCase();
-  }
+  }*/
 
   public static byte[] convertToImg(String base64) throws IOException {
     return Base64.decodeBase64(base64);

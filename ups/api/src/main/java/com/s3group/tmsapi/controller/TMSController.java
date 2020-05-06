@@ -2,8 +2,8 @@ package com.s3group.tmsapi.controller;
 
 
 import com.s3group.tmsapi.service.TMSClientService;
-import model.request.ParcelRequest;
-import model.response.ParcelResponse;
+import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.response.ParcelResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

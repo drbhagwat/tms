@@ -1,12 +1,14 @@
 package com.s3group.tmsapi.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.s3group.tmsapi.entities.request.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.request.Address;
+
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.validation.Valid;
@@ -39,6 +41,7 @@ public class Warehouse extends BasicLogger<String> {
   @NotBlank(message = "{DESCRIPTION_CANNOT_BE_BLANK}")
   private String description;
 
+  @Embedded
   private Address address;
 
   @NotNull(message = "{CONTACT_NAME_MANDATORY}")
@@ -49,5 +52,6 @@ public class Warehouse extends BasicLogger<String> {
   @NotBlank(message = "{CONTACT_NUMBER_CANNOT_BE_BLANK}")
   private String contactNumber;
 
+  @Embedded
  private Address alternateAddress;
 }
