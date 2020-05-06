@@ -52,7 +52,7 @@ mvnw.cmd
 .classpath
 .factorypath
 .gradle
-.idea
+.idea/
 .metadata
 .project
 .recommenders
