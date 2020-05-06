@@ -13,4 +13,15 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          auto: none
+          auto: update
+
+# following constants are for validation of various Json inputs and Exception handling.
+VALIDATION_FAILED: Validation Failed
+TMS_EXCEPTION: Tms Exception
+ALPHA_NUMERIC_AND_SPACE_REGEX: ^[ a-zA-Z0-9]*$
+ALPHA_NUMERIC_REGEX: ^[a-zA-Z0-9]*$
+
+# following messages are for the core classes.
+COMPANY_CODE_MAX_LENGTH: 10
+DIVISION_CODE_MAX_LENGTH: 10
+WAREHOUSE_CODE_MAX_LENGTH: 10
