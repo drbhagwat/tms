@@ -1,19 +1,20 @@
-package com.s3group.tmsapi.entities.request;
+package com.s3group.tmsapi.core.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-@Embeddable
-public class Address implements Serializable {
+public class Address1 implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String addressLine;
