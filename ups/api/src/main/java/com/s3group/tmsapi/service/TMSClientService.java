@@ -1,7 +1,7 @@
 package com.s3group.tmsapi.service;
 
-import model.request.ParcelRequest;
-import model.response.ParcelResponse;
+import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.response.ParcelResponse;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;

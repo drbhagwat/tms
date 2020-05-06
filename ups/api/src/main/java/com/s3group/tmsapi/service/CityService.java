@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.service;
 
 import com.s3group.tmsapi.config.multitenant.TenantContext;
@@ -38,3 +39,4 @@ public class CityService {
     cityRepository.deleteByName(name);
   }
 }
+*/

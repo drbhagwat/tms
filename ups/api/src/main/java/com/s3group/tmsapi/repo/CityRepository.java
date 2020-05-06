@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.repo;
 
 import com.s3group.tmsapi.entities.City;
@@ -15,3 +16,4 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
   void deleteByName(String name);
 }
+*/

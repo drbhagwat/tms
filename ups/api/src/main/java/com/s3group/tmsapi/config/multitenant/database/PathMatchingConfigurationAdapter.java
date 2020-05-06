@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.config.multitenant.database;
 
 import com.s3group.tmsapi.config.multitenant.RequestInterceptor;
@@ -108,4 +109,4 @@ public class PathMatchingConfigurationAdapter implements WebMvcConfigurer {
   public void configurePathMatch(PathMatchConfigurer configurer) {
     configurer.setUseSuffixPatternMatch(false);
   }
-}
+}*/

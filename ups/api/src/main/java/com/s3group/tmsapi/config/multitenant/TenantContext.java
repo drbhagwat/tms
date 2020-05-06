@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.config.multitenant;
 
 import org.springframework.stereotype.Component;
@@ -19,3 +20,4 @@ public class TenantContext {
     currentTenant.set(null);
   }
 }
+*/
