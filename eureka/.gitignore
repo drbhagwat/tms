@@ -34,6 +34,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/
+.mvn/wrapper/
 mvnw
 mvnw.cmd
 
