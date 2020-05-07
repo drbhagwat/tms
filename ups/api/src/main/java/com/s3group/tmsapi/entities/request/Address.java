@@ -34,7 +34,7 @@ public class Address implements Serializable {
   @JsonProperty("StateProvinceCode")
   private String stateProvinceCode;
 
-  @JsonProperty("postalCode")
+  @JsonProperty("PostalCode")
   private String postalCode;
 
   @JsonProperty("CountryCode")
