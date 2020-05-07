@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 /**
  * This represents repository for Division entity.
  *
- * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-02-04
+ * @author : Thamilarasi
+ * @version : 1.0
+ * @since : 2020-05-05
  */
 @Repository
 public interface DivisionRepository extends PagingAndSortingRepository<Division, DivisionKey> {

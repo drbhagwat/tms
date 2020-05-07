@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 /**
  * This represents the repository for Company entity.
  *
- * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-11-23
+ * @author : Thamilarasi
+ * @version : 1.0
+ * @since : 2020-05-05
  */
 @Repository
 public interface CompanyRepository extends PagingAndSortingRepository<Company, String> {

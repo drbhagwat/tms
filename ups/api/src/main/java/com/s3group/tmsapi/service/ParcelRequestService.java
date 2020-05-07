@@ -1,11 +1,14 @@
 package com.s3group.tmsapi.service;
 
-
 import com.s3group.tmsapi.entities.request.ParcelRequest;
 import com.s3group.tmsapi.entities.response.ParcelResponse;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -15,37 +18,54 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 @Service
-public class TMSClientServiceImpl implements TMSClientService {
-  private static final String UPS_BASE_URL = "https://wwwcie.ups.com";
-  private static final String UPS_CONTENT_TYPE = "application/json";
-  private static final String UPS_USERNAME = "vboopathi";
-  private static final String UPS_PASSWORD = "vb20UPS@s3";
-  private static final String UPS_API_KEY = "CD7C3B41BB827C51";
-  private static final String UPS_TRANSACTION_SOURCE = "S3GTest";
-  private static final String UPS_TRANSACTION_ID = "s3gTrnx001";
-  private static final String UPS_ACCEPT = "application/xml";
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ParcelRequestService {
+  @Value("${UPS_BASE_URL}")
+  private String uPSBaseUrl;
 
-  private final WebClient webClient;
+  @Value("${UPS_CONTENT_TYPE}")
+  private String uPSContentType;
+
+  @Value("${UPS_USERNAME}")
+  private String uPSUserName;
+
+  @Value("${UPS_PASSWORD}")
+  private String uPSPassword;
+
+  @Value("${UPS_API_KEY}")
+  private String uPSApiKey;
+
+  @Value("${UPS_TRANSACTION_SOURCE}")
+  private String uPSTransactionSource;
+
+  @Value("${UPS_TRANSACTION_ID}")
+  private String uPSTransactionId;
+
+  @Value("${UPS_ACCEPT}")
+  private String uPSAccept;
+
+  @Autowired
+  private WebClient.Builder webClientBuilder;
 
   @Autowired
   ParcelRequestRepository parcelRequestRepository;
 
-  public TMSClientServiceImpl(WebClient.Builder webClientBuilder) {
-    webClient = webClientBuilder.baseUrl(UPS_BASE_URL)
+  public Mono<ParcelResponse> ship(ParcelRequest parcelRequest) throws IOException {
+    WebClient webClient = webClientBuilder.baseUrl(uPSBaseUrl)
         .defaultHeaders(httpHeaders -> {
-          httpHeaders.add("Content-Type", UPS_CONTENT_TYPE);
-          httpHeaders.add("Username", UPS_USERNAME);
-          httpHeaders.add("Password", UPS_PASSWORD);
-          httpHeaders.add("AccessLicenseNumber", UPS_API_KEY);
-          httpHeaders.add("transactionSrc", UPS_TRANSACTION_SOURCE);
-          httpHeaders.add("transID", UPS_TRANSACTION_ID);
-          httpHeaders.add("Accept", UPS_ACCEPT);
+          httpHeaders.add("Content-Type", uPSContentType);
+          httpHeaders.add("Username", uPSUserName);
+          httpHeaders.add("Password", uPSPassword);
+          httpHeaders.add("AccessLicenseNumber", uPSApiKey);
+          httpHeaders.add("transactionSrc", uPSTransactionSource);
+          httpHeaders.add("transID", uPSTransactionId);
+          httpHeaders.add("Accept", uPSAccept);
         })
         .build();
-  }
 
-  @Override
-  public Mono<ParcelResponse> ship(ParcelRequest parcelRequest) throws IOException {
+
 /*
     Mono<ParcelResponse> globalResponse = webClient.post()
         .uri("/ship/v1801/shipments")
@@ -53,6 +73,7 @@ public class TMSClientServiceImpl implements TMSClientService {
         .retrieve()
         .bodyToMono(ParcelResponse.class);
 */
+
 
     parcelRequestRepository.save(parcelRequest);
 

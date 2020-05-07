@@ -1,21 +1,32 @@
 package com.s3group.tmsapi.entities.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class ShipmentResults {
+  @Id
+  @GeneratedValue
+  private long id;
+
   @JsonProperty("Disclaimer")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "disclaimer_id",
+      referencedColumnName = "id")
   private Disclaimer disclaimer;
 
   @JsonProperty("ShipmentCharges")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "shipment_charges_id",
+      referencedColumnName = "id")
   private ShipmentCharges shipmentCharges;
 
   @JsonProperty("RatingMethod")
@@ -25,12 +36,19 @@ public class ShipmentResults {
   private String billableWeightCalculationMethod;
 
   @JsonProperty("BillingWeight")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "billing_weight_id",
+      referencedColumnName = "id")
   private BillingWeight billingWeight;
 
   @JsonProperty("ShipmentIdentificationNumber")
   private String shipmentIdentificationNumber;
 
   @JsonProperty("PackageResults")
-  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+  @OneToMany(cascade =
+      CascadeType.ALL,
+      orphanRemoval = true)
+  @JoinColumn(name = "shipment_results_id")
+//  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<PackageResults> packageResults;
 }

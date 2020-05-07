@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
  * COMPANY_CODE_MAX_LENGTH (currently 10) defined in application.yml
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2020-04-16
+ * @version : 1.0
  */
 @Service
 public class CompanyValidationService {

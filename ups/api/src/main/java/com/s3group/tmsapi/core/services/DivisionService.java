@@ -22,9 +22,9 @@ import java.util.Optional;
 /**
  * Create Read Update Delete (CRUD) services for Division entity.
  *
- * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-03-17
+ * @author : Thamilarasi
+ * @version : 1.0
+ * @since : 2020-05-05
  */
 @Service
 @Transactional
@@ -150,7 +150,12 @@ public class DivisionService {
     Division existingDivision = tempDivision.get();
     existingDivision.setName(division.getName());
     existingDivision.setDescription(division.getDescription());
-    existingDivision.setAddress(division.getAddress());
+    existingDivision.setAddress1(division.getAddress1());
+    existingDivision.setAddress2(division.getAddress2());
+    existingDivision.setCity(division.getCity());
+    existingDivision.setState(division.getState());
+    existingDivision.setZip(division.getZip());
+    existingDivision.setCountry(division.getCountry());
     existingDivision.setContactName(division.getContactName());
     existingDivision.setContactNumber(division.getContactNumber());
     return divisionRepository.save(existingDivision);

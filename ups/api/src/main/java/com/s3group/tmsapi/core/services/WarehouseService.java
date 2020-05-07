@@ -23,9 +23,9 @@ import java.util.Optional;
 /**
  * Provides Create Read Update Delete (CRUD) services for Warehouse.
  *
- * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-11-23
+ * @author : Thamilarasi
+ * @version : 1.0
+ * @since : 2020-05-06
  */
 @Service
 @Transactional
@@ -149,11 +149,20 @@ public class WarehouseService {
 
     existingWarehouse.setName(warehouse.getName());
     existingWarehouse.setDescription(warehouse.getDescription());
-    existingWarehouse.setAddress(warehouse.getAddress());
+    existingWarehouse.setAddress1(warehouse.getAddress1());
+    existingWarehouse.setAddress2(warehouse.getAddress2());
+    existingWarehouse.setCity(warehouse.getCity());
+    existingWarehouse.setState(warehouse.getState());
+    existingWarehouse.setZip(warehouse.getZip());
+    existingWarehouse.setCountry(warehouse.getCountry());
     existingWarehouse.setContactName(warehouse.getContactName());
     existingWarehouse.setContactNumber(warehouse.getContactNumber());
-    existingWarehouse.setAlternateAddress(warehouse.getAlternateAddress());
-
+    existingWarehouse.setAlternateAddress1(warehouse.getAlternateAddress1());
+    existingWarehouse.setAlternateAddress2(warehouse.getAlternateAddress2());
+    existingWarehouse.setAlternateCity(warehouse.getAlternateCity());
+    existingWarehouse.setAlternateState(warehouse.getAlternateState());
+    existingWarehouse.setAlternateZip(warehouse.getAlternateZip());
+    existingWarehouse.setAlternateCountry(warehouse.getAlternateCountry());
     return warehouseRepository.save(existingWarehouse);
   }
 
