@@ -82,7 +82,7 @@ public class ParcelRequestService {
       ParcelResponse parcelResponse = upsResponse.block();
       parcelResponseRepository.save(parcelResponse);
     } catch (WebClientException webClientException) {
-      System.out.println("*****" + webClientException.getMessage() + "****");
+      System.out.println("***" + webClientException.getMessage() + "***");
     }
 
 /*
