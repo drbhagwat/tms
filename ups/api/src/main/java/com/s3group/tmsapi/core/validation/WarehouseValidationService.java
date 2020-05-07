@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
  * Provides Warehouse validation service.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-02-06
+ * @version : 1.0
  */
 @Service
 public class WarehouseValidationService {

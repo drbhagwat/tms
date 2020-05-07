@@ -10,10 +10,9 @@ import org.springframework.stereotype.Repository;
 /**
  * This represents repository for Warehouse entity.
  *
- * @author : Dinesh Bhagwat
+ * @author : Thamilarasi
  * @version : 2.0
- * @since : 2019-04-15
- * @since : 2019-11-23
+ * @since : 2020-05-06
  */
 @Repository
 public interface WarehouseRepository extends PagingAndSortingRepository<Warehouse, WarehouseKey> {

@@ -107,7 +107,12 @@ public class CompanyService {
     Company existingCompany = get(companyKey);
     existingCompany.setName(company.getName());
     existingCompany.setDescription(company.getDescription());
-    existingCompany.setAddress(company.getAddress());
+    existingCompany.setAddress1(company.getAddress1());
+    existingCompany.setAddress2(company.getAddress2());
+    existingCompany.setCity(company.getCity());
+    existingCompany.setState(company.getState());
+    existingCompany.setZip(company.getZip());
+    existingCompany.setCountry(company.getCountry());
     existingCompany.setContactName(company.getContactName());
     existingCompany.setContactNumber(company.getContactNumber());
     return companyRepository.save(existingCompany);
