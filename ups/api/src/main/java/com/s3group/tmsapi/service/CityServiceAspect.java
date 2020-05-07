@@ -1,3 +1,4 @@
+/*
 package com.s3group.tmsapi.service;
 
 import com.s3group.tmsapi.config.multitenant.TenantContext;
@@ -21,4 +22,4 @@ public class CityServiceAspect {
     filter.setParameter("tenantId", TenantContext.getCurrentTenant());
     filter.validate();
   }
-}
+}*/
