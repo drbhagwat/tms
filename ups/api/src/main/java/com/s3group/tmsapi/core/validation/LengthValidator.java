@@ -8,8 +8,7 @@ import com.s3group.tmsapi.core.errors.ParameterLengthExceedsExpectedLength;
  * expectedLength.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2020-04-15
+ * @version : 1.0
  */
 interface LengthValidator {
   /**

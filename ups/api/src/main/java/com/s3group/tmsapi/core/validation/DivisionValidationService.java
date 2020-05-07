@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
  * Provides Division validation service.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-05-01
- * @since : 2019-11-23
+ * @version : 1.0
  */
 @Service
 public class DivisionValidationService {
