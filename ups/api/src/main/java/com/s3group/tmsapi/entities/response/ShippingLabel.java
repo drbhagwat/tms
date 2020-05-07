@@ -25,8 +25,10 @@ public class ShippingLabel {
   private ImageFormat imageFormat;
 
   @JsonProperty("GraphicImage")
+  @Column(length=10485760)
   private String graphicImage;
 
   @JsonProperty("HTMLImage")
+  @Column(length=10485760)
   private String hTMLImage;
 }
