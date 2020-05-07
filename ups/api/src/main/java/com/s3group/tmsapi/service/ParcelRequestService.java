@@ -81,13 +81,19 @@ public class ParcelRequestService {
     try {
       ParcelResponse parcelResponse = upsResponse.block();
       parcelResponseRepository.save(parcelResponse);
+      return upsResponse;
     } catch (WebClientException webClientException) {
+      /* Store the appropriate object into the history log here
+      You can make the ParcelResponse object as null and the
+      response object as the error body */
       System.out.println("***" + webClientException.getMessage() + "***");
+      return upsResponse;
     }
 
 /*
     List<PackageResults> packageResults =
-        tempParcelResponse.getShipmentResponse().getShipmentResults().getPackageResults();
+        tempParcelResponse.getShipmentResponse().getShipmentResults()
+        .getPackageResults();
 
     int size = packageResults.size();
 
@@ -119,29 +125,29 @@ public class ParcelRequestService {
       writeBytesToHtmlFile(base64Val, text);
     }
 */
-    return upsResponse;
-  }
+    }
 
  /* public static String getImageFormat(ParcelRequest request) {
-    return request.getShipmentRequest().getLabelSpecification().getLabelImageFormat().getCode().toUpperCase();
+    return request.getShipmentRequest().getLabelSpecification()
+    .getLabelImageFormat().getCode().toUpperCase();
   }*/
 
-  public static byte[] convertToImg(String base64) throws IOException {
-    return Base64.decodeBase64(base64);
-  }
+    public static byte[] convertToImg (String base64) throws IOException {
+      return Base64.decodeBase64(base64);
+    }
 
-  public static void writeBytesToImageFile(byte[] imgBytes,
-                                           String imgFileName) throws IOException {
-    File imgFile = new File(imgFileName);
-    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
-    String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
-    ImageIO.write(img, extension, imgFile);
-  }
+    public static void writeBytesToImageFile ( byte[] imgBytes,
+    String imgFileName) throws IOException {
+      File imgFile = new File(imgFileName);
+      BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
+      String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
+      ImageIO.write(img, extension, imgFile);
+    }
 
-  public static void writeBytesToHtmlFile(byte[] htmlBytes,
-                                          String htmlFileName) throws IOException {
-    File file = new File(htmlFileName);
-    OutputStream os = new FileOutputStream(file);
-    os.write(htmlBytes);
+    public static void writeBytesToHtmlFile ( byte[] htmlBytes,
+    String htmlFileName) throws IOException {
+      File file = new File(htmlFileName);
+      OutputStream os = new FileOutputStream(file);
+      os.write(htmlBytes);
+    }
   }
-}
