@@ -79,13 +79,16 @@ public class ParcelRequestService {
         .bodyToMono(ParcelResponse.class);
 
     try {
+      /* Prepare the response log here. You can save the
+      valid ParcelResponse object and make the
+      response object as null */
       ParcelResponse parcelResponse = upsResponse.block();
       parcelResponseRepository.save(parcelResponse);
       return upsResponse;
     } catch (WebClientException webClientException) {
-      /* Store the appropriate object into the history log here
-      You can make the ParcelResponse object as null and the
-      response object as the error body */
+      /* Prepare the response log object here. Make the
+      ParcelResponse object as null and the response object
+      contains the error that came back from UPS */
       System.out.println("***" + webClientException.getMessage() + "***");
       return upsResponse;
     }
