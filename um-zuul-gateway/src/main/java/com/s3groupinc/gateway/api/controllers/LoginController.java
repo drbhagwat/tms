@@ -24,12 +24,6 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    // @Autowired
-    // private AuthenticationManager authenticationManager;
-
-    // @Autowired
-    // private UserService userDetailsService;
-
     /**
      * @param jsonLogin: two key value pairs - userName and password
      * @return - on successful authentication, it returns true, otherwise false.
@@ -37,7 +31,6 @@ public class LoginController {
      */
     @PostMapping("/login")
     public JsonLoginResponse login(@RequestBody JsonLogin jsonLogin) throws Exception {
-
         return (loginService.login1(jsonLogin));
     }
 
@@ -51,14 +44,4 @@ public class LoginController {
     public boolean changePassword(@RequestBody JsonChangePassword jsonChangePassword) {
         return (loginService.changePassword(jsonChangePassword));
     }
-
-    // private void authenticate(String username, String password) throws Exception {
-    // 	try {
-    // 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-    // 	} catch (DisabledException e) {
-    // 		throw new Exception("USER_DISABLED", e);
-    // 	} catch (BadCredentialsException e) {
-    // 		throw new Exception("INVALID_CREDENTIALS", e);
-    // 	}
-    // }
 }

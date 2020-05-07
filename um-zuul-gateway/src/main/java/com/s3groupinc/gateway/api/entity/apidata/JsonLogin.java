@@ -22,4 +22,8 @@ public class JsonLogin {
     @NotNull(message = "{PASSWORD_MANDATORY}")
     @NotBlank(message = "{PASSWORD_CANNOT_BE_BLANK}")
     private String password;
+
+    @NotNull(message = "{TENANT_ID_MANDATORY}")
+    @NotBlank(message = "{TENANT_ID_CANNOT_BE_BLANK}")
+    private String tenantId;
 }

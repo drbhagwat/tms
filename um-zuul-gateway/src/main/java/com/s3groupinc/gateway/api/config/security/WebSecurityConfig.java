@@ -121,11 +121,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity.authorizeRequests().antMatchers(permitAllPath).permitAll()
+//                .antMatchers(wmsInventoryPath).hasAuthority(wmsGroup)
+//                .antMatchers(campaignPath).hasAuthority(campaignGroup)
+//                .antMatchers(channelAPIPath).hasAuthority(channelGroup).anyRequest().authenticated()
+//                .and().csrf().disable().headers().frameOptions().disable().and()
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests().antMatchers(permitAllPath).permitAll()
-                .antMatchers(wmsInventoryPath).hasAuthority(wmsGroup)
-                .antMatchers(campaignPath).hasAuthority(campaignGroup)
-                .antMatchers(channelAPIPath).hasAuthority(channelGroup).anyRequest().authenticated()
-                .and().csrf().disable().headers().frameOptions().disable().and()
+                .anyRequest().authenticated().and().csrf().disable().headers().frameOptions().disable().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

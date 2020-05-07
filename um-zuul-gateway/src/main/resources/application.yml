@@ -33,9 +33,9 @@ zuul:
       path: /gallery/**
       serviceId: gallery-service
       sensitiveHeaders: Cookie,Set-Cookie
-    tms-service:
+    MultiTenant:
       path: /api/v1/**
-      serviceId: tms-service
+      serviceId: MultiTenant
       sensitiveHeaders: Cookie,Set-Cookie
 
 hystrix:

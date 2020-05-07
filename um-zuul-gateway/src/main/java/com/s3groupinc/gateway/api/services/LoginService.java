@@ -1,7 +1,6 @@
 package com.s3groupinc.gateway.api.services;
 
 import com.s3groupinc.gateway.api.config.jwtutil.JwtTokenUtil;
-import com.s3groupinc.gateway.api.entity.Groups;
 import com.s3groupinc.gateway.api.entity.User;
 import com.s3groupinc.gateway.api.entity.apidata.JsonChangePassword;
 import com.s3groupinc.gateway.api.entity.apidata.JsonLogin;
@@ -135,12 +134,6 @@ public class LoginService {
                 } else {
                     usr = user.get();
                     jsonLoginResponse.setFirstLogin("false");
-
-//                    for (Groups groups : usr.getGroups()) {
-//                        jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                        jsonLoginResponse.setMenuList(groups.getMenuList());
-//                    }
-
                     Boolean passwordExpiry = userService.passwordExpiry(userName);
 
                     if (!passwordExpiry) {
@@ -149,12 +142,7 @@ public class LoginService {
                         jsonLoginResponse.setAuthenticationSuccess("false");
                         jsonLoginResponse.setToken("NA");
                         jsonLoginResponse.setPasswordExpired("true");
-
-//                        for (Groups groups : usr.getGroups()) {
-//                            jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                            jsonLoginResponse.setMenuList(groups.getMenuList());
-//                        }
-                    jsonLoginResponse.setGroupsList(usr.getGroups());
+                        jsonLoginResponse.setGroupsList(usr.getGroups());
                         return jsonLoginResponse;
                     }
                 }
@@ -166,11 +154,6 @@ public class LoginService {
                 // generate token for authenticated user
                 final String token = jwtTokenUtil.generateToken(usr);
                 jsonLoginResponse.setToken(token);
-
-//                for (Groups groups : usr.getGroups()) {
-//                    jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                    jsonLoginResponse.setMenuList(groups.getMenuList());
-//                }
                 jsonLoginResponse.setGroupsList(usr.getGroups());
 
                 usr.setFirstLogin(false);
@@ -208,8 +191,9 @@ public class LoginService {
         JsonLoginResponse jsonLoginResponse = new JsonLoginResponse();
         String userName = jsonLogin.getUserName();
         String password = jsonLogin.getPassword();
+        String tenantId = jsonLogin.getTenantId();
 
-        Optional<User> user = userRepository.findOneByUsername(userName);
+        Optional<User> user = userRepository.findByUsernameAndTenantId(userName, tenantId);
 
         if (user.isEmpty()) {
             jsonLoginResponse.setAuthenticationSuccess("false");
@@ -230,11 +214,6 @@ public class LoginService {
             jsonLoginResponse.setApiUserOrAdmin("NA");
             jsonLoginResponse.setToken("NA");
             jsonLoginResponse.setPasswordExpired("NA");
-
-//            for (Groups groups : usr.getGroups()) {
-//                jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                jsonLoginResponse.setMenuList(groups.getMenuList());
-//            }
             jsonLoginResponse.setGroupsList(usr.getGroups());
             return jsonLoginResponse;
         }
@@ -245,11 +224,6 @@ public class LoginService {
             jsonLoginResponse.setApiUserOrAdmin("NA");
             jsonLoginResponse.setToken("NA");
             jsonLoginResponse.setPasswordExpired("NA");
-
-//            for (Groups groups : usr.getGroups()) {
-//                jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                jsonLoginResponse.setMenuList(groups.getMenuList());
-//            }
             jsonLoginResponse.setGroupsList(usr.getGroups());
 
             return jsonLoginResponse;
@@ -263,11 +237,6 @@ public class LoginService {
             jsonLoginResponse.setAuthenticationSuccess("false");
             jsonLoginResponse.setToken("NA");
             jsonLoginResponse.setPasswordExpired("true");
-
-//            for (Groups groups : usr.getGroups()) {
-//                jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//                jsonLoginResponse.setMenuList(groups.getMenuList());
-//            }
             jsonLoginResponse.setGroupsList(usr.getGroups());
 
             return jsonLoginResponse;
@@ -275,7 +244,6 @@ public class LoginService {
 
         final String token = jwtTokenUtil.generateToken(usr);
         jsonLoginResponse.setToken(token);
-
         jsonLoginResponse.setAuthenticationSuccess("true");
         jsonLoginResponse.setPasswordExpired("false");
 
@@ -291,12 +259,8 @@ public class LoginService {
             jsonLoginResponse.setApiUserOrAdmin("apiUser");
         }
         usr.setFirstLogin(false);
-
-//        for (Groups groups : usr.getGroups()) {
-//            jsonLoginResponse.setPermissionsList(groups.getPermissionsList());
-//            jsonLoginResponse.setMenuList(groups.getMenuList());
-//        }
         jsonLoginResponse.setGroupsList(usr.getGroups());
+        jsonLoginResponse.setTenantId(usr.getTenantId());
 
         userRepository.save(usr);
         return jsonLoginResponse;

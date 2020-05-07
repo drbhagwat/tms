@@ -22,7 +22,6 @@ public class JsonLoginResponse {
     private String apiUserOrAdmin; // NA or apiUser or or admin
     private String token;
     private String passwordExpired; // NA or true or false
-//    private List<Permissions> permissionsList;
-//    private List<Menu> menuList;
+    private String tenantId;
     private List<Groups> groupsList;
 }
