@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Component
 @Embeddable
 public class Address implements Serializable {
+  @JsonIgnore
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("AddressLine")
