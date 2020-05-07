@@ -3,6 +3,7 @@ package com.s3group.tmsapi.service;
 import com.s3group.tmsapi.entities.request.ParcelRequest;
 import com.s3group.tmsapi.entities.response.ParcelResponse;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
+import com.s3group.tmsapi.repo.ParcelResponseRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,7 +53,12 @@ public class ParcelRequestService {
   @Autowired
   ParcelRequestRepository parcelRequestRepository;
 
+  @Autowired
+  ParcelResponseRepository parcelResponseRepository;
+
   public Mono<ParcelResponse> ship(ParcelRequest parcelRequest) throws IOException {
+    parcelRequestRepository.save(parcelRequest);
+
     WebClient webClient = webClientBuilder.baseUrl(uPSBaseUrl)
         .defaultHeaders(httpHeaders -> {
           httpHeaders.add("Content-Type", uPSContentType);
@@ -66,18 +72,14 @@ public class ParcelRequestService {
         .build();
 
 
-/*
-    Mono<ParcelResponse> globalResponse = webClient.post()
+    Mono<ParcelResponse> upsResponse = webClient.post()
         .uri("/ship/v1801/shipments")
         .syncBody(parcelRequest)
         .retrieve()
         .bodyToMono(ParcelResponse.class);
-*/
 
-
-    parcelRequestRepository.save(parcelRequest);
-
-//    ParcelResponse tempParcelResponse = globalResponse.block();
+    ParcelResponse parcelResponse = upsResponse.block();
+    parcelResponseRepository.save(parcelResponse);
 
 /*
     List<PackageResults> packageResults =
