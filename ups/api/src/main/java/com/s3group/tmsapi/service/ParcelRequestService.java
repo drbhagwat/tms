@@ -71,7 +71,6 @@ public class ParcelRequestService {
         })
         .build();
 
-
     Mono<ParcelResponse> upsResponse = webClient.post()
         .uri("/ship/v1801/shipments")
         .syncBody(parcelRequest)
@@ -115,7 +114,7 @@ public class ParcelRequestService {
       writeBytesToHtmlFile(base64Val, text);
     }
 */
-    return null;
+    return upsResponse;
   }
 
  /* public static String getImageFormat(ParcelRequest request) {
