@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
@@ -77,8 +78,12 @@ public class ParcelRequestService {
         .retrieve()
         .bodyToMono(ParcelResponse.class);
 
-    ParcelResponse parcelResponse = upsResponse.block();
-    parcelResponseRepository.save(parcelResponse);
+    try {
+      ParcelResponse parcelResponse = upsResponse.block();
+      parcelResponseRepository.save(parcelResponse);
+    } catch (WebClientException webClientException) {
+      System.out.println("***" + webClientException.getMessage() + "***");
+    }
 
 /*
     List<PackageResults> packageResults =
