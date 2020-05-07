@@ -16,9 +16,9 @@ import javax.validation.constraints.NotNull;
 /**
  * This class represents Warehouse entity
  *
- * @author : Dinesh Bhagwat
+ * @author : Thamilarasi
  * @version : 1.0
- * @since : 2019-04-15
+ * @since : 2020-05-06
  */
 @Entity
 @Data
@@ -39,7 +39,27 @@ public class Warehouse extends BasicLogger<String> {
   @NotBlank(message = "{DESCRIPTION_CANNOT_BE_BLANK}")
   private String description;
 
-  private Address address;
+  @NotNull(message = "{ADDRESS1_MANDATORY}")
+  @NotBlank(message = "{ADDRESS1_CANNOT_BE_BLANK}")
+  private String address1;
+
+  private String address2;
+
+  @NotNull(message = "{CITY_MANDATORY}")
+  @NotBlank(message = "{CITY_CANNOT_BE_BLANK}")
+  private String city;
+
+  @NotNull(message = "{STATE_MANDATORY}")
+  @NotBlank(message = "{STATE_CANNOT_BE_BLANK}")
+  private String state;
+
+  @NotNull(message = "{ZIP_MANDATORY}")
+  @NotBlank(message = "{ZIP_CANNOT_BE_BLANK}")
+  private String zip;
+
+  @NotNull(message = "{COUNTRY_MANDATORY}")
+  @NotBlank(message = "{COUNTRY_CANNOT_BE_BLANK}")
+  private String country;
 
   @NotNull(message = "{CONTACT_NAME_MANDATORY}")
   @NotBlank(message = "{CONTACT_NAME_CANNOT_BE_BLANK}")
@@ -49,5 +69,15 @@ public class Warehouse extends BasicLogger<String> {
   @NotBlank(message = "{CONTACT_NUMBER_CANNOT_BE_BLANK}")
   private String contactNumber;
 
- private Address alternateAddress;
+  private String alternateAddress1;
+
+  private String alternateAddress2;
+
+  private String alternateCity;
+
+  private String alternateState;
+
+  private String alternateZip;
+
+  private String alternateCountry;
 }

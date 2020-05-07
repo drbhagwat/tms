@@ -18,9 +18,9 @@ import java.util.List;
 /**
  * This class represents Company entity
  *
- * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2020-03-05
+ * @author : Thamilarasi
+ * @version : 1.0
+ * @since : 2020-05-05
  */
 @Entity
 @Data
@@ -40,7 +40,27 @@ public class Company  extends BasicLogger<String>  {
   @NotBlank(message = "{DESCRIPTION_CANNOT_BE_BLANK}")
   private String description;
 
-  private Address address;
+  @NotNull(message = "{ADDRESS1_MANDATORY}")
+  @NotBlank(message = "{ADDRESS1_CANNOT_BE_BLANK}")
+  private String address1;
+
+  private String address2;
+
+  @NotNull(message = "{CITY_MANDATORY}")
+  @NotBlank(message = "{CITY_CANNOT_BE_BLANK}")
+  private String city;
+
+  @NotNull(message = "{STATE_MANDATORY}")
+  @NotBlank(message = "{STATE_CANNOT_BE_BLANK}")
+  private String state;
+
+  @NotNull(message = "{ZIP_MANDATORY}")
+  @NotBlank(message = "{ZIP_CANNOT_BE_BLANK}")
+  private String zip;
+
+  @NotNull(message = "{COUNTRY_MANDATORY}")
+  @NotBlank(message = "{COUNTRY_CANNOT_BE_BLANK}")
+  private String country;
 
   @NotNull(message = "{CONTACT_NAME_MANDATORY}")
   @NotBlank(message = "{CONTACT_NAME_CANNOT_BE_BLANK}")

@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
  * warehouse etc.,)
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-03-05
+ * @version : 1.0
  */
 @Service
 public class CodeValidationService {

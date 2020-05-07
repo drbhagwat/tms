@@ -7,8 +7,7 @@ import com.s3group.tmsapi.core.errors.ParameterIsNull;
  * Validates the input parameter.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2020-04-15
+ * @version : 1.0
  */
 public interface NullValidator {
   /**
