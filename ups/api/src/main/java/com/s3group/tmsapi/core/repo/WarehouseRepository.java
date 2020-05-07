@@ -1,7 +1,6 @@
 package com.s3group.tmsapi.core.repo;
 
 
-import com.s3group.tmsapi.core.entities.Warehouse;
 import com.s3group.tmsapi.core.entities.WarehouseKey;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
