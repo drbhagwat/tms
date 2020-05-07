@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class ShippingLabel {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("ImageFormat")
@@ -23,8 +25,10 @@ public class ShippingLabel {
   private ImageFormat imageFormat;
 
   @JsonProperty("GraphicImage")
+  @Column(length=10485760)
   private String graphicImage;
 
   @JsonProperty("HTMLImage")
+  @Column(length=10485760)
   private String hTMLImage;
 }

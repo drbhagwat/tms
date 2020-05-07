@@ -1,5 +1,7 @@
 package com.s3group.tmsapi.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +18,7 @@ import java.util.List;
 public class Response {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("ResponseStatus")
@@ -29,6 +32,7 @@ public class Response {
       CascadeType.ALL,
       orphanRemoval = true)
   @JoinColumn(name = "response_id")
+  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<Alert> alerts = new ArrayList<>();
 
   @JsonProperty("TransactionReference")

@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class Alert {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("Code")
@@ -22,6 +24,7 @@ public class Alert {
   @JsonProperty("Description")
   private String description;
 
+  @JsonIgnore
   @JoinColumn
   @ManyToOne
   private Response response;
