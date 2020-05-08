@@ -7,6 +7,7 @@ import com.s3group.tmsapi.service.ParcelRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
@@ -21,11 +22,15 @@ public class ParcelRequestController {
 
   @PostMapping("/shipments")
   public Mono<ParcelResponse> ship(@RequestBody @Valid ParcelRequest parcelRequest) throws IOException {
-    return parcelRequestService.ship(parcelRequest);
+    Mono<ParcelResponse> junk = parcelRequestService.ship(parcelRequest);
+    return junk;
   }
 
-  @ExceptionHandler(WebClientResponseException.class)
+  @ExceptionHandler(WebClientException.class)
   public ResponseEntity<String> handleWebClientResponseException(WebClientResponseException ex) {
-    return ResponseEntity.status(ex.getRawStatusCode()).body(ex.getResponseBodyAsString());
+    int getRawStatus = ex.getRawStatusCode();
+    String responseBody = ex.getResponseBodyAsString();
+    ResponseEntity<String> junk = ResponseEntity.status(ex.getRawStatusCode()).body(ex.getResponseBodyAsString());
+    return junk;
   }
 }
