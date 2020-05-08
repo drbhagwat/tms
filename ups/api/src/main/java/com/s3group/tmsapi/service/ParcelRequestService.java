@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
@@ -78,20 +80,9 @@ public class ParcelRequestService {
         .retrieve()
         .bodyToMono(ParcelResponse.class);
 
-    try {
-      /* Prepare the response log here. You can save the
-      valid ParcelResponse object and make the
-      response object as null */
-      ParcelResponse parcelResponse = upsResponse.block();
-      parcelResponseRepository.save(parcelResponse);
-      return upsResponse;
-    } catch (WebClientException webClientException) {
-      /* Prepare the response log object here. Make the
-      ParcelResponse object as null and the response object
-      contains the error that came back from UPS */
-      System.out.println("***" + webClientException.getMessage() + "***");
-      return upsResponse;
-    }
+    ParcelResponse parcelResponse = upsResponse.block();
+    parcelResponseRepository.save(parcelResponse);
+    return upsResponse;
 
 /*
     List<PackageResults> packageResults =
@@ -128,29 +119,29 @@ public class ParcelRequestService {
       writeBytesToHtmlFile(base64Val, text);
     }
 */
-    }
+  }
 
  /* public static String getImageFormat(ParcelRequest request) {
     return request.getShipmentRequest().getLabelSpecification()
     .getLabelImageFormat().getCode().toUpperCase();
   }*/
 
-    public static byte[] convertToImg (String base64) throws IOException {
-      return Base64.decodeBase64(base64);
-    }
-
-    public static void writeBytesToImageFile ( byte[] imgBytes,
-    String imgFileName) throws IOException {
-      File imgFile = new File(imgFileName);
-      BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
-      String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
-      ImageIO.write(img, extension, imgFile);
-    }
-
-    public static void writeBytesToHtmlFile ( byte[] htmlBytes,
-    String htmlFileName) throws IOException {
-      File file = new File(htmlFileName);
-      OutputStream os = new FileOutputStream(file);
-      os.write(htmlBytes);
-    }
+  public static byte[] convertToImg(String base64) throws IOException {
+    return Base64.decodeBase64(base64);
   }
+
+  public static void writeBytesToImageFile(byte[] imgBytes,
+                                           String imgFileName) throws IOException {
+    File imgFile = new File(imgFileName);
+    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
+    String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
+    ImageIO.write(img, extension, imgFile);
+  }
+
+  public static void writeBytesToHtmlFile(byte[] htmlBytes,
+                                          String htmlFileName) throws IOException {
+    File file = new File(htmlFileName);
+    OutputStream os = new FileOutputStream(file);
+    os.write(htmlBytes);
+  }
+}
