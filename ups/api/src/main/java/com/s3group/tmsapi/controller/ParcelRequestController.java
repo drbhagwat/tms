@@ -22,7 +22,7 @@ public class ParcelRequestController {
   @PostMapping(
       value = "/shipments", consumes = "application/json",
       produces = "application/json")
-  public ParcelResponse ship(@RequestBody @Valid ParcelRequest parcelRequest) throws URISyntaxException {
-    return parcelRequestService.ship(parcelRequest).getBody();
+  public String ship(@RequestBody @Valid ParcelRequest parcelRequest) throws URISyntaxException {
+    return parcelRequestService.ship(parcelRequest);
   }
 }

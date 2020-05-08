@@ -65,7 +65,7 @@ public class ParcelRequestService {
   @Autowired
   ParcelResponseRepository parcelResponseRepository;
 
-  public ResponseEntity<ParcelResponse> ship(ParcelRequest parcelRequest) throws URISyntaxException {
+  public String ship(ParcelRequest parcelRequest) throws URISyntaxException {
     parcelRequestRepository.save(parcelRequest);
 
     final RestTemplate restTemplate = new RestTemplate();
@@ -83,11 +83,12 @@ public class ParcelRequestService {
       ResponseEntity<ParcelResponse> parcelResponse =
           restTemplate.exchange(baseUrl,
               HttpMethod.POST, request, ParcelResponse.class);
-      return parcelResponse;
+      parcelResponseRepository.save(parcelResponse.getBody());
+      return parcelResponse.getBody().toString();
     } catch (HttpClientErrorException httpClientErrorException ) {
       String errorMessage =
           httpClientErrorException.getResponseBodyAsString();
-      return null;
+          return errorMessage;
     }
   }
 
