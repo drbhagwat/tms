@@ -35,3 +35,21 @@ UPS_API_KEY: CD7C3B41BB827C51
 UPS_TRANSACTION_SOURCE: S3GTest
 UPS_TRANSACTION_ID: s3gTrnx001
 UPS_ACCEPT: application/json
+
+# following messages for some entities
+CARRIER_SERVICE_CODE_ADDED: CarrierServiceCode is successfully added in TMS.
+CARRIER_SERVICE_CODE_UPDATED: CarrierServiceCode is successfully updated in TMS.
+CARRIER_SERVICE_CODE_DELETED: CarrierServiceCode is successfully deleted from TMS.
+CARRIER_PACKAGE_CODE_ADDED: CarrierPackageCode is successfully added in TMS.
+CARRIER_PACKAGE_CODE_UPDATED: CarrierPackageCode is successfully updated in TMS.
+CARRIER_PACKAGE_CODE_DELETED: CarrierPackageCode is successfully deleted from TMS.
+CARRIER_CODE_NOT_FOUND: CarrierCode is not found in TMS.
+CARRIER_CODE_ALREADY_EXISTS: Cannot add CarrierCode, as it already exists in TMS.
+CARRIER_CODE_MANDATORY: The CarrierCode key is missing in the Json input. Please provide the CarrierCode key with a value.
+CARRIER_CODE_CANNOT_BE_BLANK: The value of the CarrierCode key in the Json input is blank. Please provide a non-blank value for the CarrierCode key.
+CARRIER_CODE_CANNOT_CONTAIN_SPECIAL_CHARACTERS: The value of the CarrierCode key in the Json input contains non-alpha-numeric character/s. Please provide a value with alpha-numeric characters.
+CARRIER_PACKAGE_CODE_MANDATORY: The CarrierPackageCode key is missing in the Json input. Please provide the CarrierPackageCode key with a value.
+CARRIER_PACKAGE_CODE_CANNOT_BE_BLANK: The value of the CarrierPackageCode key in the Json input is blank. Please provide a non-blank value for the CarrierPackageCode key.
+CARRIER_PACKAGE_CODE_CANNOT_CONTAIN_SPECIAL_CHARACTERS: The value of the CarrierPackageCode key in the Json input contains non-alpha-numeric character/s. Please provide a value with alpha-numeric characters.
+CARRIER_PACKAGE_CODE_NOT_FOUND: CarrierPackageCode is not found in TMS.
+CARRIER_PACKAGE_CODE_ALREADY_EXISTS: Cannot add CarrierPackageCode, as it already exists in TMS.
