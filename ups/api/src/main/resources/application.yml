@@ -5,7 +5,8 @@ spring:
     name: MultiTenant
   datasource:
     initialization-mode: always
-    url: 'jdbc:postgresql://localhost:5432/postgres'
+    url: jdbc:postgresql://mic-tms-pg:5432/postgres
+#    url: 'jdbc:postgresql://localhost:5432/postgres'
     username: 'postgres'
     password: 'root'
     driver-class-name: org.postgresql.Driver
