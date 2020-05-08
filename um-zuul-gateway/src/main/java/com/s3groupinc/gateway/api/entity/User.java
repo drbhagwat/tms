@@ -64,6 +64,7 @@ public class User implements UserDetails {
 
     @NotNull(message = "{TENANT_ID_MANDATORY}")
     @NotBlank(message = "{TENANT_ID_CANNOT_BE_BLANK}")
+    @Column(unique = true)
     private String tenantId;
 
     @NotNull(message = "{EMAIL_MANDATORY}")
