@@ -1,12 +1,9 @@
 package com.s3group.tmsapi.entities.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -36,6 +33,11 @@ public class PackageElement {
 
   @JsonProperty("PackageServiceOptions")
   private String packageServiceOptions;
+
+  @JsonProperty("Dimensions")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "dimensions_id", referencedColumnName = "id")
+  private Dimensions dimensions;
 
   @JoinColumn
   @ManyToOne
