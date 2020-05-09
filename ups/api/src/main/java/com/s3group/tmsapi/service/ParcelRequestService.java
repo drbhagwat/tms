@@ -140,11 +140,13 @@ public class ParcelRequestService {
   }
 
   public static void writeBytesToHtmlFile(byte[] htmlBytes,
-                                          String htmlFileName) throws IOException {
+                                          String htmlFileName) {
     File file = new File(htmlFileName);
 
     try (OutputStream os = new FileOutputStream(file)) {
       os.write(htmlBytes);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }
