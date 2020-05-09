@@ -10,22 +10,18 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collections;
 
 @Service
 @Data
@@ -65,7 +61,7 @@ public class ParcelRequestService {
   @Autowired
   ParcelResponseRepository parcelResponseRepository;
 
-  public String ship(ParcelRequest parcelRequest) throws URISyntaxException {
+  public String ship(ParcelRequest parcelRequest) {
     parcelRequestRepository.save(parcelRequest);
 
     final RestTemplate restTemplate = new RestTemplate();
@@ -86,9 +82,7 @@ public class ParcelRequestService {
       parcelResponseRepository.save(parcelResponse.getBody());
       return parcelResponse.getBody().toString();
     } catch (HttpClientErrorException httpClientErrorException ) {
-      String errorMessage =
-          httpClientErrorException.getResponseBodyAsString();
-          return errorMessage;
+      return httpClientErrorException.getResponseBodyAsString();
     }
   }
 
@@ -133,7 +127,7 @@ public class ParcelRequestService {
     .getLabelImageFormat().getCode().toUpperCase();
   }*/
 
-  public static byte[] convertToImg(String base64) throws IOException {
+  public static byte[] convertToImg(String base64) {
     return Base64.decodeBase64(base64);
   }
 
@@ -148,7 +142,9 @@ public class ParcelRequestService {
   public static void writeBytesToHtmlFile(byte[] htmlBytes,
                                           String htmlFileName) throws IOException {
     File file = new File(htmlFileName);
-    OutputStream os = new FileOutputStream(file);
-    os.write(htmlBytes);
+
+    try (OutputStream os = new FileOutputStream(file)) {
+      os.write(htmlBytes);
+    }
   }
 }

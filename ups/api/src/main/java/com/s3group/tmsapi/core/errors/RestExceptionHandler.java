@@ -1,6 +1,7 @@
 package com.s3group.tmsapi.core.errors;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -21,9 +22,9 @@ import java.util.List;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-@SuppressWarnings({"unchecked", "rawtypes"})
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   @Value("${TMS_EXCEPTION}")
   private String tmsException;
@@ -36,9 +37,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     List<String> details = new ArrayList<>();
     details.add(ex.getLocalizedMessage());
     ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), tmsException, details);
-    return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 
+  @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                 HttpHeaders headers, HttpStatus status,
                                                                 WebRequest request) {
@@ -48,6 +50,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
       details.add(error.getDefaultMessage());
     }
     ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), validationFailed, details);
-    return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 }

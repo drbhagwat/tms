@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.core.entities.BasicLogger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
+@EqualsAndHashCode(callSuper=true)
 @JsonIgnoreProperties({"createdUser", "createdDateTime", "lastUpdatedUser",
     "lastUpdatedDateTime", "id" })
 public class ParcelRequest extends BasicLogger<String> {

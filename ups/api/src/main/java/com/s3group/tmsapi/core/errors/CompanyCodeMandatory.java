@@ -1,10 +1,12 @@
 package com.s3group.tmsapi.core.errors;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper=true)
 public class CompanyCodeMandatory extends Exception {
 	private static final long serialVersionUID = 1L;
 	public CompanyCodeMandatory(String exception) {
