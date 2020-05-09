@@ -1,20 +1,44 @@
 server:
+  #  ssl.key-store: classpath:keystore.p12
+  #  ssl.key-store-password: password
+  #  ssl.key-store-type: PKCS12
+  #  ssl.key-alias: tomcat
   port: 8080
+  servlet:
+    context-path: /
 spring:
   application:
-    name: MultiTenant
+    name: tms
   datasource:
-    initialization-mode: always
-    url: jdbc:postgresql://mic-tms-pg:5432/postgres
-#    url: 'jdbc:postgresql://localhost:5432/postgres'
-    username: 'postgres'
-    password: 'root'
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
     driver-class-name: org.postgresql.Driver
+    # Keep the connection alive if idle for a long time (needed in production)
+    test-while-idle: true
+    validation-query: SELECT 1
+    initialization-mode: never
+    platform: postgres
+    hikari:
+      minimum-idle: 20
+      maximum-pool-size: 200
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      auto-commit: true
+      pool-name: HikariConnectionPool
   jpa:
+    # Show or not log for each sql query
+    show_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
-        hbm2ddl:
-          auto: update
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 # following constants are for validation of various Json inputs and Exception handling.
 VALIDATION_FAILED: Validation Failed
