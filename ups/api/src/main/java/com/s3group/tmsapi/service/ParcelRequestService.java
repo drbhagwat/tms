@@ -1,9 +1,21 @@
 package com.s3group.tmsapi.service;
 
 import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.response.Errors;
 import com.s3group.tmsapi.entities.response.ParcelResponse;
+import com.s3group.tmsapi.entities.response.ParcelResponseHistory;
+import com.s3group.tmsapi.entities.response.UpsErrorResponse;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
+import com.s3group.tmsapi.repo.ParcelResponseHistoryRepository;
 import com.s3group.tmsapi.repo.ParcelResponseRepository;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Collections;
+import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,72 +31,76 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-
 @Service
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParcelRequestService {
-  @Value("${UPS_BASE_URL}")
-  private String uPSBaseUrl;
+    @Value("${UPS_BASE_URL}")
+    private String uPSBaseUrl;
 
-  @Value("${UPS_CONTENT_TYPE}")
-  private String uPSContentType;
+    @Value("${UPS_CONTENT_TYPE}")
+    private String uPSContentType;
 
-  @Value("${UPS_USERNAME}")
-  private String uPSUserName;
+    @Value("${UPS_USERNAME}")
+    private String uPSUserName;
 
-  @Value("${UPS_PASSWORD}")
-  private String uPSPassword;
+    @Value("${UPS_PASSWORD}")
+    private String uPSPassword;
 
-  @Value("${UPS_API_KEY}")
-  private String uPSApiKey;
+    @Value("${UPS_API_KEY}")
+    private String uPSApiKey;
 
-  @Value("${UPS_TRANSACTION_SOURCE}")
-  private String uPSTransactionSource;
+    @Value("${UPS_TRANSACTION_SOURCE}")
+    private String uPSTransactionSource;
 
-  @Value("${UPS_TRANSACTION_ID}")
-  private String uPSTransactionId;
+    @Value("${UPS_TRANSACTION_ID}")
+    private String uPSTransactionId;
 
-  @Value("${UPS_ACCEPT}")
-  private String uPSAccept;
+    @Value("${UPS_ACCEPT}")
+    private String uPSAccept;
 
-  @Autowired
-  private WebClient.Builder webClientBuilder;
+    @Autowired
+    private WebClient.Builder webClientBuilder;
 
-  @Autowired
-  ParcelRequestRepository parcelRequestRepository;
+    @Autowired
+    ParcelRequestRepository parcelRequestRepository;
 
-  @Autowired
-  ParcelResponseRepository parcelResponseRepository;
+    @Autowired
+    ParcelResponseRepository parcelResponseRepository;
 
-  public String ship(ParcelRequest parcelRequest) {
-    parcelRequestRepository.save(parcelRequest);
+    @Autowired
+    private ParcelResponseHistoryRepository parcelResponseHistoryRepository;
 
-    final RestTemplate restTemplate = new RestTemplate();
-    final HttpHeaders headers = new HttpHeaders();
-    final String baseUrl = "https://wwwcie.ups.com/ship/v1801/shipments";
-    headers.set("Username", uPSUserName);
-    headers.set("Password", uPSPassword);
-    headers.set("AccessLicenseNumber", uPSApiKey);
-    headers.set("transactionSrc", uPSTransactionSource);
-    headers.set("transID", uPSTransactionId);
-    final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest,
-        headers);
+    public ParcelResponseHistory ship(ParcelRequest parcelRequest) {
+        parcelRequestRepository.save(parcelRequest);
 
-    try {
-      ResponseEntity<ParcelResponse> parcelResponse =
-          restTemplate.exchange(baseUrl,
-              HttpMethod.POST, request, ParcelResponse.class);
-      parcelResponseRepository.save(parcelResponse.getBody());
-      return parcelResponse.getBody().toString();
-    } catch (HttpClientErrorException httpClientErrorException ) {
-      return httpClientErrorException.getResponseBodyAsString();
+        final RestTemplate restTemplate = new RestTemplate();
+        final HttpHeaders headers = new HttpHeaders();
+        final String baseUrl = "https://wwwcie.ups.com/ship/v1801/shipments";
+        headers.set("Username", uPSUserName);
+        headers.set("Password", uPSPassword);
+        headers.set("AccessLicenseNumber", uPSApiKey);
+        headers.set("transactionSrc", uPSTransactionSource);
+        headers.set("transID", uPSTransactionId);
+        final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest, headers);
+
+        try {
+            ResponseEntity<ParcelResponse> parcelResponse = restTemplate.exchange(baseUrl, HttpMethod.POST, request,
+                    ParcelResponse.class);
+            parcelResponseRepository.save(parcelResponse.getBody());
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, null,
+                    parcelResponse.getBody().getShipmentResponse()));
+        } catch (HttpClientErrorException httpClientErrorException) {
+            Errors error = new Errors();
+            error.setCode(String.valueOf(httpClientErrorException.getResponseHeaders().get("ErrorCode")).
+                    replaceAll("[^0-9]", ""));
+            error.setDescription(String.valueOf(httpClientErrorException.getResponseHeaders().get("APIErrorMsg")).
+                    replaceAll("[^a-zA-Z0-9 ]", ""));
+            UpsErrorResponse upsErrorResponse = new UpsErrorResponse(null, Collections.singletonList(error));
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, upsErrorResponse, null));
+        }
     }
-  }
 
 /*
     List<PackageResults> packageResults =
@@ -127,26 +143,26 @@ public class ParcelRequestService {
     .getLabelImageFormat().getCode().toUpperCase();
   }*/
 
-  public static byte[] convertToImg(String base64) {
-    return Base64.decodeBase64(base64);
-  }
-
-  public static void writeBytesToImageFile(byte[] imgBytes,
-                                           String imgFileName) throws IOException {
-    File imgFile = new File(imgFileName);
-    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
-    String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
-    ImageIO.write(img, extension, imgFile);
-  }
-
-  public static void writeBytesToHtmlFile(byte[] htmlBytes,
-                                          String htmlFileName) {
-    File file = new File(htmlFileName);
-
-    try (OutputStream os = new FileOutputStream(file)) {
-      os.write(htmlBytes);
-    } catch (IOException e) {
-      e.printStackTrace();
+    public static byte[] convertToImg(String base64) {
+        return Base64.decodeBase64(base64);
     }
-  }
+
+    public static void writeBytesToImageFile(byte[] imgBytes,
+                                             String imgFileName) throws IOException {
+        File imgFile = new File(imgFileName);
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
+        String extension = imgFileName.substring(imgFileName.indexOf('.') + 1);
+        ImageIO.write(img, extension, imgFile);
+    }
+
+    public static void writeBytesToHtmlFile(byte[] htmlBytes,
+                                            String htmlFileName) {
+        File file = new File(htmlFileName);
+
+        try (OutputStream os = new FileOutputStream(file)) {
+            os.write(htmlBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
