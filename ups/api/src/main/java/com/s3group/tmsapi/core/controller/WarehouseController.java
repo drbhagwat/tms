@@ -15,9 +15,7 @@ import javax.validation.Valid;
  * Performs CRUD (Create Read Update Delete) operations for Warehouse.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-04-15
- * @since : 2019-11-23
+ * @version : 1.0
  */
 @RestController
 public class WarehouseController {

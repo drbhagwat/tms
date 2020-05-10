@@ -1,11 +1,10 @@
 package com.s3group.tmsapi.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.s3group.tmsapi.entities.request.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import org.springframework.stereotype.Component;
 
 import javax.persistence.CascadeType;
@@ -28,6 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
+@EqualsAndHashCode(callSuper=true)
 public class Company  extends BasicLogger<String>  {
   @Id
   @NotNull(message = "{CODE_MANDATORY}")

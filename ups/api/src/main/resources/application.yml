@@ -1,19 +1,44 @@
 server:
+  #  ssl.key-store: classpath:keystore.p12
+  #  ssl.key-store-password: password
+  #  ssl.key-store-type: PKCS12
+  #  ssl.key-alias: tomcat
   port: 8080
+  servlet:
+    context-path: /
 spring:
   application:
-    name: MultiTenant
+    name: tms
   datasource:
-    initialization-mode: always
-    url: 'jdbc:postgresql://localhost:5432/postgres'
-    username: 'postgres'
-    password: 'root'
+    url: jdbc:postgresql://mic-tms-pg:5432/postgres
+    username: postgres
+    password: root
     driver-class-name: org.postgresql.Driver
+    # Keep the connection alive if idle for a long time (needed in production)
+    test-while-idle: true
+    validation-query: SELECT 1
+    initialization-mode: never
+    platform: postgres
+    hikari:
+      minimum-idle: 20
+      maximum-pool-size: 200
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      auto-commit: true
+      pool-name: HikariConnectionPool
   jpa:
+    # Show or not log for each sql query
+    show_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
-        hbm2ddl:
-          auto: update
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 # following constants are for validation of various Json inputs and Exception handling.
 VALIDATION_FAILED: Validation Failed
@@ -35,3 +60,21 @@ UPS_API_KEY: CD7C3B41BB827C51
 UPS_TRANSACTION_SOURCE: S3GTest
 UPS_TRANSACTION_ID: s3gTrnx001
 UPS_ACCEPT: application/json
+
+# following messages for some entities
+CARRIER_SERVICE_CODE_ADDED: CarrierServiceCode is successfully added in TMS.
+CARRIER_SERVICE_CODE_UPDATED: CarrierServiceCode is successfully updated in TMS.
+CARRIER_SERVICE_CODE_DELETED: CarrierServiceCode is successfully deleted from TMS.
+CARRIER_PACKAGE_CODE_ADDED: CarrierPackageCode is successfully added in TMS.
+CARRIER_PACKAGE_CODE_UPDATED: CarrierPackageCode is successfully updated in TMS.
+CARRIER_PACKAGE_CODE_DELETED: CarrierPackageCode is successfully deleted from TMS.
+CARRIER_CODE_NOT_FOUND: CarrierCode is not found in TMS.
+CARRIER_CODE_ALREADY_EXISTS: Cannot add CarrierCode, as it already exists in TMS.
+CARRIER_CODE_MANDATORY: The CarrierCode key is missing in the Json input. Please provide the CarrierCode key with a value.
+CARRIER_CODE_CANNOT_BE_BLANK: The value of the CarrierCode key in the Json input is blank. Please provide a non-blank value for the CarrierCode key.
+CARRIER_CODE_CANNOT_CONTAIN_SPECIAL_CHARACTERS: The value of the CarrierCode key in the Json input contains non-alpha-numeric character/s. Please provide a value with alpha-numeric characters.
+CARRIER_PACKAGE_CODE_MANDATORY: The CarrierPackageCode key is missing in the Json input. Please provide the CarrierPackageCode key with a value.
+CARRIER_PACKAGE_CODE_CANNOT_BE_BLANK: The value of the CarrierPackageCode key in the Json input is blank. Please provide a non-blank value for the CarrierPackageCode key.
+CARRIER_PACKAGE_CODE_CANNOT_CONTAIN_SPECIAL_CHARACTERS: The value of the CarrierPackageCode key in the Json input contains non-alpha-numeric character/s. Please provide a value with alpha-numeric characters.
+CARRIER_PACKAGE_CODE_NOT_FOUND: CarrierPackageCode is not found in TMS.
+CARRIER_PACKAGE_CODE_ALREADY_EXISTS: Cannot add CarrierPackageCode, as it already exists in TMS.

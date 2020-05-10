@@ -15,8 +15,7 @@ import javax.validation.Valid;
  * CRUD (Create Read Update Delete) operations for the Company entity.
  *
  * @author : Dinesh Bhagwat
- * @version : 2.0
- * @since : 2019-03-05
+ * @version : 1.0
  */
 @RestController
 public class CompanyController {

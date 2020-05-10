@@ -1,4 +1,4 @@
-package com.s3group.tmsapi.config.multitenant;
+package com.s3group.tmsapi.config;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -59,30 +61,30 @@ public class ParcelRequestService {
   @Autowired
   ParcelResponseRepository parcelResponseRepository;
 
-  public Mono<ParcelResponse> ship(ParcelRequest parcelRequest) throws IOException {
+  public String ship(ParcelRequest parcelRequest) {
     parcelRequestRepository.save(parcelRequest);
 
-    WebClient webClient = webClientBuilder.baseUrl(uPSBaseUrl)
-        .defaultHeaders(httpHeaders -> {
-          httpHeaders.add("Content-Type", uPSContentType);
-          httpHeaders.add("Username", uPSUserName);
-          httpHeaders.add("Password", uPSPassword);
-          httpHeaders.add("AccessLicenseNumber", uPSApiKey);
-          httpHeaders.add("transactionSrc", uPSTransactionSource);
-          httpHeaders.add("transID", uPSTransactionId);
-          httpHeaders.add("Accept", uPSAccept);
-        })
-        .build();
+    final RestTemplate restTemplate = new RestTemplate();
+    final HttpHeaders headers = new HttpHeaders();
+    final String baseUrl = "https://wwwcie.ups.com/ship/v1801/shipments";
+    headers.set("Username", uPSUserName);
+    headers.set("Password", uPSPassword);
+    headers.set("AccessLicenseNumber", uPSApiKey);
+    headers.set("transactionSrc", uPSTransactionSource);
+    headers.set("transID", uPSTransactionId);
+    final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest,
+        headers);
 
-    Mono<ParcelResponse> upsResponse = webClient.post()
-        .uri("/ship/v1801/shipments")
-        .syncBody(parcelRequest)
-        .retrieve()
-        .bodyToMono(ParcelResponse.class);
-
-    ParcelResponse parcelResponse = upsResponse.block();
-    parcelResponseRepository.save(parcelResponse);
-    return upsResponse;
+    try {
+      ResponseEntity<ParcelResponse> parcelResponse =
+          restTemplate.exchange(baseUrl,
+              HttpMethod.POST, request, ParcelResponse.class);
+      parcelResponseRepository.save(parcelResponse.getBody());
+      return parcelResponse.getBody().toString();
+    } catch (HttpClientErrorException httpClientErrorException ) {
+      return httpClientErrorException.getResponseBodyAsString();
+    }
+  }
 
 /*
     List<PackageResults> packageResults =
@@ -119,14 +121,13 @@ public class ParcelRequestService {
       writeBytesToHtmlFile(base64Val, text);
     }
 */
-  }
 
  /* public static String getImageFormat(ParcelRequest request) {
     return request.getShipmentRequest().getLabelSpecification()
     .getLabelImageFormat().getCode().toUpperCase();
   }*/
 
-  public static byte[] convertToImg(String base64) throws IOException {
+  public static byte[] convertToImg(String base64) {
     return Base64.decodeBase64(base64);
   }
 
@@ -139,9 +140,13 @@ public class ParcelRequestService {
   }
 
   public static void writeBytesToHtmlFile(byte[] htmlBytes,
-                                          String htmlFileName) throws IOException {
+                                          String htmlFileName) {
     File file = new File(htmlFileName);
-    OutputStream os = new FileOutputStream(file);
-    os.write(htmlBytes);
+
+    try (OutputStream os = new FileOutputStream(file)) {
+      os.write(htmlBytes);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

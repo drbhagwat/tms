@@ -3,11 +3,10 @@ package com.s3group.tmsapi.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.s3group.tmsapi.entities.request.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EmbeddedId;
@@ -30,6 +29,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
+@EqualsAndHashCode(callSuper=true)
 public class Division extends BasicLogger<String>  {
 	@EmbeddedId
 	@JsonUnwrapped
