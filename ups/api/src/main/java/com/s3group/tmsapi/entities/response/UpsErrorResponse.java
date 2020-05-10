@@ -3,7 +3,6 @@ package com.s3group.tmsapi.entities.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,11 +26,11 @@ public class UpsErrorResponse {
     @Id
     @GeneratedValue
     @JsonIgnore
-    private long id;
+    private Long id;
 
     @JsonProperty("errors")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ups_error_response_id")
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    private List<Errors> errors = new ArrayList<>();
+    private List<Errors> errors;
 }

@@ -14,8 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -93,17 +92,13 @@ public class ParcelRequestService {
             return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, null,
                     parcelResponse.getBody().getShipmentResponse()));
         } catch (HttpClientErrorException httpClientErrorException) {
-            ParcelResponseHistory parcelResponseHistory = new ParcelResponseHistory();
-            UpsErrorResponse upsErrorResponse = new UpsErrorResponse();
             Errors error = new Errors();
-            error.setCode(httpClientErrorException.getRawStatusCode());
-            error.setDescription(httpClientErrorException.getResponseBodyAsString());
-            List<Errors> errors = new ArrayList<>();
-            errors.add(error);
-            upsErrorResponse.setErrors(errors);
-            parcelResponseHistory.setUpsErrorResponse(upsErrorResponse);
-            parcelResponseHistory.setShipmentResponse(null);
-            return parcelResponseHistoryRepository.save(parcelResponseHistory);
+            error.setCode(String.valueOf(httpClientErrorException.getResponseHeaders().get("ErrorCode")).
+                    replaceAll("[^0-9]", ""));
+            error.setDescription(String.valueOf(httpClientErrorException.getResponseHeaders().get("APIErrorMsg")).
+                    replaceAll("[^a-zA-Z0-9 ]", ""));
+            UpsErrorResponse upsErrorResponse = new UpsErrorResponse(null, Collections.singletonList(error));
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, upsErrorResponse, null));
         }
     }
 

@@ -22,7 +22,7 @@ public class Errors {
   private long id;
 
   @JsonProperty("Code")
-  private int code;
+  private String code;
 
   @JsonProperty("Description")
   private String description;
