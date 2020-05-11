@@ -1,7 +1,6 @@
-package com.s3group.tmsapi.entities.response;
+package com.s3group.tmsapi.entities.upserrors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,17 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Errors {
+public class Error {
   @Id
   @GeneratedValue
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Code")
   private String code;
-
-  @JsonProperty("Description")
-  private String description;
+  private String message;
 
   @JsonIgnore
   @JoinColumn

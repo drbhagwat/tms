@@ -3,8 +3,7 @@ package com.s3group.tmsapi.entities.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.core.entities.BasicLogger;
-import com.s3group.tmsapi.entities.response.ShipmentResponse;
-import com.s3group.tmsapi.entities.response.UpsErrorResponse;
+import com.s3group.tmsapi.entities.upserrors.UpsErrorResponse;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +30,7 @@ public class ParcelResponseHistory extends BasicLogger<String> {
 
   @JsonProperty("response")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "parcel_response_history_id", referencedColumnName = "id")
+  @JoinColumn(name = "ups_error_response_id", referencedColumnName = "id")
   private UpsErrorResponse upsErrorResponse;
 
   @JsonProperty("ShipmentResponse")

@@ -1,10 +1,12 @@
 package com.s3group.tmsapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s3group.tmsapi.entities.request.ParcelRequest;
-import com.s3group.tmsapi.entities.response.Errors;
 import com.s3group.tmsapi.entities.response.ParcelResponse;
 import com.s3group.tmsapi.entities.response.ParcelResponseHistory;
-import com.s3group.tmsapi.entities.response.UpsErrorResponse;
+import com.s3group.tmsapi.entities.upserrors.UpsErrorResponse;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
 import com.s3group.tmsapi.repo.ParcelResponseHistoryRepository;
 import com.s3group.tmsapi.repo.ParcelResponseRepository;
@@ -14,7 +16,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
 import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -72,8 +73,8 @@ public class ParcelRequestService {
     @Autowired
     private ParcelResponseHistoryRepository parcelResponseHistoryRepository;
 
-    public ParcelResponseHistory ship(ParcelRequest parcelRequest) {
-        parcelRequestRepository.save(parcelRequest);
+    public ParcelResponseHistory ship(ParcelRequest parcelRequest) throws JsonProcessingException {
+        ParcelRequest existingParcelRequest = parcelRequestRepository.save(parcelRequest);
 
         final RestTemplate restTemplate = new RestTemplate();
         final HttpHeaders headers = new HttpHeaders();
@@ -84,21 +85,19 @@ public class ParcelRequestService {
         headers.set("transactionSrc", uPSTransactionSource);
         headers.set("transID", uPSTransactionId);
         final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest, headers);
+        long id = existingParcelRequest.getId();
 
         try {
             ResponseEntity<ParcelResponse> parcelResponse = restTemplate.exchange(baseUrl, HttpMethod.POST, request,
                     ParcelResponse.class);
-            parcelResponseRepository.save(parcelResponse.getBody());
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, null,
-                    parcelResponse.getBody().getShipmentResponse()));
-        } catch (HttpClientErrorException httpClientErrorException) {
-            Errors error = new Errors();
-            error.setCode(String.valueOf(httpClientErrorException.getResponseHeaders().get("ErrorCode")).
-                    replaceAll("[^0-9]", ""));
-            error.setDescription(String.valueOf(httpClientErrorException.getResponseHeaders().get("APIErrorMsg")).
-                    replaceAll("[^a-zA-Z0-9 ]", ""));
-            UpsErrorResponse upsErrorResponse = new UpsErrorResponse(null, Collections.singletonList(error));
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(null, upsErrorResponse, null));
+            ParcelResponse response = parcelResponse.getBody();
+            parcelResponseRepository.save(response);
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(id, null,
+                    response.getShipmentResponse()));
+        } catch (HttpClientErrorException e) {
+            ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+            UpsErrorResponse response = mapper.readValue(e.getResponseBodyAsString(), UpsErrorResponse.class);
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(id, response, null));
         }
     }
 
