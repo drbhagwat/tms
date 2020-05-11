@@ -1,6 +1,7 @@
 package com.s3group.tmsapi.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.s3group.tmsapi.entities.request.ParcelRequest;
 import com.s3group.tmsapi.entities.response.ParcelResponseHistory;
 import com.s3group.tmsapi.service.ParcelRequestService;
@@ -20,7 +21,7 @@ public class ParcelRequestController {
   @PostMapping(
       value = "/shipments", consumes = "application/json",
       produces = "application/json")
-  public ParcelResponseHistory ship(@RequestBody @Valid ParcelRequest parcelRequest) {
+  public ParcelResponseHistory ship(@RequestBody @Valid ParcelRequest parcelRequest) throws JsonProcessingException {
     return parcelRequestService.ship(parcelRequest);
   }
 }

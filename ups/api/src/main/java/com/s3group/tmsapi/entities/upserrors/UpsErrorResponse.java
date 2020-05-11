@@ -1,8 +1,9 @@
-package com.s3group.tmsapi.entities.response;
+package com.s3group.tmsapi.entities.upserrors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonRootName("response")
 public class UpsErrorResponse {
     @Id
     @GeneratedValue
@@ -32,5 +34,5 @@ public class UpsErrorResponse {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ups_error_response_id")
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    private List<Errors> errors;
+    private List<Error> errors;
 }
