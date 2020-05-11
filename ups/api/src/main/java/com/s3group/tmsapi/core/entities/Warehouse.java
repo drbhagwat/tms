@@ -3,6 +3,7 @@ package com.s3group.tmsapi.core.entities;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
+@EqualsAndHashCode(callSuper=true)
 public class Warehouse extends BasicLogger<String> {
   @EmbeddedId
   @JsonUnwrapped
