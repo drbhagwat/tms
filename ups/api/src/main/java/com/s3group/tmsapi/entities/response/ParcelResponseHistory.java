@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 @Entity
+@EqualsAndHashCode(callSuper=true)
 public class ParcelResponseHistory extends BasicLogger<String> {
   @Id
   @JsonIgnore
