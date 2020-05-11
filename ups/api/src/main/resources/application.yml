@@ -17,7 +17,7 @@ spring:
     # Keep the connection alive if idle for a long time (needed in production)
     test-while-idle: true
     validation-query: SELECT 1
-    initialization-mode: never
+    initialization-mode: always
     platform: postgres
     hikari:
       minimum-idle: 20
