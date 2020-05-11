@@ -6,7 +6,6 @@ import com.s3group.tmsapi.core.entities.BasicLogger;
 import com.s3group.tmsapi.entities.upserrors.UpsErrorResponse;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Component;
 public class ParcelResponseHistory extends BasicLogger<String> {
   @Id
   @JsonIgnore
-  @GeneratedValue
   private Long id;
 
   @JsonProperty("response")
