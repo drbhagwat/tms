@@ -87,7 +87,6 @@ public class ParcelRequestService {
 
         final RestTemplate restTemplate = new RestTemplate();
         final HttpHeaders headers = new HttpHeaders();
-        final String baseUrl = "https://wwwcie.ups.com/ship/v1801/shipments";
         headers.set("Username", uPSUserName);
         headers.set("Password", uPSPassword);
         headers.set("AccessLicenseNumber", uPSApiKey);
@@ -103,7 +102,8 @@ public class ParcelRequestService {
         parcelRequestHistoryRepository.save(parcelRequestHistory);
 
         try {
-            ResponseEntity<ParcelResponse> parcelResponse = restTemplate.exchange(baseUrl, HttpMethod.POST, request,
+            ResponseEntity<ParcelResponse> parcelResponse =
+                restTemplate.exchange(uPSBaseUrl, HttpMethod.POST, request,
                     ParcelResponse.class);
             ParcelResponse response = parcelResponse.getBody();
             parcelResponseRepository.save(response);
