@@ -1,6 +1,5 @@
 package com.s3group.tmsapi.entities.common;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +18,6 @@ import javax.persistence.Id;
 public class UnitOfMeasurement {
   @Id
   @GeneratedValue
-  @JsonIgnore
   private long id;
 
   @JsonProperty("Code")

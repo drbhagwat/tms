@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @EqualsAndHashCode(callSuper=true)
 @JsonIgnoreProperties({"createdUser", "createdDateTime", "lastUpdatedUser",
-    "lastUpdatedDateTime", "id" })
+    "lastUpdatedDateTime"})
 public class ParcelRequest extends BasicLogger<String> {
   @Id
   @GeneratedValue
