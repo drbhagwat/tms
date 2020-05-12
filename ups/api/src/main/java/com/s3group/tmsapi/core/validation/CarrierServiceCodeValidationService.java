@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.core.validation;
 
+import com.s3group.tmsapi.core.entities.CarrierServiceCodeKey;
 import com.s3group.tmsapi.core.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,15 @@ public class CarrierServiceCodeValidationService {
     @Value("${CARRIER_CODE_CANNOT_BE_BLANK}")
     private String carrierCodeCannotBeBlank;
 
+    @Value("${CARRIER_SHIPMENT_SERVICE_CANNOT_CONTAIN_SPECIAL_CHARACTERS")
+    private String carrierShipmentServiceCannotContainSpecialCharacters;
+
+    @Value("${CARRIER_SHIPMENT_SERVICE_MANDATORY}")
+    private String carrierShipmentServiceMandatory;
+
+    @Value("${CARRIER_SHIPMENT_SERVICE_CANNOT_BE_BLANK}")
+    private String carrierShipmentServiceCannotBeBlank;
+
     @Autowired
     private CodeValidationService codeValidationService;
 
@@ -43,6 +53,21 @@ public class CarrierServiceCodeValidationService {
             throw new CarrierCodeMandatory(carrierCodeMandatory);
         } catch (CodeCannotBeBlank codeCannotBeBlank) {
             throw new CarrierCodeCannotBeBlank(carrierCodeCannotBeBlank);
+        }
+    }
+
+    public CarrierServiceCodeKey validateCode(CarrierServiceCodeKey carrierServiceCodeKey) throws CarrierShipmentServiceCannotContainSpecialCharacters, CarrierShipmentServiceMandatory, CarrierShipmentServiceCannotBeBlank, CarrierCodeCannotBeBlank, CarrierCodeCannotContainSpecialCharacters, CarrierCodeMandatory {
+        String carrierCode = validate(carrierServiceCodeKey.getCarrierCode());
+        try {
+            String carrierShipmentService = codeValidationService.validateAll(carrierServiceCodeKey.getCarrierShipmentService());
+            carrierShipmentService = carrierShipmentService.stripTrailing();
+            return new CarrierServiceCodeKey(carrierCode, carrierShipmentService);
+        } catch (CodeCannotContainSpecialCharacters codeCannotContainSpecialCharactersException) {
+            throw new CarrierShipmentServiceCannotContainSpecialCharacters(carrierShipmentServiceCannotContainSpecialCharacters);
+        } catch (CodeMandatory codeMandatory) {
+            throw new CarrierShipmentServiceMandatory(carrierShipmentServiceMandatory);
+        } catch (CodeCannotBeBlank codeCannotBeBlank) {
+            throw new CarrierShipmentServiceCannotBeBlank(carrierShipmentServiceCannotBeBlank);
         }
     }
 }
