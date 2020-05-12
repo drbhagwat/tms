@@ -1,6 +1,6 @@
 package com.s3group.tmsapi.requesthistory.controller;
 
-import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.requesthistory.service.RequestHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,10 +20,10 @@ public class RequestHistoryController {
     private RequestHistoryService requestHistoryService;
 
     @GetMapping("/getallrequesthistory")
-    public Page<ParcelRequest> getAllRequestHistory(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                       @RequestParam(defaultValue = "10") Integer pageSize,
-                                                       @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
-                                                       @RequestParam(defaultValue = "D") String orderBy) {
+    public Page<ParcelRequestHistory> getAllRequestHistory(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                                           @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
+                                                           @RequestParam(defaultValue = "D") String orderBy) {
         return requestHistoryService.getAll(pageNo, pageSize, sortBy, orderBy);
     }
 }
