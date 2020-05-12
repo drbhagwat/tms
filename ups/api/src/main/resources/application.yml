@@ -58,7 +58,7 @@ UPS_USERNAME: vboopathi
 UPS_PASSWORD: vb20UPS@s3
 UPS_API_KEY: CD7C3B41BB827C51
 UPS_TRANSACTION_SOURCE: S3GTest
-UPS_TRANSACTION_ID: s3gTrnx001
+#UPS_TRANSACTION_ID: s3gTrnx001
 UPS_ACCEPT: application/json
 
 # following messages for some entities

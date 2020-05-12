@@ -57,9 +57,6 @@ public class ParcelRequestService {
     @Value("${UPS_TRANSACTION_SOURCE}")
     private String uPSTransactionSource;
 
-    @Value("${UPS_TRANSACTION_ID}")
-    private String uPSTransactionId;
-
     @Value("${UPS_ACCEPT}")
     private String uPSAccept;
 
@@ -78,8 +75,9 @@ public class ParcelRequestService {
     @Autowired
     private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
-    public ParcelResponseHistory ship(ParcelRequest parcelRequest) throws JsonProcessingException {
-        ParcelResponseHistory parcelResponseHistory = parcelResponseHistoryRepository.findByTransactionId(uPSTransactionId);
+    public ParcelResponseHistory ship(ParcelRequest parcelRequest,
+                                      String transId) throws JsonProcessingException {
+        ParcelResponseHistory parcelResponseHistory = parcelResponseHistoryRepository.findByTransactionId(transId);
 
         if (parcelResponseHistory != null) {
             return parcelResponseHistory;
@@ -94,10 +92,14 @@ public class ParcelRequestService {
         headers.set("Password", uPSPassword);
         headers.set("AccessLicenseNumber", uPSApiKey);
         headers.set("transactionSrc", uPSTransactionSource);
-        headers.set("transID", uPSTransactionId);
-        final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest, headers);
+        headers.set("transId", transId);
+        headers.set("Content-Type", uPSContentType);
+        headers.set("Accept", uPSAccept);
 
-        ParcelRequestHistory parcelRequestHistory = new ParcelRequestHistory(uPSTransactionId, parcelRequest.getShipmentRequest());
+        final HttpEntity<ParcelRequest> request =
+            new HttpEntity<>(parcelRequest, headers);
+
+        ParcelRequestHistory parcelRequestHistory = new ParcelRequestHistory(transId, parcelRequest.getShipmentRequest());
         parcelRequestHistoryRepository.save(parcelRequestHistory);
 
         try {
@@ -105,12 +107,13 @@ public class ParcelRequestService {
                     ParcelResponse.class);
             ParcelResponse response = parcelResponse.getBody();
             parcelResponseRepository.save(response);
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(uPSTransactionId, null,
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(transId, null,
                     response.getShipmentResponse()));
         } catch (HttpClientErrorException e) {
-            ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+            ObjectMapper mapper =
+                new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
             UpsErrorResponse response = mapper.readValue(e.getResponseBodyAsString(), UpsErrorResponse.class);
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(uPSTransactionId, response, null));
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(transId, response, null));
         }
     }
 

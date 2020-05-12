@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class ParcelRequest extends BasicLogger<String> {
   @Id
   @GeneratedValue
-  private long id;
+  private int id;
 
   @JsonProperty("ShipmentRequest")
   @OneToOne(cascade = CascadeType.ALL)
