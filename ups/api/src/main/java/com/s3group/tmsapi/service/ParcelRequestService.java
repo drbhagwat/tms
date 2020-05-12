@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.entities.response.ParcelResponse;
 import com.s3group.tmsapi.entities.response.ParcelResponseHistory;
 import com.s3group.tmsapi.entities.upserrors.UpsErrorResponse;
+import com.s3group.tmsapi.repo.ParcelRequestHistoryRepository;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
 import com.s3group.tmsapi.repo.ParcelResponseHistoryRepository;
 import com.s3group.tmsapi.repo.ParcelResponseRepository;
@@ -73,8 +75,17 @@ public class ParcelRequestService {
     @Autowired
     private ParcelResponseHistoryRepository parcelResponseHistoryRepository;
 
+    @Autowired
+    private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
+
     public ParcelResponseHistory ship(ParcelRequest parcelRequest) throws JsonProcessingException {
-        ParcelRequest existingParcelRequest = parcelRequestRepository.save(parcelRequest);
+        ParcelResponseHistory parcelResponseHistory = parcelResponseHistoryRepository.findByTransactionId(uPSTransactionId);
+
+        if (parcelResponseHistory != null) {
+            return parcelResponseHistory;
+        }
+
+        parcelRequestRepository.save(parcelRequest);
 
         final RestTemplate restTemplate = new RestTemplate();
         final HttpHeaders headers = new HttpHeaders();
@@ -85,19 +96,21 @@ public class ParcelRequestService {
         headers.set("transactionSrc", uPSTransactionSource);
         headers.set("transID", uPSTransactionId);
         final HttpEntity<ParcelRequest> request = new HttpEntity<>(parcelRequest, headers);
-        long id = existingParcelRequest.getId();
+
+        ParcelRequestHistory parcelRequestHistory = new ParcelRequestHistory(uPSTransactionId, parcelRequest.getShipmentRequest());
+        parcelRequestHistoryRepository.save(parcelRequestHistory);
 
         try {
             ResponseEntity<ParcelResponse> parcelResponse = restTemplate.exchange(baseUrl, HttpMethod.POST, request,
                     ParcelResponse.class);
             ParcelResponse response = parcelResponse.getBody();
             parcelResponseRepository.save(response);
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(id, null,
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(uPSTransactionId, null,
                     response.getShipmentResponse()));
         } catch (HttpClientErrorException e) {
             ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
             UpsErrorResponse response = mapper.readValue(e.getResponseBodyAsString(), UpsErrorResponse.class);
-            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(id, response, null));
+            return parcelResponseHistoryRepository.save(new ParcelResponseHistory(uPSTransactionId, response, null));
         }
     }
 

@@ -1,6 +1,8 @@
 package com.s3group.tmsapi.requesthistory.service;
 
 import com.s3group.tmsapi.entities.request.ParcelRequest;
+import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
+import com.s3group.tmsapi.repo.ParcelRequestHistoryRepository;
 import com.s3group.tmsapi.repo.ParcelRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,11 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequestHistoryService {
     @Autowired
-    private ParcelRequestRepository parcelRequestRepository;
+    private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
-    public Page<ParcelRequest> getAll(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    public Page<ParcelRequestHistory> getAll(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
         Pageable pageable = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-        return parcelRequestRepository.findAll(pageable);
+        return parcelRequestHistoryRepository.findAll(pageable);
     }
 }
