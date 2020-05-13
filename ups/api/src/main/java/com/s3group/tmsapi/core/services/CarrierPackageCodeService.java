@@ -28,9 +28,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CarrierPackageCodeService {
-    @Value("${CARRIER_CODE_NOT_FOUND}")
-    private String carrierCodeNotFound;
-
     @Value("${CARRIER_PACKAGE_CODE_NOT_FOUND}")
     private String carrierPackageCodeNotFound;
 
@@ -86,23 +83,19 @@ public class CarrierPackageCodeService {
      *                                                          allowed
      * @throws CarrierCodeCannotContainSpecialCharacters        - The carrierCode contains a character which is not
      *                                                          allowed
-     * @throws CarrierCodeNotFound                              - carrierCode is not found in the db.
+     * @throws CarrierPackageCodeAlreadyExists              - carrierPackageCode is not found in the db.
      */
-    public CarrierPackageCode add(CarrierPackageCode carrierPackageCode) throws CarrierPackageCodeAlreadyExists, CarrierPackageCodeCannotContainSpecialCharacters, CarrierCodeCannotContainSpecialCharacters, CarrierPackageCodeCannotBeBlank, CarrierCodeMandatory, CarrierPackageCodeMandatory, CarrierCodeCannotBeBlank, CarrierCodeNotFound {
+    public CarrierPackageCode add(CarrierPackageCode carrierPackageCode) throws CarrierPackageCodeAlreadyExists, CarrierPackageCodeCannotContainSpecialCharacters, CarrierCodeCannotContainSpecialCharacters, CarrierPackageCodeCannotBeBlank, CarrierCodeMandatory, CarrierPackageCodeMandatory, CarrierCodeCannotBeBlank {
         CarrierPackageCodeKey carrierPackageCodeKey = carrierPackageCode.getId();
         carrierPackageCodeKey = carrierPackageCodeValidationService.validate(carrierPackageCodeKey);
 
-        Optional<CarrierServiceCode> optionalCarrierServiceCode = carrierServiceCodeRepository.findById(carrierPackageCodeKey.getCarrierCode());
-
-        if (optionalCarrierServiceCode.isEmpty()) throw new CarrierCodeNotFound(carrierCodeNotFound);
-
-        //CarrierServiceCode carrierServiceCode = optionalCarrierServiceCode.get();
         Optional<CarrierPackageCode> tempCarrierPackageCode = carrierPackageCodeRepository.findById(carrierPackageCodeKey);
 
         if (tempCarrierPackageCode.isPresent()) {
             throw new CarrierPackageCodeAlreadyExists(carrierPackageCodeAlreadyExists);
         }
         carrierPackageCode.setId(carrierPackageCodeKey);
+        carrierPackageCode.setDescription(carrierPackageCode.getDescription());
         return carrierPackageCodeRepository.save(carrierPackageCode);
     }
 

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * This class represents CarrierPackageCode entity
@@ -28,5 +30,7 @@ public class CarrierPackageCode extends BasicLogger<String> {
     @JsonUnwrapped
     CarrierPackageCodeKey id;
 
+    @NotNull(message = "{DESCRIPTION_MANDATORY}")
+    @NotBlank(message = "{DESCRIPTION_CANNOT_BE_BLANK}")
     private String description;
 }
