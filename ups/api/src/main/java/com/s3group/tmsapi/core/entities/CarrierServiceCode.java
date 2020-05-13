@@ -1,13 +1,17 @@
 package com.s3group.tmsapi.core.entities;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * This class represents CarrierServiceCode entity
@@ -23,10 +27,11 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper=true)
 @Component
 public class CarrierServiceCode extends BasicLogger<String> {
-    @Id
-    private String carrierCode;
+    @EmbeddedId
+    @JsonUnwrapped
+    CarrierServiceCodeKey id;
 
-    private String carrierShipmentService;
-
+    @NotNull(message = "{DESCRIPTION_MANDATORY}")
+    @NotBlank(message = "{DESCRIPTION_CANNOT_BE_BLANK}")
     private String description;
 }

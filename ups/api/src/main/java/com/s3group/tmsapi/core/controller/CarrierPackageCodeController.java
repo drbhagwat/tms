@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * Performs CRUD (Create Read Update Delete) operations for CarrierPackageCode entity.
  *
@@ -71,7 +73,7 @@ public class CarrierPackageCodeController {
      *                   which displays an appropriate error message.
      */
     @PostMapping("/carrierpackagecodes")
-    public ResponseEntity<String> add(@RequestBody CarrierPackageCode carrierPackageCode) throws CarrierCodeNotFound, CarrierPackageCodeCannotContainSpecialCharacters, CarrierPackageCodeCannotBeBlank, CarrierCodeMandatory, CarrierPackageCodeAlreadyExists, CarrierPackageCodeMandatory, CarrierCodeCannotContainSpecialCharacters, CarrierCodeCannotBeBlank {
+    public ResponseEntity<String> add(@RequestBody @Valid CarrierPackageCode carrierPackageCode) throws CarrierCodeNotFound, CarrierPackageCodeCannotContainSpecialCharacters, CarrierPackageCodeCannotBeBlank, CarrierCodeMandatory, CarrierPackageCodeAlreadyExists, CarrierPackageCodeMandatory, CarrierCodeCannotContainSpecialCharacters, CarrierCodeCannotBeBlank {
         carrierPackageCodeService.add(carrierPackageCode);
         return ResponseEntity.ok(carrierPackageCodeAdded);
     }
@@ -89,7 +91,7 @@ public class CarrierPackageCodeController {
     @PutMapping("/carrierpackagecodes/{carrierCode},{packageCode}")
     public ResponseEntity<String> update(@PathVariable String carrierCode,
                                          @PathVariable String packageCode,
-                                         @RequestBody CarrierPackageCode carrierPackageCode) throws CarrierPackageCodeNotFound {
+                                         @RequestBody @Valid CarrierPackageCode carrierPackageCode) throws CarrierPackageCodeNotFound {
         carrierPackageCodeService.update(new CarrierPackageCodeKey(carrierCode, packageCode), carrierPackageCode);
         return ResponseEntity.ok(carrierPackageCodeUpdated);
     }

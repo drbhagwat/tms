@@ -1,6 +1,7 @@
 package com.s3group.tmsapi.core.controller;
 
 import com.s3group.tmsapi.core.entities.CarrierServiceCode;
+import com.s3group.tmsapi.core.entities.CarrierServiceCodeKey;
 import com.s3group.tmsapi.core.errors.*;
 import com.s3group.tmsapi.core.services.CarrierServiceCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * CRUD (Create Read Update Delete) operations for the CarrierServiceCode entity.
@@ -48,15 +51,17 @@ public class CarrierServiceCodeController {
     }
 
     /**
-     * Retrieves the CarrierServiceCode whose PK matches the given carrierServiceCodeKey.
+     * This retrieves a single carrierServiceCode based on a composite primary key metioned below
      *
-     * @param carrierServiceCodeKey - carrierServiceCode - the PK of the CarrierServiceCode entity
-     * @return - on success, returns the found company
-     * @throws CarrierCodeNotFound - this exception is thrown when CarrierServiceCode is not found in the db
+     * @param carrierCode            - represents the key of carrierServiceCode
+     * @param carrierShipmentService - represents the key of carrierServiceCode
+     * @return - on success, returns the found carrierServiceCode.
+     * @throws CarrierPackageCodeNotFound - on failure, a global exception handler is called
+     *                                    which displays an appropriate error message.
      */
-    @GetMapping("/carrierservicecodes/{carrierServiceCodeKey}")
-    public CarrierServiceCode get(@PathVariable String carrierServiceCodeKey) throws CarrierCodeNotFound {
-        return carrierServiceCodeService.getCarrierCode(carrierServiceCodeKey);
+    @GetMapping("/carrierservicecodes/{carrierCode},{carrierShipmentService}")
+    public CarrierServiceCode getCarrierServiceCode(@PathVariable String carrierCode, @PathVariable String carrierShipmentService) throws  CarrierServiceCodeNotFound {
+        return carrierServiceCodeService.getCarrierServiceCode(new CarrierServiceCodeKey(carrierCode, carrierShipmentService));
     }
 
     /**
@@ -67,35 +72,41 @@ public class CarrierServiceCodeController {
      * @throws CarrierCodeAlreadyExists - The carrierServiceCode to be added already exists in the db
      */
     @PostMapping("/carrierservicecodes")
-    public ResponseEntity<String> add(@RequestBody CarrierServiceCode carrierServiceCode) throws CarrierCodeCannotBeBlank, CarrierCodeMandatory, CarrierCodeCannotContainSpecialCharacters, CarrierCodeAlreadyExists {
+    public ResponseEntity<String> add(@RequestBody @Valid CarrierServiceCode carrierServiceCode) throws CarrierCodeCannotBeBlank, CarrierCodeMandatory, CarrierCodeCannotContainSpecialCharacters, CarrierCodeAlreadyExists, CarrierCodeNotFound, CarrierServiceCodeAlreadyExists, CarrierShipmentServiceMandatory, CarrierShipmentServiceCannotContainSpecialCharacters, CarrierShipmentServiceCannotBeBlank {
         carrierServiceCodeService.add(carrierServiceCode);
         return ResponseEntity.ok(carrierServiceCodeAdded);
     }
 
     /**
-     * Updates an existing CarrierServiceCode.
+     * Updates an existing carrierServiceCode.
      *
-     * @param carrierServiceCodeKey - PK of the CarrierServiceCode to be updated
-     * @param carrierServiceCode    - contains the to be modified details
-     * @return - on success, returns the appropriate message
-     * @throws CarrierCodeNotFound - throws this exception when the CarrierServiceCode to be updated is not found in the db
+     * @param carrierCode            - represents the key of carrierServiceCode
+     * @param carrierShipmentService - represents the key of carrierServiceCode
+     * @param carrierServiceCode     - the carrierServiceCode to be updated.
+     * @return - on success, returns the success message.
+     * @throws Exception - on failure, a global catch-all exception handler is called
+     *                   which displays an appropriate error message.
      */
-    @PutMapping("/carrierservicecodes/{carrierServiceCodeKey}")
-    public ResponseEntity<String> update(@PathVariable String carrierServiceCodeKey, @RequestBody CarrierServiceCode carrierServiceCode) throws CarrierCodeNotFound {
-        carrierServiceCodeService.update(carrierServiceCodeKey, carrierServiceCode);
+    @PutMapping("/carrierservicecodes/{carrierCode},{carrierShipmentService}")
+    public ResponseEntity<String> update(@PathVariable String carrierCode,
+                                         @PathVariable String carrierShipmentService,
+                                         @RequestBody @Valid CarrierServiceCode carrierServiceCode) throws CarrierServiceCodeNotFound {
+        carrierServiceCodeService.update(new CarrierServiceCodeKey(carrierCode, carrierShipmentService), carrierServiceCode);
         return ResponseEntity.ok(carrierServiceCodeUpdated);
     }
 
     /**
-     * Deletes an existing CarrierServiceCode.
+     * Deletes an existing carrierServiceCode.
      *
-     * @param carrierServiceCodeKey - PK of the CarrierServiceCode to be deleted
-     * @return - on success, returns the appropriate message
-     * @throws CarrierCodeNotFound - throws this exception when the CarrierServiceCode is not found
+     * @param carrierCode            - represents the key of carrierServiceCode
+     * @param carrierShipmentService - represents the key of carrierServiceCode
+     * @return - on success, returns the success message.
+     * @throws Exception - on failure, a global exception handler is called
+     *                   which displays an appropriate error message.
      */
-    @DeleteMapping("/carrierservicecodes/{carrierServiceCodeKey}")
-    public ResponseEntity<String> delete(@PathVariable String carrierServiceCodeKey) throws CarrierCodeNotFound {
-        carrierServiceCodeService.delete(carrierServiceCodeKey);
+    @DeleteMapping("/carrierservicecodes/{carrierCode},{carrierShipmentService}")
+    public ResponseEntity<String> delete(@PathVariable String carrierCode, @PathVariable String carrierShipmentService) throws CarrierServiceCodeNotFound {
+        carrierServiceCodeService.delete(new CarrierServiceCodeKey(carrierCode, carrierShipmentService));
         return ResponseEntity.ok(carrierServiceCodeDeleted);
     }
 }

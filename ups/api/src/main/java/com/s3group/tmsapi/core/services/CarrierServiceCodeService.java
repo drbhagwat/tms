@@ -1,6 +1,7 @@
 package com.s3group.tmsapi.core.services;
 
 import com.s3group.tmsapi.core.entities.CarrierServiceCode;
+import com.s3group.tmsapi.core.entities.CarrierServiceCodeKey;
 import com.s3group.tmsapi.core.errors.*;
 import com.s3group.tmsapi.core.repo.CarrierServiceCodeRepository;
 import com.s3group.tmsapi.core.validation.CarrierServiceCodeValidationService;
@@ -25,11 +26,11 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CarrierServiceCodeService {
-    @Value("${CARRIER_CODE_NOT_FOUND}")
-    private String carrierCodeNotFound;
+    @Value("${CARRIER_SERVICE_CODE_NOT_FOUND}")
+    private String carrierServiceCodeNotFound;
 
-    @Value("${CARRIER_CODE_ALREADY_EXISTS}")
-    private String carrierCodeAlreadyExists;
+    @Value("${CARRIER_SERVICE_CODE_ALREADY_EXISTS}")
+    private String carrierServiceCodeAlreadyExists;
 
     @Autowired
     private CarrierServiceCodeRepository carrierServiceCodeRepository;
@@ -59,10 +60,10 @@ public class CarrierServiceCodeService {
      * @return - on success, returns the found CarrierServiceCode
      * @throws CarrierCodeNotFound - on failure, throws this exception
      */
-    public CarrierServiceCode getCarrierCode(String carrierServiceCodeKey) throws CarrierCodeNotFound {
+    public CarrierServiceCode getCarrierServiceCode(CarrierServiceCodeKey carrierServiceCodeKey) throws CarrierServiceCodeNotFound {
         Optional<CarrierServiceCode> carrierServiceCode = carrierServiceCodeRepository.findById(carrierServiceCodeKey);
 
-        if (carrierServiceCode.isEmpty()) throw new CarrierCodeNotFound(carrierCodeNotFound);
+        if (carrierServiceCode.isEmpty()) throw new CarrierServiceCodeNotFound(carrierServiceCodeNotFound);
 
         return carrierServiceCode.get();
     }
@@ -74,15 +75,17 @@ public class CarrierServiceCodeService {
      * @return - on success, returns the appropriate message
      * @throws CarrierCodeAlreadyExists - The carrierServiceCode to be added already exists in the db
      */
-    public CarrierServiceCode add(CarrierServiceCode carrierServiceCode) throws CarrierCodeCannotBeBlank, CarrierCodeCannotContainSpecialCharacters, CarrierCodeMandatory, CarrierCodeAlreadyExists {
-        String carrierCode = carrierServiceCode.getCarrierCode();
-        carrierServiceCodeValidationService.validate(carrierCode);
-        Optional<CarrierServiceCode> tempCarrierServiceCode = carrierServiceCodeRepository.findById(carrierCode);
+    public CarrierServiceCode add(CarrierServiceCode carrierServiceCode) throws CarrierCodeCannotBeBlank, CarrierCodeCannotContainSpecialCharacters, CarrierCodeMandatory, CarrierServiceCodeAlreadyExists, CarrierShipmentServiceMandatory, CarrierShipmentServiceCannotContainSpecialCharacters, CarrierShipmentServiceCannotBeBlank {
+        CarrierServiceCodeKey carrierServiceCodeKey = carrierServiceCode.getId();
+        carrierServiceCodeKey = carrierServiceCodeValidationService.validateCode(carrierServiceCodeKey);
 
-        if (tempCarrierServiceCode.isPresent()) {
-            throw new CarrierCodeAlreadyExists(carrierCodeAlreadyExists);
+        Optional<CarrierServiceCode> optionalCarrierServiceCode = carrierServiceCodeRepository.findById(carrierServiceCodeKey);
+
+        if (optionalCarrierServiceCode.isPresent()) {
+            throw new CarrierServiceCodeAlreadyExists(carrierServiceCodeAlreadyExists);
         }
-        carrierServiceCode.setCarrierCode(carrierCode);
+        carrierServiceCode.setId(carrierServiceCodeKey);
+        carrierServiceCode.setDescription(carrierServiceCode.getDescription());
         return carrierServiceCodeRepository.save(carrierServiceCode);
     }
 
@@ -94,9 +97,8 @@ public class CarrierServiceCodeService {
      * @return - on success, returns the appropriate message
      * @throws CarrierCodeNotFound - throws this exception when the CarrierServiceCode to be updated is not found in the db
      */
-    public CarrierServiceCode update(String carrierServiceCodeKey, CarrierServiceCode carrierServiceCode) throws CarrierCodeNotFound {
-        CarrierServiceCode existingCarrierServiceCode = getCarrierCode(carrierServiceCodeKey);
-        existingCarrierServiceCode.setCarrierShipmentService(carrierServiceCode.getCarrierShipmentService());
+    public CarrierServiceCode update(CarrierServiceCodeKey carrierServiceCodeKey, CarrierServiceCode carrierServiceCode) throws CarrierServiceCodeNotFound {
+        CarrierServiceCode existingCarrierServiceCode = getCarrierServiceCode(carrierServiceCodeKey);
         existingCarrierServiceCode.setDescription(carrierServiceCode.getDescription());
         return carrierServiceCodeRepository.save(existingCarrierServiceCode);
     }
@@ -108,8 +110,8 @@ public class CarrierServiceCodeService {
      * @return - on success, returns the appropriate message
      * @throws CarrierCodeNotFound - throws this exception when the CarrierServiceCode is not found
      */
-    public boolean delete(String carrierServiceCodeKey) throws CarrierCodeNotFound {
-        CarrierServiceCode carrierServiceCode = getCarrierCode(carrierServiceCodeKey);
+    public boolean delete(CarrierServiceCodeKey carrierServiceCodeKey) throws CarrierServiceCodeNotFound {
+        CarrierServiceCode carrierServiceCode = getCarrierServiceCode(carrierServiceCodeKey);
         carrierServiceCodeRepository.delete(carrierServiceCode);
         return true;
     }
