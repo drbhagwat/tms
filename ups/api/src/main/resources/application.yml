@@ -5,7 +5,7 @@ server:
   #  ssl.key-alias: tomcat
   port: 8080
   servlet:
-    context-path: /
+    context-path: /api
 spring:
   application:
     name: tms
