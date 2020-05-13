@@ -2,7 +2,7 @@ package com.s3group.tmsapi.entities.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.core.entities.BasicLogger;
+import com.s3group.tmsapi.master.entities.BasicLogger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

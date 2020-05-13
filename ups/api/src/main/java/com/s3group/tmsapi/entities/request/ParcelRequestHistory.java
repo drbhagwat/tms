@@ -1,7 +1,7 @@
 package com.s3group.tmsapi.entities.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.core.entities.BasicLogger;
+import com.s3group.tmsapi.master.entities.BasicLogger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
