@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Component
 @Entity
-public class MyService {
+public class Service {
   @Id
   @GeneratedValue
   private long id;

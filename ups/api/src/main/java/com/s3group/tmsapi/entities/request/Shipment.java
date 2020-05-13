@@ -1,6 +1,5 @@
 package com.s3group.tmsapi.entities.request;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -54,7 +52,7 @@ public class Shipment {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "service_id",
       referencedColumnName = "id")
-  private MyService service;
+  private Service service;
 
   @JsonProperty("Package")
   @OneToMany(cascade =
