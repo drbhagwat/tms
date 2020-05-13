@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,6 @@ public class ShipmentResults {
       CascadeType.ALL,
       orphanRemoval = true)
   @JoinColumn(name = "shipment_results_id")
-//  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<PackageResults> packageResults;
 }
