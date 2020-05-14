@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 public class Shipment {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("Description")
