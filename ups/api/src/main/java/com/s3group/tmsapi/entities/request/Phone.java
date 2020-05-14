@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ import javax.persistence.Id;
 public class Phone {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("Number")

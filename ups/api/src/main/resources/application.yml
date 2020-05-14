@@ -40,6 +40,12 @@ spring:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+eureka:
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+
 # following constants are for validation of various Json inputs and Exception handling.
 VALIDATION_FAILED: Validation Failed
 TMS_EXCEPTION: Tms Exception

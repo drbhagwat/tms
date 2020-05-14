@@ -44,6 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${WMSINVENTORY_PATH}")
     private String wmsInventoryPath;
 
+    @Value("${REQUEST_HISTORY_LOG_PATH}")
+    private String requestHistoryLogPath;
+
     @Value("${CAMPAIGN_PATH}")
     private String campaignPath;
 
@@ -121,15 +124,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.authorizeRequests().antMatchers(permitAllPath).permitAll()
-//                .antMatchers(wmsInventoryPath).hasAuthority(wmsGroup)
-//                .antMatchers(campaignPath).hasAuthority(campaignGroup)
-//                .antMatchers(channelAPIPath).hasAuthority(channelGroup).anyRequest().authenticated()
-//                .and().csrf().disable().headers().frameOptions().disable().and()
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.authorizeRequests().antMatchers(permitAllPath).permitAll()
-                .anyRequest().authenticated().and().csrf().disable().headers().frameOptions().disable().and()
+        httpSecurity.authorizeRequests().antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and().csrf().disable().headers().frameOptions().disable().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

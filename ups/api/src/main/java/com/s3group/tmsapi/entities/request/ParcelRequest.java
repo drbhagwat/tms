@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.entities.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.master.entities.BasicLogger;
@@ -22,6 +23,7 @@ import javax.persistence.*;
 public class ParcelRequest extends BasicLogger<String> {
   @Id
   @GeneratedValue
+  @JsonIgnore
   private long id;
 
   @JsonProperty("ShipmentRequest")

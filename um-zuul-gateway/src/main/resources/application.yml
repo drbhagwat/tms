@@ -29,13 +29,9 @@ eureka:
 
 zuul:
   routes:
-    gallery-service:
-      path: /gallery/**
-      serviceId: gallery-service
-      sensitiveHeaders: Cookie,Set-Cookie
-    MultiTenant:
-      path: /api/v1/**
-      serviceId: MultiTenant
+    tms:
+      path: /api/**
+      serviceId: tms
       sensitiveHeaders: Cookie,Set-Cookie
 
 hystrix:
@@ -77,6 +73,8 @@ USER_CONTEXT: dc=example,dc=com
 
 # define all permitall paths - used by everyone
 PERMIT_ALL_PATH: /login, /changepassword, /forgotpassword, /resetpasswordbytoken
+
+REQUEST_HISTORY_LOG_PATH: tms/api/getallrequesthistory
 
 # define all paths for internal APIs - used by admin only
 USERS_PATH: /users/**
