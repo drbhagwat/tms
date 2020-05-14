@@ -62,10 +62,10 @@ public class User implements UserDetails {
     @NotBlank(message = "{FULLNAME_CANNOT_BE_BLANK}")
     private String fullName;
 
-    @NotNull(message = "{TENANT_ID_MANDATORY}")
-    @NotBlank(message = "{TENANT_ID_CANNOT_BE_BLANK}")
-    @Column(unique = true)
-    private String tenantId;
+//    @NotNull(message = "{TENANT_ID_MANDATORY}")
+//    @NotBlank(message = "{TENANT_ID_CANNOT_BE_BLANK}")
+//    @Column(unique = true)
+//    private String tenantId;
 
     @NotNull(message = "{EMAIL_MANDATORY}")
     @NotBlank(message = "{EMAIL_CANNOT_BE_BLANK}")
@@ -118,7 +118,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-//        roles.forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getName().toUpperCase())));
         groups.forEach(g -> g.getPermissionsList().forEach(p -> grantedAuthorities.add(new SimpleGrantedAuthority(p.getPermissionName()))));
         return grantedAuthorities;
     }

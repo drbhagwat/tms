@@ -191,9 +191,9 @@ public class LoginService {
         JsonLoginResponse jsonLoginResponse = new JsonLoginResponse();
         String userName = jsonLogin.getUserName();
         String password = jsonLogin.getPassword();
-        String tenantId = jsonLogin.getTenantId();
+//        String tenantId = jsonLogin.getTenantId();
 
-        Optional<User> user = userRepository.findByUsernameAndTenantId(userName, tenantId);
+        Optional<User> user = userRepository.findOneByUsername(userName);
 
         if (user.isEmpty()) {
             jsonLoginResponse.setAuthenticationSuccess("false");
@@ -260,7 +260,7 @@ public class LoginService {
         }
         usr.setFirstLogin(false);
         jsonLoginResponse.setGroupsList(usr.getGroups());
-        jsonLoginResponse.setTenantId(usr.getTenantId());
+//        jsonLoginResponse.setTenantId(usr.getTenantId());
 
         userRepository.save(usr);
         return jsonLoginResponse;

@@ -195,7 +195,7 @@ public class UserService implements UserDetailsService {
         // save the name, name and email you got from JSON
         newUser.setUsername(userName.trim());
         newUser.setFullName(name.trim());
-        newUser.setTenantId(users.getTenantId());
+//        newUser.setTenantId(users.getTenantId());
         newUser.setEmail(email.trim());
         // make the user active by default.
         newUser.setActive(true);
@@ -433,7 +433,7 @@ public class UserService implements UserDetailsService {
         }
         updatedUser.setUsername(userName.trim());
         updatedUser.setFullName(name.trim());
-        updatedUser.setTenantId(updatedUser.getTenantId());
+//        updatedUser.setTenantId(updatedUser.getTenantId());
         updatedUser.setEmail(email.trim());
         // make the user active by default.
         updatedUser.setActive(true);
