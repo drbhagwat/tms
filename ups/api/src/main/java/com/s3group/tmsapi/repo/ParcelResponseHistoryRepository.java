@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ParcelResponseHistoryRepository extends PagingAndSortingRepository<ParcelResponseHistory, String> {
-  ParcelResponseHistory findByTransactionId(String uPSTransactionId);
+    ParcelResponseHistory findByTransactionId(String uPSTransactionId);
 }

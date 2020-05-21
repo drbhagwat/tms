@@ -1,15 +1,17 @@
 package com.s3group.tmsapi.service;
 
-import com.s3group.tmsapi.entities.request.ParcelRequest;
 import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
+import com.s3group.tmsapi.errors.ParcelRequestHistoryNotFound;
 import com.s3group.tmsapi.repo.ParcelRequestHistoryRepository;
-import com.s3group.tmsapi.repo.ParcelRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author : Sachin Kulkarni
@@ -17,6 +19,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ParcelRequestHistoryService {
+    @Value("${PARCEL_REQUEST_HISTORY_NOT_FOUND}")
+    private String parcelRequestHistoryNotFound;
+
     @Autowired
     private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
@@ -24,5 +29,22 @@ public class ParcelRequestHistoryService {
         Pageable pageable = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         return parcelRequestHistoryRepository.findAll(pageable);
+    }
+
+    /**
+     * This retrieves a single parcelrequesthistory based on a transactionId metioned below
+     *
+     * @param transactionId - represents the value of parcelrequesthistory
+     * @return - on success, returns the found parcelrequesthistory.
+     * @throws ParcelRequestHistoryNotFound - on failure, a global exception handler is called
+     *                                      which displays an appropriate error message.
+     */
+    public ParcelRequestHistory getRequestHistory(String transactionId) throws ParcelRequestHistoryNotFound {
+        Optional<ParcelRequestHistory> parcelRequestHistory = parcelRequestHistoryRepository.findByTransactionId(transactionId);
+
+        if (parcelRequestHistory.isEmpty())
+            throw new ParcelRequestHistoryNotFound(parcelRequestHistoryNotFound);
+
+        return parcelRequestHistory.get();
     }
 }
