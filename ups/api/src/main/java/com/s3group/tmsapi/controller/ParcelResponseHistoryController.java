@@ -1,13 +1,11 @@
 package com.s3group.tmsapi.controller;
 
 import com.s3group.tmsapi.entities.response.ParcelResponseHistory;
+import com.s3group.tmsapi.errors.ParcelResponseHistoryNotFound;
 import com.s3group.tmsapi.service.ParcelResponseHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : Sachin Kulkarni
@@ -25,5 +23,18 @@ public class ParcelResponseHistoryController {
                                                              @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
                                                              @RequestParam(defaultValue = "D") String orderBy) {
         return responseHistoryService.getAll(pageNo, pageSize, sortBy, orderBy);
+    }
+
+    /**
+     * This retrieves a single parcelresponsehistory based on a transactionId metioned below
+     *
+     * @param transactionId - represents the value of parcelresponsehistory
+     * @return - on success, returns the found parcelresponsehistory.
+     * @throws ParcelResponseHistoryNotFound - on failure, a global exception handler is called
+     *                                       which displays an appropriate error message.
+     */
+    @GetMapping("/responsehistory/{transactionId}")
+    public ParcelResponseHistory getResponseHistory(@PathVariable String transactionId) throws ParcelResponseHistoryNotFound {
+        return responseHistoryService.getResponseHistory(transactionId);
     }
 }
