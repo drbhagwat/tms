@@ -30,19 +30,19 @@ public class Shipment {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "shipper_id",
       referencedColumnName = "id")
-  private ShippingInfo shipper;
+  private Shipper shipper;
 
   @JsonProperty("ShipTo")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "ship_to_id",
       referencedColumnName = "id")
-  private ShippingInfo shipTo;
+  private ShipTo shipTo;
 
   @JsonProperty("ShipFrom")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "ship_from_id",
       referencedColumnName = "id")
-  private ShippingInfo shipFrom;
+  private ShipFrom  shipFrom;
 
   @JsonProperty("PaymentInformation")
   @OneToOne(cascade = CascadeType.ALL)
@@ -62,7 +62,7 @@ public class Shipment {
       orphanRemoval = true)
   @JoinColumn(name = "shipment_id")
   @JsonManagedReference
-  private List<PackageElement> packageElements = new ArrayList<>();
+  private List<Package> packages = new ArrayList<>();
 
   @JsonProperty("ItemizedChargesRequestedIndicator")
   private String itemizedChargesRequestedIndicator;

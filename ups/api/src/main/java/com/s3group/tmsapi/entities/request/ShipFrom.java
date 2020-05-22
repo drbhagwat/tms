@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
-public class ShippingInfo {
+public class ShipFrom {
   @Id
   @GeneratedValue
   @JsonIgnore
@@ -37,9 +37,6 @@ public class ShippingInfo {
 
   @JsonProperty("TaxIdentificationNumber")
   private String taxIdentificationNumber;
-
-  @JsonProperty("ShipperNumber")
-  private String shipperNumber;
 
   @JsonProperty("Address")
   @Embedded
