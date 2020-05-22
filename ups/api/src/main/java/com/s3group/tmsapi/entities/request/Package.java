@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
-public class PackageElement {
+public class Package {
   @Id
   @GeneratedValue
   @JsonIgnore
