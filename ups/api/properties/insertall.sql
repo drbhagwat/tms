@@ -19,14 +19,15 @@ CREATE
 		DESCRIPTION VARCHAR(255),
 		PRIMARY KEY(CARRIER_CODE, CARRIER_PACKAGE_CODE),
 		CREATED_DATE_TIME TIMESTAMPTZ,
-        	CREATED_USER VARCHAR(255),
-        	LAST_UPDATED_DATE_TIME TIMESTAMPTZ,
-        	LAST_UPDATED_USER VARCHAR(255)
+        CREATED_USER VARCHAR(255),
+       	LAST_UPDATED_DATE_TIME TIMESTAMPTZ,
+       	LAST_UPDATED_USER VARCHAR(255)
 		);
 
 
-INSERT INTO CARRIER_SERVICE_CODE (CARRIER_CODE, CARRIER_SHIPMENT_SERVICE, DESCRIPTION, CREATED_DATE_TIME, CREATED_USER, LAST_UPDATED_DATE_TIME, LAST_UPDATED_USER) values ('UPS', '01', 'Next Day Air', now(), 'user', now(), 'user'),
-('UPS', '02', 'Second Day Air', now(), 'user', now(), 'user'),
+INSERT INTO CARRIER_SERVICE_CODE (CARRIER_CODE, CARRIER_SHIPMENT_SERVICE, DESCRIPTION, CREATED_DATE_TIME, CREATED_USER, LAST_UPDATED_DATE_TIME, LAST_UPDATED_USER) values
+('UPS', '01', 'Next Day Air', now(), 'user', now(), 'user'),
+('UPS', '02', '2nd Day Air', now(), 'user', now(), 'user'),
 ('UPS', '03', 'Ground', now(), 'user', now(), 'user'),
 ('UPS', '07', 'Express', now(), 'user', now(), 'user'),
 ('UPS', '08', 'Expedited', now(), 'user', now(), 'user'),
@@ -43,7 +44,8 @@ INSERT INTO CARRIER_SERVICE_CODE (CARRIER_CODE, CARRIER_SHIPMENT_SERVICE, DESCRI
 ('UPS', 'M4', 'Expedited MaiI Innovations', now(), 'user', now(), 'user'),
 ('UPS', 'M5', 'Priority Mail Innovations', now(), 'user', now(), 'user'),
 ('UPS', 'M6', 'Economy Mail Innovations', now(), 'user', now(), 'user'),
-('UPS', 'M7', 'MaiI Innovations (MI) Returns 70 = UPS Access Point™ Economy', now(), 'user', now(), 'user'),
+('UPS', 'M7', 'MaiI Innovations (MI) Returns', now(), 'user', now(), 'user'),
+('UPS', '70', 'UPS Access Point™ Economy', now(), 'user', now(), 'user'),
 ('UPS', '71', 'UPS Worldwide Express Freight Midday', now(), 'user', now(), 'user'),
 ('UPS', '72', 'UPS Worldwide Economy', now(), 'user', now(), 'user'),
 ('UPS', '74', 'UPS Express®12:00', now(), 'user', now(), 'user'),
