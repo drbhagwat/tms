@@ -21,42 +21,31 @@ public class ParcelRequestHistorySearchService {
   private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
   public Page<ParcelRequestHistory> search(RequestHistorySearchCriteria requestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
-
     String transactionId = requestHistorySearchCriteria.getTransactionId();
     String postalCodeFrom = requestHistorySearchCriteria.getPostalCodeFrom();
     String postalCodeTo = requestHistorySearchCriteria.getPostalCodeTo();
     String serviceCode = requestHistorySearchCriteria.getServiceCode();
 
-    // handles wild card, blank conditions and when the search parameter is not present in search
-    // criteria
+    // handle search fields which are null, blank (after trimming), and
+    // wild cards - trim it in the process and use the trimmed value everywhere else
 
-    if ((transactionId == null) || transactionId.equals("*") || transactionId.equals("")) {
+    if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
       transactionId = "";
-    } else {
-      transactionId = transactionId.trim();
     }
 
-    if ((postalCodeFrom == null) || postalCodeFrom.equals("*") || postalCodeFrom.equals("")) {
+    if ((postalCodeFrom == null) || (postalCodeFrom = postalCodeFrom.trim()).equals("*") || postalCodeFrom.equals("")) {
       postalCodeFrom = "";
-    } else {
-      postalCodeFrom = postalCodeFrom.trim();
     }
 
-    if ((postalCodeTo == null) || postalCodeTo.equals("*") || postalCodeTo.equals("")) {
+    if ((postalCodeTo == null) || (postalCodeTo = postalCodeTo.trim()).equals("*") || postalCodeTo.equals("")) {
       postalCodeTo = "";
-    } else {
-      postalCodeTo = postalCodeTo.trim();
     }
 
-    if ((serviceCode == null) || serviceCode.equals("*") || serviceCode.equals("")) {
+    if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
       serviceCode = "";
-    } else {
-      serviceCode = serviceCode.trim();
     }
-
     Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
         : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-
     return parcelRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, serviceCode);
   }
 }

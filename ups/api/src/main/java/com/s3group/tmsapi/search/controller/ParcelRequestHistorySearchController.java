@@ -21,9 +21,7 @@ public class ParcelRequestHistorySearchController {
   private ParcelRequestHistorySearchService parcelRequestHistorySearchService;
 
   @PostMapping("/requesthistorysearch")
-  public Page<ParcelRequestHistory> search(@RequestBody RequestHistorySearchCriteria requestHistorySearchCriteria, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
-                                           @RequestParam(defaultValue = "D") String orderBy) {
-
+  public Page<ParcelRequestHistory> search(@RequestBody RequestHistorySearchCriteria requestHistorySearchCriteria, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy, @RequestParam(defaultValue = "D") String orderBy) {
     return parcelRequestHistorySearchService.search(requestHistorySearchCriteria, pageNo, pageSize, sortBy, orderBy);
   }
 }
