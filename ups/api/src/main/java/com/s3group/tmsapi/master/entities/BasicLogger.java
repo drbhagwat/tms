@@ -23,7 +23,7 @@ public abstract class BasicLogger<U> {
 	protected U createdUser;
 
 	@CreatedDate
-	protected LocalDateTime createdDateTime = LocalDateTime.now().minusDays(1);
+	protected LocalDateTime createdDateTime;
 
 	@LastModifiedBy
 	protected U lastUpdatedUser;
