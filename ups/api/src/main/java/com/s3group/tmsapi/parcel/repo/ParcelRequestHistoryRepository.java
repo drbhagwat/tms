@@ -1,13 +1,12 @@
-package com.s3group.tmsapi.repo;
+package com.s3group.tmsapi.parcel.repo;
 
-import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
+import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
