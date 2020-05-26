@@ -1,7 +1,8 @@
 package com.s3group.tmsapi.search.service;
 
-import com.s3group.tmsapi.entities.request.ParcelRequestHistory;
-import com.s3group.tmsapi.repo.ParcelRequestHistoryRepository;
+import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
+
+import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
 import com.s3group.tmsapi.search.entity.RequestHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,46 +17,35 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ParcelRequestHistorySearchService {
-    @Autowired
-    private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
+  @Autowired
+  private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
-    public Page<ParcelRequestHistory> search(RequestHistorySearchCriteria requestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+  public Page<ParcelRequestHistory> search(RequestHistorySearchCriteria requestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    String transactionId = requestHistorySearchCriteria.getTransactionId();
+    String postalCodeFrom = requestHistorySearchCriteria.getPostalCodeFrom();
+    String postalCodeTo = requestHistorySearchCriteria.getPostalCodeTo();
+    String serviceCode = requestHistorySearchCriteria.getServiceCode();
 
-        String transactionId = requestHistorySearchCriteria.getTransactionId();
-        String postalCodeFrom = requestHistorySearchCriteria.getPostalCodeFrom();
-        String postalCodeTo = requestHistorySearchCriteria.getPostalCodeTo();
-        String serviceCode = requestHistorySearchCriteria.getServiceCode();
+    // handle search fields which are null, blank (after trimming), and
+    // wild cards - trim it in the process and use the trimmed value everywhere else
 
-        // handles wild card, blank conditions and when the search parameter is not present in search
-        // criteria
-
-        if ((transactionId == null) || transactionId.equals("*") || transactionId.equals("")) {
-            transactionId = "";
-        } else {
-            transactionId = transactionId.trim();
-        }
-
-        if ((postalCodeFrom == null) || postalCodeFrom.equals("*") || postalCodeFrom.equals("")) {
-            postalCodeFrom = "";
-        } else {
-            postalCodeFrom = postalCodeFrom.trim();
-        }
-
-        if ((postalCodeTo == null) || postalCodeTo.equals("*") || postalCodeTo.equals("")) {
-            postalCodeTo = "";
-        } else {
-            postalCodeTo = postalCodeTo.trim();
-        }
-
-        if ((serviceCode == null) || serviceCode.equals("*") || serviceCode.equals("")) {
-            serviceCode = "";
-        } else {
-            serviceCode = serviceCode.trim();
-        }
-
-        Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
-                : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-
-        return parcelRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, serviceCode);
+    if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
+      transactionId = "";
     }
+
+    if ((postalCodeFrom == null) || (postalCodeFrom = postalCodeFrom.trim()).equals("*") || postalCodeFrom.equals("")) {
+      postalCodeFrom = "";
+    }
+
+    if ((postalCodeTo == null) || (postalCodeTo = postalCodeTo.trim()).equals("*") || postalCodeTo.equals("")) {
+      postalCodeTo = "";
+    }
+
+    if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
+      serviceCode = "";
+    }
+    Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
+        : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+    return parcelRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, serviceCode);
+  }
 }
