@@ -1,6 +1,5 @@
 package com.s3group.tmsapi.search.controller;
 
-
 import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.search.entity.RequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.service.ParcelRequestHistorySearchService;
