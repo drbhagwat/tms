@@ -20,7 +20,10 @@ public class QueryRatelRequestController {
       value = "/rating/shop", consumes = "application/json",
       produces = "application/json")
   public QueryRateResponseHistory shop(@RequestHeader("transId") String transId,
-                                       @RequestBody @Valid QueryRateRequest queryRateRequest) throws JsonProcessingException {
-    return queryRateRequestService.shop(queryRateRequest, transId);
+                                       @RequestBody @Valid QueryRateRequest queryRateRequest,
+                                       @RequestParam String criteria) throws JsonProcessingException {
+
+    QueryRateResponseHistory queryRateResponseHistory = queryRateRequestService.shop(queryRateRequest, transId, criteria);
+    return queryRateResponseHistory;
   }
 }
