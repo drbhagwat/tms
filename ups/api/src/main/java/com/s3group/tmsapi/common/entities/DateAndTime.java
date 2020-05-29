@@ -30,6 +30,18 @@ public class DateAndTime {
     }
   }
 
+  public void init(GuaranteedDelivery guaranteedDelivery) {
+    deliveryTime = guaranteedDelivery.getDeliveryByTime();
+    daysInTransit = Double.parseDouble(guaranteedDelivery.getBusinessDaysInTransit());
+
+    if (deliveryTime != null) {
+      amOrPm = deliveryTime.substring(deliveryTime.indexOf(" ") + 1);
+      String temp = deliveryTime.substring(0, deliveryTime.indexOf(" "))
+          .replace(':', '.');
+      hours = Double.parseDouble(temp);
+    }
+  }
+
   public void init(String deliveryTime, Double daysInTransit) {
     this.daysInTransit = daysInTransit;
     this.deliveryTime = deliveryTime;

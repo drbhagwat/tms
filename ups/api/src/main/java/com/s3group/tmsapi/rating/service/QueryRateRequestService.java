@@ -159,47 +159,55 @@ public class QueryRateRequestService {
   }
 
   private List<RatedShipment> processForFastestDuration(List<RatedShipment> ratedShipments) {
-    int size = ratedShipments.size();
     List<RatedShipment> fastestDeliveryRatedShipment = new ArrayList<>();
-    int j = 0;
     RatedShipment firstShipment = ratedShipments.get(0);
-
-    // assign first element of the list
     fastestDeliveryRatedShipment.add(firstShipment);
+
+    // init fastestDateAndTime with the first element of the List
     DateAndTime fastestDateAndTime = new DateAndTime(firstShipment.getGuaranteedDelivery());
 
-    for (int i = 1; i < size; i++) {
-      Double currentDaysInTransit = Double.parseDouble(ratedShipments.get(i).getGuaranteedDelivery().getBusinessDaysInTransit());
+    // extract all components.
+    Double fastestDaysInTransit = fastestDateAndTime.getDaysInTransit();
 
-      if (currentDaysInTransit < fastestDateAndTime.getDaysInTransit()) {
-        String currentDeliveryTime = ratedShipments.get(i).getGuaranteedDelivery().getDeliveryByTime();
-        fastestDateAndTime.init(currentDeliveryTime, currentDaysInTransit);
-        fastestDeliveryRatedShipment.set(j, ratedShipments.get(i));
+    String fastestDeliveryTime = fastestDateAndTime.getDeliveryTime();
+    Double fastestHours = fastestDateAndTime.getHours();
+
+    int size = ratedShipments.size();
+    int j = 0;
+
+    for (int i = 1; i < size; i++) {
+      RatedShipment currentRatedShipment = ratedShipments.get(i);
+      Double currentDaysInTransit = Double.parseDouble(currentRatedShipment.getGuaranteedDelivery().getBusinessDaysInTransit());
+      String currentDeliveryTime = currentRatedShipment.getGuaranteedDelivery().getDeliveryByTime();
+
+      if (currentDaysInTransit < fastestDaysInTransit) {
+        fastestDateAndTime.init(currentRatedShipment.getGuaranteedDelivery());
+        fastestDeliveryRatedShipment.set(j, currentRatedShipment);
       } else {
-        if (currentDaysInTransit > fastestDateAndTime.getDaysInTransit()) {
+        if (currentDaysInTransit > fastestDaysInTransit) {
           ;
         } else {
-          String currentDeliveryTime = ratedShipments.get(i).getGuaranteedDelivery().getDeliveryByTime();
-
+          // currentDaysInTransit and fastestDaysInTransit are the same.
           if (currentDeliveryTime == null) {
-            if (fastestDateAndTime.getDeliveryTime() == null) {
+
+            if (fastestDeliveryTime == null) {
               // transit days are same and both times are same
-              fastestDeliveryRatedShipment.add(++j, ratedShipments.get(i));
+              fastestDeliveryRatedShipment.add(++j, currentRatedShipment);
             } else {
               fastestDateAndTime.init(currentDeliveryTime);
-              // transit days are same and currentDeliveryTime is quicker
-              fastestDeliveryRatedShipment.set(j, ratedShipments.get(i));
+              // transit days are same but currentDeliveryTime is quicker
+              fastestDeliveryRatedShipment.set(j, currentRatedShipment);
             }
           } else {
             String currentAmOrPm = currentDeliveryTime.substring(currentDeliveryTime.indexOf(" ") + 1);
 
-            if (fastestDateAndTime.getDeliveryTime() == null) {
-              ; // current has a value and is slower
+            if (fastestDeliveryTime == null) {
+              ; // current is slower so nothing to do
             } else {
               if (currentAmOrPm.compareTo(fastestDateAndTime.getAmOrPm()) < 0) {
                 // current is A.M. and fastest is P.M.
-                fastestDeliveryRatedShipment.set(j, ratedShipments.get(i));
                 fastestDateAndTime.init(currentDeliveryTime);
+                fastestDeliveryRatedShipment.set(j, currentRatedShipment);
               } else {
                 if (currentAmOrPm.compareTo(fastestDateAndTime.getAmOrPm()) > 0) {
                   // current is P.M. and fastest is A.M.
@@ -210,15 +218,15 @@ public class QueryRateRequestService {
                       .replace(':', '.');
                   Double currentHours = Double.parseDouble(temp);
 
-                  if (currentHours < fastestDateAndTime.getHours()) {
+                  if (currentHours < fastestHours) {
                     fastestDateAndTime.init(currentDeliveryTime);
-                    fastestDeliveryRatedShipment.set(j, ratedShipments.get(i));
+                    fastestDeliveryRatedShipment.set(j, currentRatedShipment);
                   } else {
-                    if (currentHours > fastestDateAndTime.getHours()) {
+                    if (currentHours > fastestHours) {
                       ;
                     } else {
                       fastestDateAndTime.init(currentDeliveryTime);
-                      fastestDeliveryRatedShipment.set(j, ratedShipments.get(i));
+                      fastestDeliveryRatedShipment.set(j, currentRatedShipment);
                     }
                   }
                 }
