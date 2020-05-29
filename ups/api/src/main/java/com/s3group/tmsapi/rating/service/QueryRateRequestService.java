@@ -191,14 +191,15 @@ public class QueryRateRequestService {
               // transit days are same and times are same
               fastestDeliveryRatedShipment.add(++j, currentRatedShipment);
             } else {
-              fastestDateAndTime.init(currentDeliveryTime);
-              // transit days are same but currentDeliveryTime is quicker
-              fastestDeliveryRatedShipment.set(j, currentRatedShipment);
+              // transit days are same but, currentDeliveryTime is slower; don't do anything
+              ;
             }
           } else {
 
             if (fastestDateAndTime.getDeliveryTime() == null) {
-              ; // current is slower so nothing to do
+              // current is faster
+              fastestDateAndTime.init(currentDeliveryTime);
+              fastestDeliveryRatedShipment.set(j, currentRatedShipment);
             } else {
               String currentAmOrPm = currentDeliveryTime.substring(currentDeliveryTime.indexOf(" ") + 1);
 
