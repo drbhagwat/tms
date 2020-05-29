@@ -75,9 +75,7 @@ public class QueryRateRequestService {
     if (queryRateResponseHistory != null) {
       return queryRateResponseHistory;
     }
-
     queryRateRequestRepository.save(queryRateRequest);
-
     final RestTemplate restTemplate = new RestTemplate();
     final HttpHeaders headers = new HttpHeaders();
     headers.set("Username", uPSUserName);
@@ -117,14 +115,14 @@ public class QueryRateRequestService {
   private RateResponse processQueryResponse(final RateResponse rateResponse, String criteria) {
     // copy it as it is first and work on the copy
     RateResponse savedRateRespone = rateResponse;
-    List<RatedShipment> savedRatedShipments = null;
+    List<RatedShipment> savedRatedShipments = rateResponse.getRatedShipments();
 
     switch (criteria) {
       case "cost":
-        savedRateRespone.setRatedShipments(processForLeastCost(rateResponse.getRatedShipments()));
+        savedRateRespone.setRatedShipments(processForLeastCost(savedRatedShipments));
         break;
       case "time":
-        savedRateRespone.setRatedShipments(processForFastestDuration(rateResponse.getRatedShipments()));
+        savedRateRespone.setRatedShipments(processForFastestDuration(savedRatedShipments));
         break;
       case "costandtime":
         break;
@@ -135,23 +133,28 @@ public class QueryRateRequestService {
   }
 
   private List<RatedShipment> processForLeastCost(List<RatedShipment> ratedShipments) {
-    int size = ratedShipments.size();
     List<RatedShipment> leastCostRatedShipment = new ArrayList<>();
-    int j = 0;
+    RatedShipment firstRatedShipment = ratedShipments.get(0);
     // assign first element of the list
-    leastCostRatedShipment.add(ratedShipments.get(0));
-    // assume it to be is the least cost
-    Double leastCost = Double.parseDouble(leastCostRatedShipment.get(0).getTotalCharges().getMonetaryValue());
+    leastCostRatedShipment.add(firstRatedShipment);
+    // assume it to be the least cost
+    Double leastCost = Double.parseDouble(firstRatedShipment.getTotalCharges().getMonetaryValue());
+
+    int size = ratedShipments.size();
+    int j = 0;
 
     for (int i = 1; i < size; i++) {
-      Double currentCost = Double.parseDouble(ratedShipments.get(i).getTotalCharges().getMonetaryValue());
+      RatedShipment currentRatedShipment = ratedShipments.get(i);
+      Double currentCost = Double.parseDouble(currentRatedShipment.getTotalCharges().getMonetaryValue());
 
       if (currentCost < leastCost) {
         leastCost = currentCost;
-        leastCostRatedShipment.set(j, ratedShipments.get(i));
+        leastCostRatedShipment.set(j, currentRatedShipment);
       } else {
-        if (currentCost == leastCost) {
-          leastCostRatedShipment.add(++j, ratedShipments.get(i));
+        if (currentCost > leastCost) {
+          ; // don't do anything
+        } else { // the two are equal
+          leastCostRatedShipment.add(++j, currentRatedShipment);
         }
       }
     }
@@ -160,17 +163,11 @@ public class QueryRateRequestService {
 
   private List<RatedShipment> processForFastestDuration(List<RatedShipment> ratedShipments) {
     List<RatedShipment> fastestDeliveryRatedShipment = new ArrayList<>();
-    RatedShipment firstShipment = ratedShipments.get(0);
-    fastestDeliveryRatedShipment.add(firstShipment);
+    RatedShipment firstRatedShipment = ratedShipments.get(0);
+    fastestDeliveryRatedShipment.add(firstRatedShipment);
 
-    // init fastestDateAndTime with the first element of the List
-    DateAndTime fastestDateAndTime = new DateAndTime(firstShipment.getGuaranteedDelivery());
-
-    // extract all components.
-    Double fastestDaysInTransit = fastestDateAndTime.getDaysInTransit();
-
-    String fastestDeliveryTime = fastestDateAndTime.getDeliveryTime();
-    Double fastestHours = fastestDateAndTime.getHours();
+    // initialize fastestDateAndTime with the first element of the List
+    DateAndTime fastestDateAndTime = new DateAndTime(firstRatedShipment.getGuaranteedDelivery());
 
     int size = ratedShipments.size();
     int j = 0;
@@ -180,18 +177,18 @@ public class QueryRateRequestService {
       Double currentDaysInTransit = Double.parseDouble(currentRatedShipment.getGuaranteedDelivery().getBusinessDaysInTransit());
       String currentDeliveryTime = currentRatedShipment.getGuaranteedDelivery().getDeliveryByTime();
 
-      if (currentDaysInTransit < fastestDaysInTransit) {
+      if (currentDaysInTransit < fastestDateAndTime.getDaysInTransit()) {
         fastestDateAndTime.init(currentRatedShipment.getGuaranteedDelivery());
         fastestDeliveryRatedShipment.set(j, currentRatedShipment);
       } else {
-        if (currentDaysInTransit > fastestDaysInTransit) {
+        if (currentDaysInTransit > fastestDateAndTime.getDaysInTransit()) {
           ;
         } else {
           // currentDaysInTransit and fastestDaysInTransit are the same.
           if (currentDeliveryTime == null) {
 
-            if (fastestDeliveryTime == null) {
-              // transit days are same and both times are same
+            if (fastestDateAndTime.getDeliveryTime() == null) {
+              // transit days are same and times are same
               fastestDeliveryRatedShipment.add(++j, currentRatedShipment);
             } else {
               fastestDateAndTime.init(currentDeliveryTime);
@@ -199,11 +196,12 @@ public class QueryRateRequestService {
               fastestDeliveryRatedShipment.set(j, currentRatedShipment);
             }
           } else {
-            String currentAmOrPm = currentDeliveryTime.substring(currentDeliveryTime.indexOf(" ") + 1);
 
-            if (fastestDeliveryTime == null) {
+            if (fastestDateAndTime.getDeliveryTime() == null) {
               ; // current is slower so nothing to do
             } else {
+              String currentAmOrPm = currentDeliveryTime.substring(currentDeliveryTime.indexOf(" ") + 1);
+
               if (currentAmOrPm.compareTo(fastestDateAndTime.getAmOrPm()) < 0) {
                 // current is A.M. and fastest is P.M.
                 fastestDateAndTime.init(currentDeliveryTime);
@@ -218,12 +216,12 @@ public class QueryRateRequestService {
                       .replace(':', '.');
                   Double currentHours = Double.parseDouble(temp);
 
-                  if (currentHours < fastestHours) {
+                  if (currentHours < fastestDateAndTime.getHours()) {
                     fastestDateAndTime.init(currentDeliveryTime);
                     fastestDeliveryRatedShipment.set(j, currentRatedShipment);
                   } else {
-                    if (currentHours > fastestHours) {
-                      ;
+                    if (currentHours > fastestDateAndTime.getHours()) {
+                      ; // current is slower so nothing to do
                     } else {
                       fastestDateAndTime.init(currentDeliveryTime);
                       fastestDeliveryRatedShipment.set(j, currentRatedShipment);
