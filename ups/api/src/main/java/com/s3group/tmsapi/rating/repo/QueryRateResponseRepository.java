@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.rating.repo;
 
+
 import com.s3group.tmsapi.rating.entity.QueryRateResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
