@@ -42,21 +42,6 @@ public class DateAndTime {
     }
   }
 
-  public void init(String deliveryTime, Double daysInTransit) {
-    this.daysInTransit = daysInTransit;
-    this.deliveryTime = deliveryTime;
-
-    if (deliveryTime != null) {
-      this.amOrPm = deliveryTime.substring(deliveryTime.indexOf(" ") + 1);
-      String temp = deliveryTime.substring(0, deliveryTime.indexOf(" "))
-          .replace(':', '.');
-      this.hours = Double.parseDouble(temp);
-    } else {
-      this.amOrPm = null;
-      this.hours = 0.0;
-    }
-  }
-
   public void init(String deliveryTime) {
     this.deliveryTime = deliveryTime;
 
