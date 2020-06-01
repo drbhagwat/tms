@@ -15,4 +15,5 @@ echo ""
 
 echo "Creating carrier_service_code, carrier_package_code tables and populating them with data..."
 export PGPASSWORD=root
-psql -U postgres -d postgres -f insertall.sql
+docker cp ./insertall.sql tms-deploy_mic-tms-pg_1:tmp/insertall.sql
+docker exec tms-deploy_mic-tms-pg_1 psql -U postgres -d postgres -f tmp/insertall.sql
