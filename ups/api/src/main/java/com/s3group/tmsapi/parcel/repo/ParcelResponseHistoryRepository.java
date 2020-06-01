@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 public interface ParcelResponseHistoryRepository extends PagingAndSortingRepository<ParcelResponseHistory, String> {
     ParcelResponseHistory findByTransactionId(String uPSTransactionId);
 
+    @Query(value = "select p from ParcelResponseHistory p where lower(p.transactionId) like lower(concat('%', ?1,'%')) And p.createdDateTime >= ?2 And p.createdDateTime <= ?3")
+    Page<ParcelResponseHistory> historySearch(Pageable pageable, String transactionId, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
+
     @Query(value = "select p from ParcelResponseHistory p where lower(p.transactionId) like lower(concat('%', ?1,'%')) And lower(p.shipmentResponse.shipmentResults.shipmentIdentificationNumber) like lower(concat('%', ?2,'%')) And p.createdDateTime >= ?3 And p.createdDateTime <= ?4")
     Page<ParcelResponseHistory> historySearch(Pageable pageable, String transactionId, String shipmentIdentificationNumber, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
 }
