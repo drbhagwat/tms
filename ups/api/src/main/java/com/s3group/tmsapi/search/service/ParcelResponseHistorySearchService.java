@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author : Thamilarasi
@@ -38,20 +37,19 @@ public class ParcelResponseHistorySearchService {
             transactionId = "";
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDateTime ldtTransactionDateFrom = null;
         LocalDateTime ldtTransactionDateTo = null;
 
         if ((transactionDateFrom == null) || (transactionDateFrom = transactionDateFrom.trim()).equals("*") || transactionDateFrom.equals("")) {
             ldtTransactionDateFrom = LocalDate.of(2020, 05, 01).atStartOfDay();
         } else {
-            ldtTransactionDateFrom = LocalDate.parse(transactionDateFrom, dateTimeFormatter).atStartOfDay();
+            ldtTransactionDateFrom = LocalDate.parse(transactionDateFrom).atStartOfDay();
         }
 
         if ((transactionDateTo == null) || (transactionDateTo = transactionDateTo.trim()).equals("*") || transactionDateTo.equals("")) {
             ldtTransactionDateTo = LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX);
         } else {
-            ldtTransactionDateTo = LocalDate.parse(transactionDateTo, dateTimeFormatter).atTime(LocalTime.MAX);
+            ldtTransactionDateTo = LocalDate.parse(transactionDateTo).atTime(LocalTime.MAX);
         }
 
         Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
