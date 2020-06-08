@@ -1,7 +1,6 @@
 package com.s3group.tmsapi.search.service;
 
 import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
-
 import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
 import com.s3group.tmsapi.search.entity.RequestHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -37,10 +37,6 @@ public class ParcelResponseHistorySearchService {
             transactionId = "";
         }
 
-        if ((shipmentIdentificationNumber == null) || (shipmentIdentificationNumber = shipmentIdentificationNumber.trim()).equals("*") || shipmentIdentificationNumber.equals("")) {
-            shipmentIdentificationNumber = "";
-        }
-
         LocalDateTime ldtTransactionDateFrom = null;
         LocalDateTime ldtTransactionDateTo = null;
 
@@ -58,6 +54,10 @@ public class ParcelResponseHistorySearchService {
 
         Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+
+        if ((shipmentIdentificationNumber == null) || (shipmentIdentificationNumber = shipmentIdentificationNumber.trim()).equals("*") || shipmentIdentificationNumber.equals("")) {
+            return parcelResponseHistoryRepository.historySearch(paging, transactionId, ldtTransactionDateFrom, ldtTransactionDateTo);
+        }
 
         return parcelResponseHistoryRepository.historySearch(paging, transactionId, shipmentIdentificationNumber, ldtTransactionDateFrom, ldtTransactionDateTo);
     }
