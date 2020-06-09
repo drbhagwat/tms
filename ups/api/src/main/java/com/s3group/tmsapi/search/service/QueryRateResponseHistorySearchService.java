@@ -23,67 +23,69 @@ import java.time.LocalTime;
  */
 @Service
 public class QueryRateResponseHistorySearchService {
-  @Autowired
-  private QueryRateResponseHistoryRepository queryRateResponseHistoryRepository;
+    @Autowired
+    private QueryRateResponseHistoryRepository queryRateResponseHistoryRepository;
 
-  public Page<QueryRateResponseHistory> search(QueryRateResponseHistorySearchCriteria queryRateResponseHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
-    String transactionId = queryRateResponseHistorySearchCriteria.getTransactionId();
-    String serviceCode = queryRateResponseHistorySearchCriteria.getServiceCode();
-    String currencyCode = queryRateResponseHistorySearchCriteria.getCurrencyCode();
-    String monetaryValue = queryRateResponseHistorySearchCriteria.getMonetaryValue();
-    String transitDuration = queryRateResponseHistorySearchCriteria.getTransitDuration();
-    String transactionDateFrom = queryRateResponseHistorySearchCriteria.getTransactionDateFrom();
-    String transactionDateTo = queryRateResponseHistorySearchCriteria.getTransactionDateTo();
-    String responseStatus = queryRateResponseHistorySearchCriteria.getResponseStatus();
+    public Page<QueryRateResponseHistory> search(QueryRateResponseHistorySearchCriteria queryRateResponseHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+        String transactionId = queryRateResponseHistorySearchCriteria.getTransactionId();
+        String serviceCode = queryRateResponseHistorySearchCriteria.getServiceCode();
+        String currencyCode = queryRateResponseHistorySearchCriteria.getCurrencyCode();
+        String monetaryValue = queryRateResponseHistorySearchCriteria.getMonetaryValue();
+        String transitDuration = queryRateResponseHistorySearchCriteria.getTransitDuration();
+        String transactionDateFrom = queryRateResponseHistorySearchCriteria.getTransactionDateFrom();
+        String transactionDateTo = queryRateResponseHistorySearchCriteria.getTransactionDateTo();
+        String responseStatus = queryRateResponseHistorySearchCriteria.getResponseStatus();
 
-    Page<QueryRateResponseHistory> queryRateResponseHistory = null;
-    // handle search fields which are null, blank (after trimming), and
-    // wild cards - trim it in the process and use the trimmed value everywhere else
+        // handle search fields which are null, blank (after trimming), and
+        // wild cards - trim it in the process and use the trimmed value everywhere else
 
-    if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
-      transactionId = "";
+        if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
+            transactionId = "";
+        }
+
+        LocalDateTime ldtTransactionDateFrom = null;
+        LocalDateTime ldtTransactionDateTo = null;
+
+        if ((transactionDateFrom == null) || (transactionDateFrom = transactionDateFrom.trim()).equals("*") || transactionDateFrom.equals("")) {
+            ldtTransactionDateFrom = LocalDate.of(2020, 05, 01).atStartOfDay();
+        } else {
+            ldtTransactionDateFrom = LocalDate.parse(transactionDateFrom).atStartOfDay();
+        }
+
+        if ((transactionDateTo == null) || (transactionDateTo = transactionDateTo.trim()).equals("*") || transactionDateTo.equals("")) {
+            ldtTransactionDateTo = LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX);
+        } else {
+            ldtTransactionDateTo = LocalDate.parse(transactionDateTo).atTime(LocalTime.MAX);
+        }
+
+        Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
+                : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+
+      if (((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) && ((currencyCode == null) || (currencyCode = currencyCode.trim()).equals("*") || currencyCode.equals("")) && ((monetaryValue == null) || (monetaryValue = monetaryValue.trim()).equals("*") || monetaryValue.equals("")) && ((transitDuration == null) || (transitDuration = transitDuration.trim()).equals("*") || transitDuration.equals("")) && ((responseStatus == null) || (responseStatus = responseStatus.trim()).equals("*") || responseStatus.equals(""))) {
+
+        return queryRateResponseHistoryRepository.historySearch(paging, transactionId, ldtTransactionDateFrom, ldtTransactionDateTo);
+      }
+
+      if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
+        serviceCode = "";
+      }
+
+      if ((currencyCode == null) || (currencyCode = currencyCode.trim()).equals("*") || currencyCode.equals("")) {
+        currencyCode = "";
+      }
+
+      if ((monetaryValue == null) || (monetaryValue = monetaryValue.trim()).equals("*") || monetaryValue.equals("")) {
+        monetaryValue = "";
+      }
+
+      if ((transitDuration == null) || (transitDuration = transitDuration.trim()).equals("*") || transitDuration.equals("")) {
+        transitDuration = "";
+      }
+
+      if ((responseStatus == null) || (responseStatus = responseStatus.trim()).equals("*") || responseStatus.equals("")) {
+        responseStatus = "";
+      }
+
+      return queryRateResponseHistoryRepository.historySearch(paging, transactionId, serviceCode, currencyCode, monetaryValue, transitDuration, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
     }
-
-    if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
-      serviceCode = "";
-    }
-
-    if ((currencyCode == null) || (currencyCode = currencyCode.trim()).equals("*") || currencyCode.equals("")) {
-      currencyCode = "";
-    }
-
-    if ((monetaryValue == null) || (monetaryValue = monetaryValue.trim()).equals("*") || monetaryValue.equals("")) {
-      monetaryValue = "";
-    }
-
-    if ((transitDuration == null) || (transitDuration = transitDuration.trim()).equals("*") || transitDuration.equals("")) {
-      transitDuration = "";
-    }
-
-    if ((responseStatus == null) || (responseStatus = responseStatus.trim()).equals("*") || responseStatus.equals("")) {
-      responseStatus = "";
-    }
-
-    LocalDateTime ldtTransactionDateFrom = null;
-    LocalDateTime ldtTransactionDateTo = null;
-
-    if ((transactionDateFrom == null) || (transactionDateFrom = transactionDateFrom.trim()).equals("*") || transactionDateFrom.equals("")) {
-      ldtTransactionDateFrom = LocalDate.of(2020, 05, 01).atStartOfDay();
-    } else {
-      ldtTransactionDateFrom = LocalDate.parse(transactionDateFrom).atStartOfDay();
-    }
-
-    if ((transactionDateTo == null) || (transactionDateTo = transactionDateTo.trim()).equals("*") || transactionDateTo.equals("")) {
-      ldtTransactionDateTo = LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX);
-    } else {
-      ldtTransactionDateTo = LocalDate.parse(transactionDateTo).atTime(LocalTime.MAX);
-    }
-
-    Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
-        : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-
-    queryRateResponseHistory = queryRateResponseHistoryRepository.historySearch(paging, transactionId, serviceCode, currencyCode, monetaryValue, transitDuration, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
-
-    return queryRateResponseHistory;
-  }
 }
