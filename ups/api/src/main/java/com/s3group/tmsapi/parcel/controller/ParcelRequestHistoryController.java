@@ -26,7 +26,7 @@ public class ParcelRequestHistoryController {
     }
 
     /**
-     * This retrieves a single parcelrequesthistory based on a transactionId metioned below
+     * This retrieves a single parcelrequesthistory based on a transactionId mentioned below
      *
      * @param transactionId - represents the value of parcelrequesthistory
      * @return - on success, returns the found parcelrequesthistory.

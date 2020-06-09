@@ -1,7 +1,7 @@
 package com.s3group.tmsapi.parcel.service;
 
-import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.errors.ParcelRequestHistoryNotFound;
+import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class ParcelRequestHistoryService {
     }
 
     /**
-     * This retrieves a single parcelrequesthistory based on a transactionId metioned below
+     * This retrieves a single parcelrequesthistory based on a transactionId mentioned below
      *
      * @param transactionId - represents the value of parcelrequesthistory
      * @return - on success, returns the found parcelrequesthistory.
