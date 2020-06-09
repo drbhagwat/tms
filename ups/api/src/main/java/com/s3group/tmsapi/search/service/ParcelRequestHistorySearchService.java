@@ -2,7 +2,7 @@ package com.s3group.tmsapi.search.service;
 
 import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
-import com.s3group.tmsapi.search.entity.RequestHistorySearchCriteria;
+import com.s3group.tmsapi.search.entity.ParcelRequestHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,13 +23,13 @@ public class ParcelRequestHistorySearchService {
   @Autowired
   private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
 
-  public Page<ParcelRequestHistory> search(RequestHistorySearchCriteria requestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
-    String transactionId = requestHistorySearchCriteria.getTransactionId();
-    String postalCodeFrom = requestHistorySearchCriteria.getPostalCodeFrom();
-    String postalCodeTo = requestHistorySearchCriteria.getPostalCodeTo();
-    String serviceCode = requestHistorySearchCriteria.getServiceCode();
-    String transactionDateFrom = requestHistorySearchCriteria.getTransactionDateFrom();
-    String transactionDateTo = requestHistorySearchCriteria.getTransactionDateTo();
+  public Page<ParcelRequestHistory> search(ParcelRequestHistorySearchCriteria parcelRequestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    String transactionId = parcelRequestHistorySearchCriteria.getTransactionId();
+    String postalCodeFrom = parcelRequestHistorySearchCriteria.getPostalCodeFrom();
+    String postalCodeTo = parcelRequestHistorySearchCriteria.getPostalCodeTo();
+    String serviceCode = parcelRequestHistorySearchCriteria.getServiceCode();
+    String transactionDateFrom = parcelRequestHistorySearchCriteria.getTransactionDateFrom();
+    String transactionDateTo = parcelRequestHistorySearchCriteria.getTransactionDateTo();
 
     // handle search fields which are null, blank (after trimming), and
     // wild cards - trim it in the process and use the trimmed value everywhere else

@@ -2,7 +2,6 @@ package com.s3group.tmsapi.search.controller;
 
 import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.rating.entity.QueryRateRequestHistory;
-import com.s3group.tmsapi.search.entity.ParcelRequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.entity.QueryRateRequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.service.ParcelRequestHistorySearchService;
 import com.s3group.tmsapi.search.service.QueryRateRequestHistorySearchService;

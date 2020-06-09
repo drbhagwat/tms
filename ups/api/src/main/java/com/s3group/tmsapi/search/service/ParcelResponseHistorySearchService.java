@@ -2,7 +2,7 @@ package com.s3group.tmsapi.search.service;
 
 import com.s3group.tmsapi.parcel.entities.response.ParcelResponseHistory;
 import com.s3group.tmsapi.parcel.repo.ParcelResponseHistoryRepository;
-import com.s3group.tmsapi.search.entity.ResponseHistorySearchCriteria;
+import com.s3group.tmsapi.search.entity.ParcelResponseHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,12 +23,12 @@ public class ParcelResponseHistorySearchService {
     @Autowired
     private ParcelResponseHistoryRepository parcelResponseHistoryRepository;
 
-    public Page<ParcelResponseHistory> search(ResponseHistorySearchCriteria responseHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    public Page<ParcelResponseHistory> search(ParcelResponseHistorySearchCriteria parcelResponseHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
 
-        String transactionId = responseHistorySearchCriteria.getTransactionId();
-        String shipmentIdentificationNumber = responseHistorySearchCriteria.getShipmentIdentificationNumber();
-        String transactionDateFrom = responseHistorySearchCriteria.getTransactionDateFrom();
-        String transactionDateTo = responseHistorySearchCriteria.getTransactionDateTo();
+        String transactionId = parcelResponseHistorySearchCriteria.getTransactionId();
+        String shipmentIdentificationNumber = parcelResponseHistorySearchCriteria.getShipmentIdentificationNumber();
+        String transactionDateFrom = parcelResponseHistorySearchCriteria.getTransactionDateFrom();
+        String transactionDateTo = parcelResponseHistorySearchCriteria.getTransactionDateTo();
 
         // handles wild card, blank conditions and when the search parameter is not present in search
         // criteria

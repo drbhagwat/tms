@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class represents parcel response history search criteria fields.
+ * This class represents parcel request history search criteria fields.
  *
  * @author : Thamilarasi
  * @since : 2020-05-25
@@ -14,10 +14,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseHistorySearchCriteria {
+public class ParcelRequestHistorySearchCriteria {
   private String transactionId;
 
-  private String shipmentIdentificationNumber;
+  private String postalCodeFrom;
+
+  private String postalCodeTo;
+
+  private String serviceCode;
 
   private String transactionDateFrom;
 
