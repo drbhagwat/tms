@@ -1,14 +1,11 @@
 package com.s3group.tmsapi.rating.controller;
 
+import com.s3group.tmsapi.errors.QueryRateResponseHistoryNotFound;
 import com.s3group.tmsapi.rating.entity.QueryRateResponseHistory;
-import com.s3group.tmsapi.rating.service.QueryRateRequestHistoryService;
 import com.s3group.tmsapi.rating.service.QueryRateResponseHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Read operations for the QueryRateResponseHistory entity.
@@ -39,5 +36,18 @@ class QueryRateResponseHistoryController {
                                                                          @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
                                                                          @RequestParam(defaultValue = "D") String orderBy) {
         return queryRateResponseHistoryService.getAllQueryRateResponseHistory(pageNo, pageSize, sortBy, orderBy);
+    }
+
+    /**
+     * This retrieves a single queryrateresponsehistory based on a transactionId mentioned below
+     *
+     * @param transactionId - represents the value of queryrateresponsehistory
+     * @return - on success, returns the found queryrateresponsehistory.
+     * @throws QueryRateResponseHistoryNotFound - on failure, a global exception handler is called
+     *                                          which displays an appropriate error message.
+     */
+    @GetMapping("/queryrateresponsehistory/{transactionId}")
+    public QueryRateResponseHistory getSpecificQueryRateResponseHistory(@PathVariable String transactionId) throws QueryRateResponseHistoryNotFound {
+        return queryRateResponseHistoryService.getSpecificQueryRateResponseHistory(transactionId);
     }
 }
