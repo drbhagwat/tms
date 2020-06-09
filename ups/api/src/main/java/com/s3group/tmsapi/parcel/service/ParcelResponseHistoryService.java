@@ -32,7 +32,7 @@ public class ParcelResponseHistoryService {
     }
 
     /**
-     * This retrieves a single parcelresponsehistory based on a transactionId metioned below
+     * This retrieves a single parcelresponsehistory based on a transactionId mentioned below
      *
      * @param transactionId - represents the value of parcelresponsehistory
      * @return - on success, returns the found parcelresponsehistory.
