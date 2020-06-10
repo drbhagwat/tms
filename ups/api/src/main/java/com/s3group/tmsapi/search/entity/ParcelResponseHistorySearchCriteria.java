@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseHistorySearchCriteria {
+public class ParcelResponseHistorySearchCriteria {
   private String transactionId;
 
   private String shipmentIdentificationNumber;

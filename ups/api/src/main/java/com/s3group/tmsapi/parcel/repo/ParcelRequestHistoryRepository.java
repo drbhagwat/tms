@@ -15,5 +15,5 @@ public interface ParcelRequestHistoryRepository extends PagingAndSortingReposito
     Optional<ParcelRequestHistory> findByTransactionId(String transactionId);
 
     @Query(value = "select p from ParcelRequestHistory p where lower(p.transactionId) like lower(concat('%', ?1,'%')) And lower(p.shipmentRequest.shipment.shipFrom.address.postalCode) like lower(concat('%', ?2,'%')) And lower(p.shipmentRequest.shipment.shipTo.address.postalCode) like lower(concat('%', ?3,'%')) And lower(p.shipmentRequest.shipment.service.code) like lower(concat('%', ?4,'%')) And p.createdDateTime >= ?5 And p.createdDateTime <= ?6")
-    Page<ParcelRequestHistory> historySearch(Pageable pageable, String transactionId, String postalCodeTo, String postalCodeFrom, String serviceCode, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
+    Page<ParcelRequestHistory> historySearch(Pageable pageable, String transactionId, String postalCodeFrom, String postalCodeTo, String serviceCode, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
 }
