@@ -2,7 +2,10 @@ package com.s3group.tmsapi.search.service;
 
 import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
 import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
+import com.s3group.tmsapi.rating.entity.QueryRateRequestHistory;
+import com.s3group.tmsapi.rating.repo.QueryRateRequestHistoryRepository;
 import com.s3group.tmsapi.search.entity.ParcelRequestHistorySearchCriteria;
+import com.s3group.tmsapi.search.entity.QueryRateRequestHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,17 +22,16 @@ import java.time.LocalTime;
  * @since : 2020-05-25
  */
 @Service
-public class ParcelRequestHistorySearchService {
+public class QueryRateRequestHistorySearchService {
   @Autowired
-  private ParcelRequestHistoryRepository parcelRequestHistoryRepository;
+  private QueryRateRequestHistoryRepository queryRateRequestHistoryRepository;
 
-  public Page<ParcelRequestHistory> search(ParcelRequestHistorySearchCriteria parcelRequestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
-    String transactionId = parcelRequestHistorySearchCriteria.getTransactionId();
-    String postalCodeFrom = parcelRequestHistorySearchCriteria.getPostalCodeFrom();
-    String postalCodeTo = parcelRequestHistorySearchCriteria.getPostalCodeTo();
-    String serviceCode = parcelRequestHistorySearchCriteria.getServiceCode();
-    String transactionDateFrom = parcelRequestHistorySearchCriteria.getTransactionDateFrom();
-    String transactionDateTo = parcelRequestHistorySearchCriteria.getTransactionDateTo();
+  public Page<QueryRateRequestHistory> search(QueryRateRequestHistorySearchCriteria queryRateRequestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    String transactionId = queryRateRequestHistorySearchCriteria.getTransactionId();
+    String postalCodeFrom = queryRateRequestHistorySearchCriteria.getPostalCodeFrom();
+    String postalCodeTo = queryRateRequestHistorySearchCriteria.getPostalCodeTo();
+    String transactionDateFrom = queryRateRequestHistorySearchCriteria.getTransactionDateFrom();
+    String transactionDateTo = queryRateRequestHistorySearchCriteria.getTransactionDateTo();
 
     // handle search fields which are null, blank (after trimming), and
     // wild cards - trim it in the process and use the trimmed value everywhere else
@@ -44,10 +46,6 @@ public class ParcelRequestHistorySearchService {
 
     if ((postalCodeTo == null) || (postalCodeTo = postalCodeTo.trim()).equals("*") || postalCodeTo.equals("")) {
       postalCodeTo = "";
-    }
-
-    if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
-      serviceCode = "";
     }
 
     LocalDateTime ldtTransactionDateFrom = null;
@@ -67,6 +65,6 @@ public class ParcelRequestHistorySearchService {
 
     Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
         : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-    return parcelRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, serviceCode, ldtTransactionDateFrom, ldtTransactionDateTo);
+    return queryRateRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, ldtTransactionDateFrom, ldtTransactionDateTo);
   }
 }
