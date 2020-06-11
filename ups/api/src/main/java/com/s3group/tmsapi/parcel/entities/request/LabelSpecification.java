@@ -31,16 +31,4 @@ public class LabelSpecification {
   @JoinColumn(name = "label_stock_size_id",
       referencedColumnName = "id")
   private LabelStockSize labelStockSize;
-
-  @JsonProperty("HTTPUserAgent")
-  private String hTTPUserAgent = "Mozilla/4.5";
-
-  @JsonProperty("Instruction")
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "instruction_id",
-      referencedColumnName = "id")
-  private Instruction instruction;
-
-  @JsonProperty("CharSet")
-  private String charSet = "eng";
 }
