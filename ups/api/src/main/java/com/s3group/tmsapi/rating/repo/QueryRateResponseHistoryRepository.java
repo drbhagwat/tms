@@ -15,12 +15,10 @@ import java.time.LocalDateTime;
 public interface QueryRateResponseHistoryRepository extends PagingAndSortingRepository<QueryRateResponseHistory, String> {
   QueryRateResponseHistory findByTransactionId(String transactionId);
 
-  @Query(value = "select DISTINCT q from QueryRateResponseHistory q join q.rateResponse.ratedShipments rs where lower(q.transactionId) like lower(concat('%', ?1,'%')) And lower(rs.service.code) like lower(concat('%', ?2,'%')) And lower(rs.totalCharges.currencyCode) like lower(concat('%', ?3,'%')) And lower(rs.totalCharges.monetaryValue) like lower(concat('%', ?4,'%')) And lower(rs.guaranteedDelivery.businessDaysInTransit) like lower(concat('%', ?5,'%')) And q.createdDateTime >= ?6 And q.createdDateTime <= ?7 And lower(q.rateResponse.response.responseStatus.description) like lower(concat('%', ?8,'%'))")
-  Page<QueryRateResponseHistory> historySearch(Pageable pageable, String transactionId, String serviceCode, String currencyCode, String monetaryValue, String transitDuration, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo, String responseStatus);
+  @Query(value = "select DISTINCT q from QueryRateResponseHistory q join q.rateResponse.ratedShipments rs where lower(q.transactionId) like lower(concat('%', ?1,'%')) And lower(q.criteria) like lower(concat('%', ?2,'%')) And lower(rs.service.code) like lower(concat('%', ?3,'%')) And lower(rs.totalCharges.currencyCode) like lower(concat('%', ?4,'%')) And lower(rs.totalCharges.monetaryValue) like lower(concat('%', ?5,'%')) And lower(rs.guaranteedDelivery.businessDaysInTransit) like lower(concat('%', ?6,'%')) And q.createdDateTime >= ?7 And q.createdDateTime <= ?8 And lower(q.rateResponse.response.responseStatus.description) like lower(concat('%', ?9,'%'))")
+  Page<QueryRateResponseHistory> historySearch(Pageable pageable, String transactionId, String criteria, String serviceCode, String currencyCode, String monetaryValue, String transitDuration, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo, String responseStatus);
 
-  @Query(value = "select q from QueryRateResponseHistory q where lower(q.transactionId) like lower(concat('%', ?1,'%')) And q.createdDateTime >= ?2 And q.createdDateTime <= ?3")
-  Page<QueryRateResponseHistory> historySearch(Pageable pageable, String transactionId, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
-
-
+  @Query(value = "select q from QueryRateResponseHistory q where lower(q.transactionId) like lower(concat('%', ?1,'%')) And lower(q.criteria) like lower(concat('%', ?2,'%')) And q.createdDateTime >= ?3 And q.createdDateTime <= ?4")
+  Page<QueryRateResponseHistory> historySearch(Pageable pageable, String transactionId, String criteria, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
 }
 

@@ -1,10 +1,7 @@
 package com.s3group.tmsapi.search.service;
 
-import com.s3group.tmsapi.rating.entity.QueryRateRequestHistory;
 import com.s3group.tmsapi.rating.entity.QueryRateResponseHistory;
-import com.s3group.tmsapi.rating.repo.QueryRateRequestHistoryRepository;
 import com.s3group.tmsapi.rating.repo.QueryRateResponseHistoryRepository;
-import com.s3group.tmsapi.search.entity.QueryRateRequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.entity.QueryRateResponseHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +25,7 @@ public class QueryRateResponseHistorySearchService {
 
     public Page<QueryRateResponseHistory> search(QueryRateResponseHistorySearchCriteria queryRateResponseHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
         String transactionId = queryRateResponseHistorySearchCriteria.getTransactionId();
+        String criteria = queryRateResponseHistorySearchCriteria.getCriteria();
         String serviceCode = queryRateResponseHistorySearchCriteria.getServiceCode();
         String currencyCode = queryRateResponseHistorySearchCriteria.getCurrencyCode();
         String monetaryValue = queryRateResponseHistorySearchCriteria.getMonetaryValue();
@@ -41,6 +39,10 @@ public class QueryRateResponseHistorySearchService {
 
         if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
             transactionId = "";
+        }
+
+        if ((criteria == null) || (criteria.equalsIgnoreCase("none")) || (criteria = criteria.trim()).equals("*") || criteria.equals("")) {
+            criteria = "";
         }
 
         LocalDateTime ldtTransactionDateFrom = null;
@@ -62,8 +64,7 @@ public class QueryRateResponseHistorySearchService {
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 
       if (((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) && ((currencyCode == null) || (currencyCode = currencyCode.trim()).equals("*") || currencyCode.equals("")) && ((monetaryValue == null) || (monetaryValue = monetaryValue.trim()).equals("*") || monetaryValue.equals("")) && ((transitDuration == null) || (transitDuration = transitDuration.trim()).equals("*") || transitDuration.equals("")) && ((responseStatus == null) || (responseStatus = responseStatus.trim()).equals("*") || responseStatus.equals(""))) {
-
-        return queryRateResponseHistoryRepository.historySearch(paging, transactionId, ldtTransactionDateFrom, ldtTransactionDateTo);
+        return queryRateResponseHistoryRepository.historySearch(paging, transactionId, criteria, ldtTransactionDateFrom, ldtTransactionDateTo);
       }
 
       if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
@@ -86,6 +87,6 @@ public class QueryRateResponseHistorySearchService {
         responseStatus = "";
       }
 
-      return queryRateResponseHistoryRepository.historySearch(paging, transactionId, serviceCode, currencyCode, monetaryValue, transitDuration, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
+      return queryRateResponseHistoryRepository.historySearch(paging, transactionId, criteria, serviceCode, currencyCode, monetaryValue, transitDuration, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
     }
 }

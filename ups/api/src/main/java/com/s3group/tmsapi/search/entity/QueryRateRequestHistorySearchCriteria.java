@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 public class QueryRateRequestHistorySearchCriteria {
   private String transactionId;
 
+  private String criteria;
+
   private String postalCodeFrom;
 
   private String postalCodeTo;
