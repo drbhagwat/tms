@@ -23,6 +23,8 @@ public class QueryRateRequestHistory extends BasicLogger<String> {
   @Id
   private String transactionId;
 
+  private String criteria;
+
   @JsonProperty("RateRequest")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "rate_request_id", referencedColumnName = "id")
