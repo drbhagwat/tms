@@ -22,9 +22,9 @@ public class LabelStockSize {
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Width")
-  private String width;
-
   @JsonProperty("Height")
   private String height;
+
+  @JsonProperty("Width")
+  private String width;
 }
