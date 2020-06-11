@@ -1,10 +1,7 @@
 package com.s3group.tmsapi.search.service;
 
-import com.s3group.tmsapi.parcel.entities.request.ParcelRequestHistory;
-import com.s3group.tmsapi.parcel.repo.ParcelRequestHistoryRepository;
 import com.s3group.tmsapi.rating.entity.QueryRateRequestHistory;
 import com.s3group.tmsapi.rating.repo.QueryRateRequestHistoryRepository;
-import com.s3group.tmsapi.search.entity.ParcelRequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.entity.QueryRateRequestHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +25,7 @@ public class QueryRateRequestHistorySearchService {
 
   public Page<QueryRateRequestHistory> search(QueryRateRequestHistorySearchCriteria queryRateRequestHistorySearchCriteria, Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
     String transactionId = queryRateRequestHistorySearchCriteria.getTransactionId();
+    String criteria = queryRateRequestHistorySearchCriteria.getCriteria();
     String postalCodeFrom = queryRateRequestHistorySearchCriteria.getPostalCodeFrom();
     String postalCodeTo = queryRateRequestHistorySearchCriteria.getPostalCodeTo();
     String transactionDateFrom = queryRateRequestHistorySearchCriteria.getTransactionDateFrom();
@@ -38,6 +36,10 @@ public class QueryRateRequestHistorySearchService {
 
     if ((transactionId == null) || (transactionId = transactionId.trim()).equals("*") || transactionId.equals("")) {
       transactionId = "";
+    }
+
+    if ((criteria == null) || (criteria.equalsIgnoreCase("none")) || (criteria = criteria.trim()).equals("*") || criteria.equals("")) {
+      criteria = "";
     }
 
     if ((postalCodeFrom == null) || (postalCodeFrom = postalCodeFrom.trim()).equals("*") || postalCodeFrom.equals("")) {
@@ -65,6 +67,6 @@ public class QueryRateRequestHistorySearchService {
 
     Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
         : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-    return queryRateRequestHistoryRepository.historySearch(paging, transactionId, postalCodeFrom, postalCodeTo, ldtTransactionDateFrom, ldtTransactionDateTo);
+    return queryRateRequestHistoryRepository.historySearch(paging, transactionId, criteria, postalCodeFrom, postalCodeTo, ldtTransactionDateFrom, ldtTransactionDateTo);
   }
 }

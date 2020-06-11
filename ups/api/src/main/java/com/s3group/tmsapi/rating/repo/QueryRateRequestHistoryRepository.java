@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public interface QueryRateRequestHistoryRepository extends PagingAndSortingRepository<QueryRateRequestHistory, String> {
   QueryRateRequestHistory findByTransactionId(String transactionId);
 
-  @Query(value = "select q from QueryRateRequestHistory q where lower(q.transactionId) like lower(concat('%', ?1,'%')) And lower(q.rateRequest.shipment.shipFrom.address.postalCode) like lower(concat('%', ?2,'%')) And lower(q.rateRequest.shipment.shipTo.address.postalCode) like lower(concat('%', ?3,'%')) And q.createdDateTime >= ?4 And q.createdDateTime <= ?5")
-  Page<QueryRateRequestHistory> historySearch(Pageable pageable, String transactionId, String postalCodeFrom, String postalCodeTo, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
+  @Query(value = "select q from QueryRateRequestHistory q where lower(q.transactionId) like lower(concat('%', ?1,'%')) And lower(q.criteria) like lower(concat('%', ?2,'%')) And lower(q.rateRequest.shipment.shipFrom.address.postalCode) like lower(concat('%', ?3,'%')) And lower(q.rateRequest.shipment.shipTo.address.postalCode) like lower(concat('%', ?4,'%')) And q.createdDateTime >= ?5 And q.createdDateTime <= ?6")
+  Page<QueryRateRequestHistory> historySearch(Pageable pageable, String transactionId, String criteria, String postalCodeFrom, String postalCodeTo, LocalDateTime transactionDateFrom, LocalDateTime transactionDateTo);
 }
