@@ -1,5 +1,6 @@
 package com.s3group.tmsapi.master.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,13 @@ public abstract class BasicLogger<U> {
 	protected U createdUser;
 
 	@CreatedDate
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	protected LocalDateTime createdDateTime;
 
 	@LastModifiedBy
 	protected U lastUpdatedUser;
 
 	@LastModifiedDate
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	protected LocalDateTime lastUpdatedDateTime;
 }
