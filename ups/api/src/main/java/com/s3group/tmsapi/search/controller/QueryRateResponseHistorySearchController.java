@@ -23,7 +23,7 @@ public class QueryRateResponseHistorySearchController {
   private QueryRateResponseHistorySearchService queryRateResponseHistorySearchService;
 
   @PostMapping("/queryrateresponsehistorysearch")
-  public Page<QueryRateResponseHistory> search(@RequestBody QueryRateResponseHistorySearchCriteria queryRateResponseHistorySearchCriteria, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy, @RequestParam(defaultValue = "D") String orderBy) {
+  public Page<QueryRateResponseHistory> search(@RequestBody QueryRateResponseHistorySearchCriteria queryRateResponseHistorySearchCriteria, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy, @RequestParam(defaultValue = "D") String orderBy)  {
     return queryRateResponseHistorySearchService.search(queryRateResponseHistorySearchCriteria, pageNo, pageSize, sortBy, orderBy);
   }
 }

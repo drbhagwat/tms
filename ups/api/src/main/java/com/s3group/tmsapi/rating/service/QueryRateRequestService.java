@@ -53,6 +53,12 @@ public class QueryRateRequestService {
   @Value("${UPS_ACCEPT}")
   private String uPSAccept;
 
+  @Value("${SUCCESS_RESPONSE}")
+  private String successResponse;
+
+  @Value("${FAILURE_RESPONSE}")
+  private String failureResponse;
+
   @Autowired
   QueryRateRequestRepository queryRateRequestRepository;
 
@@ -102,13 +108,13 @@ public class QueryRateRequestService {
       // process that response based on the criteria
       processQueryResponse(rateResponse, criteria);
       queryRateResponseRepository.save(upsQueryRateResponse);
-      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, null,
+      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, successResponse, null,
           rateResponse));
     } catch (HttpClientErrorException e) {
       ObjectMapper mapper =
           new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
       UpsErrorResponse response = mapper.readValue(e.getResponseBodyAsString(), UpsErrorResponse.class);
-      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, response, null));
+      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, failureResponse, response, null));
     }
   }
 
