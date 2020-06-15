@@ -53,6 +53,12 @@ public class QueryRateRequestService {
   @Value("${UPS_ACCEPT}")
   private String uPSAccept;
 
+  @Value("${SUCCESS_RESPONSE}")
+  private String successResponse;
+
+  @Value("${FAILURE_RESPONSE}")
+  private String failureResponse;
+
   @Autowired
   QueryRateRequestRepository queryRateRequestRepository;
 
@@ -89,7 +95,7 @@ public class QueryRateRequestService {
     final HttpEntity<QueryRateRequest> httpRequest =
         new HttpEntity<>(queryRateRequest, headers);
 
-    QueryRateRequestHistory queryRateRequestHistory = new QueryRateRequestHistory(transId, queryRateRequest.getRateRequest());
+    QueryRateRequestHistory queryRateRequestHistory = new QueryRateRequestHistory(transId, criteria, queryRateRequest.getRateRequest());
     queryRateRequestHistoryRepository.save(queryRateRequestHistory);
 
     try {
@@ -102,13 +108,13 @@ public class QueryRateRequestService {
       // process that response based on the criteria
       processQueryResponse(rateResponse, criteria);
       queryRateResponseRepository.save(upsQueryRateResponse);
-      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, null,
+      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, successResponse, null,
           rateResponse));
     } catch (HttpClientErrorException e) {
       ObjectMapper mapper =
           new ObjectMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
       UpsErrorResponse response = mapper.readValue(e.getResponseBodyAsString(), UpsErrorResponse.class);
-      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, response, null));
+      return queryRateResponseHistoryRepository.save(new QueryRateResponseHistory(transId, criteria, failureResponse, response, null));
     }
   }
 
@@ -123,8 +129,6 @@ public class QueryRateRequestService {
         break;
       case "time":
         savedRateRespone.setRatedShipments(processForFastestDuration(savedRatedShipments));
-        break;
-      case "costandtime":
         break;
       default:
         break;

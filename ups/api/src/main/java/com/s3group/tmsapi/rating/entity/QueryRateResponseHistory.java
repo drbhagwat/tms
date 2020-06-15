@@ -25,6 +25,10 @@ public class QueryRateResponseHistory extends BasicLogger<String> {
   @Id
   private String transactionId;
 
+  private String criteria;
+
+  private String responseStatus;
+
   @JsonProperty("response")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "ups_error_response_id", referencedColumnName = "id")
