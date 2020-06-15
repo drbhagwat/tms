@@ -7,22 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
 @Entity
-public class PackagingType {
+public class RateShipmentRatingOptions {
   @Id
   @GeneratedValue
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Code")
-  private String code;
-
-  @JsonProperty("Description")
-  private String description;
+  @JsonProperty("UserLevelDiscountIndicator")
+  private String userLevelDiscountIndicator;
 }
