@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestHistorySearchCriteria {
+public class QueryRateRequestHistorySearchCriteria {
   private String transactionId;
+
+  private String criteria;
 
   private String postalCodeFrom;
 
   private String postalCodeTo;
-
-  private String serviceCode;
 
   private String transactionDateFrom;
 
