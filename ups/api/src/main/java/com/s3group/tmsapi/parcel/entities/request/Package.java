@@ -3,6 +3,7 @@ package com.s3group.tmsapi.parcel.entities.request;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.common.entities.Dimensions;
 import com.s3group.tmsapi.common.entities.PackageWeight;
 import lombok.AllArgsConstructor;
 import lombok.Data;
