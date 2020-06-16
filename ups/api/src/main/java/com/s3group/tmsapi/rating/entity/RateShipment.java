@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.common.entities.ShipFrom;
 import com.s3group.tmsapi.common.entities.ShipTo;
 import com.s3group.tmsapi.common.entities.Shipper;
+import com.s3group.tmsapi.parcel.entities.request.ShipmentRatingOptions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,12 @@ public class RateShipment {
   @JsonIgnore
   private long id;
 
+  @JsonProperty("ShipmentRatingOptions")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "rate_shipment_rating_options_id",
+      referencedColumnName = "id")
+  private RateShipmentRatingOptions rateShipmentRatingOptions;
+
   @JsonProperty("Shipper")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "shipper_id",
@@ -40,6 +47,12 @@ public class RateShipment {
   @JoinColumn(name = "ship_from_id",
       referencedColumnName = "id")
   private ShipFrom shipFrom;
+
+  @JsonProperty("ShipmentTotalWeight")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "shipment_total_weight_id",
+      referencedColumnName = "id")
+  private ShipmentTotalWeight shipmentTotalWeight;
 
   @JsonProperty("Package")
   @OneToOne(cascade = CascadeType.ALL)

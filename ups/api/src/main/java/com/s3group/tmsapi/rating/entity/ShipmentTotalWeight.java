@@ -2,10 +2,9 @@ package com.s3group.tmsapi.rating.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.master.entities.BasicLogger;
+import com.s3group.tmsapi.common.entities.UnitOfMeasurement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,22 +15,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
-@EqualsAndHashCode(callSuper=true)
-public class RateRequest extends BasicLogger<String> {
+public class ShipmentTotalWeight {
   @Id
   @GeneratedValue
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Request")
+  @JsonProperty("UnitOfMeasurement")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "request_id",
+  @JoinColumn(name = "unit_of_measurement_id",
       referencedColumnName = "id")
-  private Request request;
+  private UnitOfMeasurement unitOfMeasurement;
 
-  @JsonProperty("Shipment")
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "shipment_id",
-      referencedColumnName = "id")
-  private RateShipment shipment;
+  @JsonProperty("Weight")
+  private String weight;
 }
