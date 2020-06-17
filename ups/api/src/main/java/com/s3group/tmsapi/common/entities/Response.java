@@ -28,9 +28,9 @@ public class Response {
   private ResponseStatus responseStatus;
 
   @JsonProperty("Alert")
+  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "response_id")
-  @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<Alert> alerts = new ArrayList<>();
 
   @JsonProperty("TransactionReference")
