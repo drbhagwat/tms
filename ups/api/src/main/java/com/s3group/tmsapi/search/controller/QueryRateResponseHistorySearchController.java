@@ -2,6 +2,7 @@ package com.s3group.tmsapi.search.controller;
 
 import com.s3group.tmsapi.rating.entity.QueryRateRequestHistory;
 import com.s3group.tmsapi.rating.entity.QueryRateResponseHistory;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import com.s3group.tmsapi.search.entity.QueryRateRequestHistorySearchCriteria;
 import com.s3group.tmsapi.search.entity.QueryRateResponseHistorySearchCriteria;
 import com.s3group.tmsapi.search.service.QueryRateRequestHistorySearchService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author : Thamilarasi
