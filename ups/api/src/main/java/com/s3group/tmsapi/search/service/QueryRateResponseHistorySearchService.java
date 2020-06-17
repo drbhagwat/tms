@@ -1,19 +1,21 @@
 package com.s3group.tmsapi.search.service;
 
 import com.s3group.tmsapi.rating.entity.QueryRateResponseHistory;
+import com.s3group.tmsapi.rating.entity.RateResponse;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import com.s3group.tmsapi.rating.repo.QueryRateResponseHistoryRepository;
 import com.s3group.tmsapi.search.entity.QueryRateResponseHistorySearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Thamilarasi
@@ -68,6 +70,7 @@ public class QueryRateResponseHistorySearchService {
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid Date Format. The Date Format should be yyyy-mm-dd");
         }
+
         Pageable paging = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 
@@ -75,21 +78,48 @@ public class QueryRateResponseHistorySearchService {
             return queryRateResponseHistoryRepository.historySearch(paging, transactionId, criteria, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
         }
 
-        if ((serviceCode == null) || (serviceCode = serviceCode.trim()).equals("*") || serviceCode.equals("")) {
-            serviceCode = "";
-        }
+        List<QueryRateResponseHistory> queryRateResponseHistory = queryRateResponseHistoryRepository.historySearchList(paging, transactionId, criteria, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
 
-        if ((currencyCode == null) || (currencyCode = currencyCode.trim()).equals("*") || currencyCode.equals("")) {
-            currencyCode = "";
-        }
+        List<RatedShipment> shipresponse = new ArrayList<RatedShipment>();
+        List<QueryRateResponseHistory> query = new ArrayList<>();
 
-        if ((monetaryValue == null) || (monetaryValue = monetaryValue.trim()).equals("*") || monetaryValue.equals("")) {
-            monetaryValue = "";
-        }
+        for (QueryRateResponseHistory res : queryRateResponseHistory) {
 
-        if ((transitDuration == null) || (transitDuration = transitDuration.trim()).equals("*") || transitDuration.equals("")) {
-            transitDuration = "";
+            RateResponse rateResponse = new RateResponse();
+            QueryRateResponseHistory qrsh = new QueryRateResponseHistory();
+
+            if (res.getRateResponse() != null) {
+
+                rateResponse = res.getRateResponse();
+                String finalServiceCode = serviceCode;
+                String finalTransitDuration = transitDuration;
+                String finalCurrencyCode = currencyCode;
+                String finalMonetaryValue = monetaryValue;
+
+                shipresponse = res.getRateResponse().getRatedShipments().stream()
+                        .filter(rated -> finalServiceCode.isBlank() || rated.getService().getCode().equals(finalServiceCode))
+                        .filter(rated -> finalTransitDuration.isBlank() || rated.getGuaranteedDelivery().getBusinessDaysInTransit().equals(finalTransitDuration))
+                        .filter(rated -> finalCurrencyCode.isBlank() || rated.getTotalCharges().getCurrencyCode().equals(finalCurrencyCode))
+                        .filter(rated -> finalMonetaryValue.isBlank() || rated.getTotalCharges().getMonetaryValue().equalsIgnoreCase(finalMonetaryValue))
+                        .collect(Collectors.toList());
+            }
+
+            if (shipresponse.size() != 0) {
+
+                qrsh.setCreatedUser(res.getCreatedUser());
+                qrsh.setCreatedDateTime(res.getCreatedDateTime());
+                qrsh.setLastUpdatedUser(res.getLastUpdatedUser());
+                qrsh.setLastUpdatedDateTime(res.getLastUpdatedDateTime());
+                qrsh.setTransactionId(res.getTransactionId());
+                qrsh.setCriteria(res.getCriteria());
+                qrsh.setResponseStatus(res.getResponseStatus());
+                qrsh.setUpsErrorResponse(res.getUpsErrorResponse());
+                rateResponse.setRatedShipments(shipresponse);
+                qrsh.setRateResponse(rateResponse);
+                query.add(qrsh);
+            }
         }
-        return queryRateResponseHistoryRepository.historySearch(paging, transactionId, criteria, serviceCode, currencyCode, monetaryValue, transitDuration, ldtTransactionDateFrom, ldtTransactionDateTo, responseStatus);
+        final Page<QueryRateResponseHistory> page = new PageImpl<>(query);
+        return page;
     }
 }
