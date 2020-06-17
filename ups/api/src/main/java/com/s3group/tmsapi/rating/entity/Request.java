@@ -21,8 +21,8 @@ public class Request {
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Subversion")
-  private String subversion;
+  @JsonProperty("SubVersion")
+  private String subVersion;
 
   @JsonProperty("TransactionReference")
   @OneToOne(cascade = CascadeType.ALL)

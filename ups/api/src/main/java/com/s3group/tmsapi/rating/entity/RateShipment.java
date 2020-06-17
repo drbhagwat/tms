@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.common.entities.ShipFrom;
 import com.s3group.tmsapi.common.entities.ShipTo;
 import com.s3group.tmsapi.common.entities.Shipper;
-import com.s3group.tmsapi.parcel.entities.request.ShipmentRatingOptions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
