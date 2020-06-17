@@ -35,9 +35,4 @@ public class ItemizedCharges {
   @ManyToOne
   @JsonIgnore
   private PackageResults packageResults;
-
-  @JoinColumn
-  @ManyToOne
-  @JsonIgnore
-  private RatedPackage ratedPackage;
 }

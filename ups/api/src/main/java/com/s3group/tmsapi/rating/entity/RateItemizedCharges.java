@@ -2,7 +2,6 @@ package com.s3group.tmsapi.rating.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.parcel.entities.response.PackageResults;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
