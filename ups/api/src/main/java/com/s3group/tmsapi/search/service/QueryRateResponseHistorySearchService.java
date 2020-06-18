@@ -97,10 +97,10 @@ public class QueryRateResponseHistorySearchService {
                 String finalMonetaryValue = monetaryValue;
 
                 shipresponse = res.getRateResponse().getRatedShipments().stream()
-                        .filter(rated -> finalServiceCode.isBlank() || rated.getService().getCode().toLowerCase().contains(finalServiceCode.toLowerCase()))
-                        .filter(rated -> finalTransitDuration.isBlank() || rated.getGuaranteedDelivery().getBusinessDaysInTransit().toLowerCase().contains(finalTransitDuration.toLowerCase()))
-                        .filter(rated -> finalCurrencyCode.isBlank() || rated.getTotalCharges().getCurrencyCode().toLowerCase().contains(finalCurrencyCode.toLowerCase()))
-                        .filter(rated -> finalMonetaryValue.isBlank() || rated.getTotalCharges().getMonetaryValue().toLowerCase().contains(finalMonetaryValue.toLowerCase()))
+                        .filter(rated -> (finalServiceCode == null) || finalServiceCode.isBlank() || rated.getService().getCode().toLowerCase().contains(finalServiceCode.toLowerCase()))
+                        .filter(rated -> (finalTransitDuration == null) || finalTransitDuration.isBlank() || rated.getGuaranteedDelivery().getBusinessDaysInTransit().toLowerCase().contains(finalTransitDuration.toLowerCase()))
+                        .filter(rated -> (finalCurrencyCode == null) || finalCurrencyCode.isBlank() || rated.getTotalCharges().getCurrencyCode().toLowerCase().contains(finalCurrencyCode.toLowerCase()))
+                        .filter(rated -> (finalMonetaryValue == null) || finalMonetaryValue.isBlank() || rated.getTotalCharges().getMonetaryValue().toLowerCase().contains(finalMonetaryValue.toLowerCase()))
                         .collect(Collectors.toList());
             }
 
