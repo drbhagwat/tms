@@ -119,7 +119,7 @@ public class QueryRateResponseHistorySearchService {
                 query.add(qrsh);
             }
         }
-        final Page<QueryRateResponseHistory> page = new PageImpl<>(query);
+        final Page<QueryRateResponseHistory> page = new PageImpl<>(query, paging, query.size());
         return page;
     }
 }
