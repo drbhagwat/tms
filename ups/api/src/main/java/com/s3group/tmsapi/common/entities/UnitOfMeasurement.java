@@ -2,6 +2,7 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.parcel.entities.response.ShipmentResults;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +29,8 @@ public class UnitOfMeasurement {
 
   @JsonProperty("Description")
   private String description;
+
+  @OneToOne(mappedBy = "unitOfMeasurement")
+  @JsonIgnore
+  private BillingWeight billingWeight;
 }

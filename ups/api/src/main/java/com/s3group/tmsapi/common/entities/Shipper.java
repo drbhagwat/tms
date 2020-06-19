@@ -2,6 +2,7 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.parcel.entities.request.Shipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class Shipper {
   @JsonIgnore
   private long id;
 
+  @JsonProperty("ShipperNumber")
+  private String shipperNumber;
+
   @JsonProperty("Name")
   private String name;
 
@@ -35,10 +39,11 @@ public class Shipper {
       referencedColumnName = "id")
   private Phone phone;
 
-  @JsonProperty("ShipperNumber")
-  private String shipperNumber;
-
   @JsonProperty("Address")
   @Embedded
   private Address address;
+
+  @OneToOne(mappedBy = "shipper")
+  @JsonIgnore
+  private Shipment shipment;
 }

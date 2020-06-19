@@ -65,8 +65,7 @@ public class Shipment {
       CascadeType.ALL,
       orphanRemoval = true)
   @JoinColumn(name = "shipment_id")
-  @JsonManagedReference
-  private List<Package> packages = new ArrayList<>();
+  private List<UPSPackage> upsPackages = new ArrayList<>();
 
   @JsonProperty("ItemizedChargesRequestedIndicator")
   private String itemizedChargesRequestedIndicator;
@@ -82,4 +81,7 @@ public class Shipment {
   @JoinColumn(name = "shipment_rating_options_id",
       referencedColumnName = "id")
   private ShipmentRatingOptions shipmentRatingOptions;
+
+  @OneToOne(mappedBy = "shipment")
+  private ShipmentRequest shipmentRequest;
 }

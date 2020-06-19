@@ -31,4 +31,7 @@ public class LabelSpecification {
   @JoinColumn(name = "label_stock_size_id",
       referencedColumnName = "id")
   private LabelStockSize labelStockSize;
+
+  @OneToOne(mappedBy = "labelSpecification")
+  private ShipmentRequest shipmentRequest;
 }

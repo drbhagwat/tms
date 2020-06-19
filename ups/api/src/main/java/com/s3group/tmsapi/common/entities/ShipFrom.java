@@ -2,6 +2,7 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.parcel.entities.request.Shipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,4 +42,8 @@ public class ShipFrom {
   @JsonProperty("Address")
   @Embedded
   private Address address;
+
+  @OneToOne(mappedBy = "shipFrom")
+  @JsonIgnore
+  private Shipment shipment;
 }
