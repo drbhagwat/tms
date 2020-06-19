@@ -99,6 +99,14 @@ public class QueryRateRequestService {
     queryRateRequestHistoryRepository.save(queryRateRequestHistory);
 
     try {
+
+/*
+      ResponseEntity<String> queryRateResponse =
+          restTemplate.exchange(uPSBaseUrlRatingShopRequest, HttpMethod.POST, httpRequest,
+              String.class);
+      System.out.println(queryRateResponse);
+      return null;
+*/
       ResponseEntity<QueryRateResponse> queryRateResponse =
           restTemplate.exchange(uPSBaseUrlRatingShopRequest, HttpMethod.POST, httpRequest,
               QueryRateResponse.class);

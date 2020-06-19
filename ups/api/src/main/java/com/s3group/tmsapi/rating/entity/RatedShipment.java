@@ -32,42 +32,36 @@ public class RatedShipment {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "rated_shipment_alert_id")
   @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-  @JsonIgnore
   private List<RatedShipmentAlert> ratedShipmentAlerts = new ArrayList<>();
 
   @JsonProperty("BillingWeight")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "billing_weight_id",
       referencedColumnName = "id")
-  @JsonIgnore
   private BillingWeight billingWeight;
 
   @JsonProperty("TransportationCharges")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "transportation_charges_id",
       referencedColumnName = "id")
-  @JsonIgnore
   private TransportationCharges transportationCharges;
 
   @JsonProperty("BaseServiceCharge")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "base_service__charge_id",
       referencedColumnName = "id")
-  @JsonIgnore
   private BaseServiceCharge baseServiceCharge;
 
   @JsonProperty("ServiceOptionsCharges")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "service_options_charges_id",
       referencedColumnName = "id")
-  @JsonIgnore
   private ServiceOptionsCharges serviceOptionsCharges;
 
   @JsonProperty("TotalCharges")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "total_charges_id",
       referencedColumnName = "id")
-  @JsonIgnore
   private TotalCharges totalCharges;
 
   @JsonProperty("GuaranteedDelivery")

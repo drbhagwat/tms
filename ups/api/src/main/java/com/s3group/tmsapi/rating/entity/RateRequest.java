@@ -23,6 +23,12 @@ public class RateRequest extends BasicLogger<String> {
   @JsonIgnore
   private long id;
 
+  @JsonProperty("Request")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "request_id",
+      referencedColumnName = "id")
+  private Request request;
+
   @JsonProperty("Shipment")
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "shipment_id",

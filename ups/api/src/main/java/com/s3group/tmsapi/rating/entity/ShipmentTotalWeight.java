@@ -2,33 +2,31 @@ package com.s3group.tmsapi.rating.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.common.entities.Response;
+import com.s3group.tmsapi.common.entities.UnitOfMeasurement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Component
 @Entity
-public class RateResponse {
+public class ShipmentTotalWeight {
   @Id
   @GeneratedValue
   @JsonIgnore
   private long id;
 
-  @JsonProperty("Response")
+  @JsonProperty("UnitOfMeasurement")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "response_id",
+  @JoinColumn(name = "unit_of_measurement_id",
       referencedColumnName = "id")
-  private Response response;
+  private UnitOfMeasurement unitOfMeasurement;
 
-  @JsonProperty("RatedShipment")
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "rated_shipment_id")
-  private List<RatedShipment> ratedShipments = new ArrayList<>();
+  @JsonProperty("Weight")
+  private String weight;
 }

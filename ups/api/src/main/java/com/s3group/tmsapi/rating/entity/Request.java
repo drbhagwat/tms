@@ -1,8 +1,8 @@
-package com.s3group.tmsapi.parcel.entities.request;
+package com.s3group.tmsapi.rating.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.common.entities.UnitOfMeasurement;
+import com.s3group.tmsapi.common.entities.TransactionReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,24 +15,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
-public class Dimensions {
+public class Request {
   @Id
   @GeneratedValue
   @JsonIgnore
   private long id;
 
-  @JsonProperty("UnitOfMeasurement")
+  @JsonProperty("SubVersion")
+  private String subVersion;
+
+  @JsonProperty("TransactionReference")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "unit_of_measurement_id",
+  @JoinColumn(name = "transaction_reference_id",
       referencedColumnName = "id")
-  private UnitOfMeasurement unitOfMeasurement;
-
-  @JsonProperty("Length")
-  private String length;
-
-  @JsonProperty("Width")
-  private String width;
-
-  @JsonProperty("Height")
-  private String height;
+  private TransactionReference transactionReference;
 }
