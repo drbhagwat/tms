@@ -35,8 +35,7 @@ public class Shipper {
 
   @JsonProperty("Phone")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "phone_id",
-      referencedColumnName = "id")
+  @JoinColumn(name = "phone_id", referencedColumnName = "id")
   private Phone phone;
 
   @JsonProperty("Address")
