@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.parcel.entities.response.ShipmentCharges;
 import com.s3group.tmsapi.parcel.entities.response.ShipmentResults;
+import com.s3group.tmsapi.rating.entity.RatedPackage;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,4 +34,12 @@ public class TransportationCharges {
   @OneToOne(mappedBy = "transportationCharges")
   @JsonIgnore
   private ShipmentCharges shipmentCharges;
+
+  @OneToOne(mappedBy = "transportationCharges")
+  @JsonIgnore
+  private RatedShipment ratedShipment;
+
+  @OneToOne(mappedBy = "transportationCharges")
+  @JsonIgnore
+  private RatedPackage ratedPackage;
 }

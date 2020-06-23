@@ -25,4 +25,8 @@ public class PackagingType {
 
   @JsonProperty("Description")
   private String description;
+
+  @OneToOne(mappedBy = "packagingType")
+  @JsonIgnore
+  private RatePackage ratePackage;
 }

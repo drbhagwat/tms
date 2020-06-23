@@ -3,6 +3,8 @@ package com.s3group.tmsapi.common.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.parcel.entities.response.ShipmentCharges;
+import com.s3group.tmsapi.rating.entity.RatedPackage;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,4 +33,12 @@ public class TotalCharges {
   @OneToOne(mappedBy = "totalCharges")
   @JsonIgnore
   private ShipmentCharges shipmentCharges;
+
+  @OneToOne(mappedBy = "totalCharges")
+  @JsonIgnore
+  private RatedShipment ratedShipment;
+
+  @OneToOne(mappedBy = "totalCharges")
+  @JsonIgnore
+  private RatedPackage ratedPackage;
 }
