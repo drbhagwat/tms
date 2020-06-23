@@ -27,5 +27,6 @@ public class Packaging {
   private String code;
 
   @OneToOne(mappedBy = "packaging")
+  @JsonIgnore
   private UPSPackage uPSPackage;
 }

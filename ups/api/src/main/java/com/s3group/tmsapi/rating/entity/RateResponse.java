@@ -35,4 +35,8 @@ public class RateResponse {
   @OneToOne(mappedBy = "rateResponse")
   @JsonIgnore
   private QueryRateResponse queryRateResponse;
+
+  @OneToOne(mappedBy = "rateResponse")
+  @JsonIgnore
+  private QueryRateResponseHistory queryRateResponseHistory;
 }

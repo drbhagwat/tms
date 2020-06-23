@@ -4,15 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-
-import java.util.List;
-import javax.persistence.*;
-
-import com.s3group.tmsapi.parcel.entities.request.LabelSpecification;
 import com.s3group.tmsapi.parcel.entities.response.ParcelResponseHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author : Sachin Kulkarni
@@ -36,5 +34,6 @@ public class UpsErrorResponse {
   private List<com.s3group.tmsapi.common.upserrors.Error> errors;
 
   @OneToOne(mappedBy = "upsErrorResponse")
+  @JsonIgnore
   private ParcelResponseHistory parcelResponseHistory;
 }

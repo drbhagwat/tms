@@ -2,7 +2,6 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.parcel.entities.response.ShipmentResponse;
 import com.s3group.tmsapi.parcel.entities.response.ShipmentResults;
 import com.s3group.tmsapi.rating.entity.RatedPackage;
 import com.s3group.tmsapi.rating.entity.RatedShipment;
@@ -41,4 +40,5 @@ public class BillingWeight {
 
   @OneToOne(mappedBy = "billingWeight")
   @JsonIgnore
-  private RatedPackage ratedPackage;}
+  private RatedPackage ratedPackage;
+}

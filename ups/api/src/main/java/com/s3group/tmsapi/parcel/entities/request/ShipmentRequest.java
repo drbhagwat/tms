@@ -33,8 +33,10 @@ public class ShipmentRequest {
   private LabelSpecification labelSpecification;
 
   @OneToOne(mappedBy = "shipmentRequest")
+  @JsonIgnore
   private ParcelRequest parcelRequest;
 
   @OneToOne(mappedBy = "shipmentRequest")
+  @JsonIgnore
   private ParcelRequestHistory parcelRequestHistory;
 }
