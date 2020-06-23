@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +25,16 @@ public class Phone {
 
   @JsonProperty("Number")
   private String number;
+
+  @OneToOne(mappedBy = "phone")
+  @JsonIgnore
+  private Shipper shipper;
+
+  @OneToOne(mappedBy = "phone")
+  @JsonIgnore
+  private ShipTo shipTo;
+
+  @OneToOne(mappedBy = "phone")
+  @JsonIgnore
+  private ShipFrom shipFrom;
 }

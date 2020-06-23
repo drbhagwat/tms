@@ -27,4 +27,7 @@ public class ShipmentCharge {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "bill_shipper_id", referencedColumnName = "id")
   private BillShipper billShipper;
+
+  @OneToOne(mappedBy = "shipmentCharge")
+  private PaymentInformation paymentInformation;
 }

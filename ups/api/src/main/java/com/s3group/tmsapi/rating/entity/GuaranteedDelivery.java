@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,8 @@ public class GuaranteedDelivery {
 
   @JsonProperty("DeliveryByTime")
   private String deliveryByTime;
+
+  @OneToOne(mappedBy = "guaranteedDelivery")
+  @JsonIgnore
+  private RatedShipment ratedShipment;
 }

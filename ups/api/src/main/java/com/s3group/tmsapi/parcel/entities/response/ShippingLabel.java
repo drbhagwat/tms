@@ -31,4 +31,8 @@ public class ShippingLabel {
   @JsonProperty("HTMLImage")
   @Column(length=10485760)
   private String hTMLImage;
+
+  @OneToOne(mappedBy = "shippingLabel")
+  @JsonIgnore
+  private PackageResults packageResults;
 }

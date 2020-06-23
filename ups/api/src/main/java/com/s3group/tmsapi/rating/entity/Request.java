@@ -29,4 +29,8 @@ public class Request {
   @JoinColumn(name = "transaction_reference_id",
       referencedColumnName = "id")
   private TransactionReference transactionReference;
+
+  @OneToOne(mappedBy = "request")
+  @JsonIgnore
+  private RateRequest rateRequest;
 }

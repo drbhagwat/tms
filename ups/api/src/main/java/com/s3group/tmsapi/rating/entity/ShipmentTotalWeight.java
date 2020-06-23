@@ -29,4 +29,8 @@ public class ShipmentTotalWeight {
 
   @JsonProperty("Weight")
   private String weight;
+
+  @OneToOne(mappedBy = "shipmentTotalWeight")
+  @JsonIgnore
+  private RateShipment rateShipment;
 }

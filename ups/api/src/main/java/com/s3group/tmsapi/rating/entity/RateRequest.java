@@ -3,6 +3,7 @@ package com.s3group.tmsapi.rating.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.master.entities.BasicLogger;
+import com.s3group.tmsapi.parcel.entities.request.ParcelRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,5 +34,13 @@ public class RateRequest extends BasicLogger<String> {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "shipment_id",
       referencedColumnName = "id")
-  private RateShipment shipment;
+  private RateShipment rateShipment;
+
+  @OneToOne(mappedBy = "rateRequest")
+  @JsonIgnore
+  private QueryRateRequestHistory queryRateRequestHistory;
+
+  @OneToOne(mappedBy = "rateRequest")
+  @JsonIgnore
+  private QueryRateRequest queryRateRequest;
 }

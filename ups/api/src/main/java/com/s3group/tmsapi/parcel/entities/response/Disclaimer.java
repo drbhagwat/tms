@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,8 @@ public class Disclaimer {
 
   @JsonProperty("Description")
   private String description;
+
+  @OneToOne(mappedBy = "disclaimer")
+  @JsonIgnore
+  private ShipmentResults shipmentResults;
 }
