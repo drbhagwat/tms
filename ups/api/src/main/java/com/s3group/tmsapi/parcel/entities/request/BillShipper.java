@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @Component
@@ -24,4 +25,7 @@ public class BillShipper {
 
   @JsonProperty("AccountNumber")
   private String accountNumber;
+
+  @OneToOne(mappedBy = "billShipper")
+  private ShipmentCharge shipmentCharge;
 }

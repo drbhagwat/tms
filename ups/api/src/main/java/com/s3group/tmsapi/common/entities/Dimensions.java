@@ -2,6 +2,7 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.parcel.entities.request.UPSPackage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,8 @@ public class Dimensions {
 
   @JsonProperty("Height")
   private String height;
+
+  @OneToOne(mappedBy = "dimensions")
+  @JsonIgnore
+  private UPSPackage uPSPackage;
 }

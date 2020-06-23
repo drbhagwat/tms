@@ -31,4 +31,10 @@ public class ShipmentRequest {
   @JoinColumn(name = "label_specification_id",
       referencedColumnName = "id")
   private LabelSpecification labelSpecification;
+
+  @OneToOne(mappedBy = "shipmentRequest")
+  private ParcelRequest parcelRequest;
+
+  @OneToOne(mappedBy = "shipmentRequest")
+  private ParcelRequestHistory parcelRequestHistory;
 }

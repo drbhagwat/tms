@@ -6,13 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.s3group.tmsapi.parcel.entities.request.LabelSpecification;
+import com.s3group.tmsapi.parcel.entities.response.ParcelResponseHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +34,7 @@ public class UpsErrorResponse {
   @JoinColumn(name = "ups_error_response_id")
   @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<com.s3group.tmsapi.common.upserrors.Error> errors;
+
+  @OneToOne(mappedBy = "upsErrorResponse")
+  private ParcelResponseHistory parcelResponseHistory;
 }

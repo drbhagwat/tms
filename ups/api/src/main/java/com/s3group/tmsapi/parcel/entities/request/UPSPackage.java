@@ -1,6 +1,5 @@
 package com.s3group.tmsapi.parcel.entities.request;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.common.entities.Dimensions;
@@ -17,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Component
 @Entity
-public class Package {
+public class UPSPackage {
   @Id
   @GeneratedValue
   @JsonIgnore
@@ -46,7 +45,6 @@ public class Package {
 
   @JoinColumn
   @ManyToOne
-  @JsonBackReference
   private Shipment shipment;
 }
 
