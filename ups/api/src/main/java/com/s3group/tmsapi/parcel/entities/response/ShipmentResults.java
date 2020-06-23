@@ -55,4 +55,8 @@ public class ShipmentResults {
   @JoinColumn(name = "shipment_results_id")
   @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<PackageResults> packageResults;
+
+  @OneToOne(mappedBy = "shipmentResults")
+  @JsonIgnore
+  private ShipmentResponse shipmentResponse;
 }

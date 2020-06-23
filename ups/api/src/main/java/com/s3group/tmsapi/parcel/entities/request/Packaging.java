@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +25,7 @@ public class Packaging {
 
   @JsonProperty("Code")
   private String code;
+
+  @OneToOne(mappedBy = "packaging")
+  private UPSPackage uPSPackage;
 }

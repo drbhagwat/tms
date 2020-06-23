@@ -61,4 +61,8 @@ public class RatedPackage {
   @JoinColumn(name = "rated_package_id")
   @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
   private List<RateItemizedCharges> itemizedCharges;
+
+  @OneToOne(mappedBy = "ratedPackage")
+  @JsonIgnore
+  private RatedShipment ratedShipment;
 }

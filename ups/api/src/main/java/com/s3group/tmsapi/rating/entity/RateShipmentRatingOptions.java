@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +25,8 @@ public class RateShipmentRatingOptions {
 
   @JsonProperty("UserLevelDiscountIndicator")
   private String userLevelDiscountIndicator;
+
+  @OneToOne(mappedBy = "rateShipmentRatingOptions")
+  @JsonIgnore
+  private RateShipment rateShipment;
 }

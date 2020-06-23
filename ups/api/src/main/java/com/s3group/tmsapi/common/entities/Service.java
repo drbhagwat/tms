@@ -2,6 +2,9 @@ package com.s3group.tmsapi.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.s3group.tmsapi.parcel.entities.request.PaymentInformation;
+import com.s3group.tmsapi.parcel.entities.request.Shipment;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +31,12 @@ public class Service {
 
   @JsonProperty("Description")
   private String description;
+
+  @OneToOne(mappedBy = "service")
+  @JsonIgnore
+  private Shipment shipment;
+
+  @OneToOne(mappedBy = "service")
+  @JsonIgnore
+  private RatedShipment ratedshipment;
 }

@@ -55,7 +55,11 @@ public class RateShipment {
 
   @JsonProperty("Package")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "package_id",
+  @JoinColumn(name = "rate_package_id",
       referencedColumnName = "id")
-  private com.s3group.tmsapi.rating.entity.RatePackage ratePackage;
+  private RatePackage ratePackage;
+
+  @OneToOne(mappedBy = "rateShipment")
+  @JsonIgnore
+  private RateRequest rateRequest;
 }

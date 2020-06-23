@@ -1,7 +1,6 @@
 package com.s3group.tmsapi.parcel.entities.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.common.entities.Service;
 import com.s3group.tmsapi.common.entities.ShipFrom;
@@ -32,8 +31,7 @@ public class Shipment {
 
   @JsonProperty("Shipper")
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "shipper_id",
-      referencedColumnName = "id")
+  @JoinColumn(name = "shipper_id", referencedColumnName = "id")
   private Shipper shipper;
 
   @JsonProperty("ShipTo")
@@ -65,8 +63,7 @@ public class Shipment {
       CascadeType.ALL,
       orphanRemoval = true)
   @JoinColumn(name = "shipment_id")
-  @JsonManagedReference
-  private List<Package> packages = new ArrayList<>();
+  private List<UPSPackage> upsPackages = new ArrayList<>();
 
   @JsonProperty("ItemizedChargesRequestedIndicator")
   private String itemizedChargesRequestedIndicator;
@@ -82,4 +79,7 @@ public class Shipment {
   @JoinColumn(name = "shipment_rating_options_id",
       referencedColumnName = "id")
   private ShipmentRatingOptions shipmentRatingOptions;
+
+  @OneToOne(mappedBy = "shipment")
+  private ShipmentRequest shipmentRequest;
 }

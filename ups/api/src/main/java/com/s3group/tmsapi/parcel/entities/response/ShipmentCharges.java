@@ -38,4 +38,8 @@ public class ShipmentCharges {
   @JoinColumn(name = "total_charges_id",
       referencedColumnName = "id")
   private TotalCharges totalCharges;
+
+  @OneToOne(mappedBy = "shipmentCharges")
+  @JsonIgnore
+  private ShipmentResults shipmentResults;
 }
