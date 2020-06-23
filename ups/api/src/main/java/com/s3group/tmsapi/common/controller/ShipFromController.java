@@ -20,7 +20,7 @@ public class ShipFromController {
   @Autowired
   private ShipFromService shipFromService;
 
-  @PostMapping("/shipFrom/get")
+  @PostMapping("/shipFrom/search")
   public Optional<ShipFrom> get(@RequestBody Phone phone) throws ShipFromPhoneNumberNotFound {
     return shipFromService.get(phone);
   }

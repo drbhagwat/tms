@@ -19,7 +19,7 @@ public class ShipperController {
   @Autowired
   private ShipperService shipperService;
 
-  @PostMapping("/shipper/get")
+  @PostMapping("/shipper/search")
   public Optional<Shipper> get(@RequestBody Shipper shipper) throws ShipperNumberNotFound {
     return shipperService.getShipper(shipper);
   }
