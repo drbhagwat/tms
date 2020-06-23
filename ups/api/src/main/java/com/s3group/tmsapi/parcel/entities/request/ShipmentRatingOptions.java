@@ -27,5 +27,6 @@ public class ShipmentRatingOptions {
   private String negotiatedRatesIndicator;
 
   @OneToOne(mappedBy = "shipmentRatingOptions")
+  @JsonIgnore
   private Shipment shipment;
 }

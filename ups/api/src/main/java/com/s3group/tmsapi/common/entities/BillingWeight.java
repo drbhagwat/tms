@@ -41,4 +41,5 @@ public class BillingWeight {
 
   @OneToOne(mappedBy = "billingWeight")
   @JsonIgnore
-  private RatedPackage ratedPackage;}
+  private RatedPackage ratedPackage;
+}

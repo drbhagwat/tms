@@ -30,5 +30,6 @@ public class LabelStockSize {
   private String width;
 
   @OneToOne(mappedBy = "labelStockSize")
+  @JsonIgnore
   private LabelSpecification labelSpecification;
 }
