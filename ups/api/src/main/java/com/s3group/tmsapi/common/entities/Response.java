@@ -3,8 +3,8 @@ package com.s3group.tmsapi.common.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.s3group.tmsapi.parcel.entities.response.ParcelResponse;
 import com.s3group.tmsapi.parcel.entities.response.ShipmentResponse;
+import com.s3group.tmsapi.rating.entity.RateResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,4 +44,8 @@ public class Response {
   @OneToOne(mappedBy = "response")
   @JsonIgnore
   private ShipmentResponse shipmentResponse;
+
+  @OneToOne(mappedBy = "response")
+  @JsonIgnore
+  private RateResponse rateResponse;
 }

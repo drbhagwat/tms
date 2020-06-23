@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.parcel.entities.request.PaymentInformation;
 import com.s3group.tmsapi.parcel.entities.request.Shipment;
+import com.s3group.tmsapi.rating.entity.RatedShipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,8 @@ public class Service {
   @OneToOne(mappedBy = "service")
   @JsonIgnore
   private Shipment shipment;
+
+  @OneToOne(mappedBy = "service")
+  @JsonIgnore
+  private RatedShipment ratedshipment;
 }

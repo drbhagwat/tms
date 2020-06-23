@@ -34,4 +34,8 @@ public class RatePackage {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "package_weight_id", referencedColumnName = "id")
   private PackageWeight packageWeight;
+
+  @OneToOne(mappedBy = "ratePackage")
+  @JsonIgnore
+  private RateShipment rateShipment;
 }

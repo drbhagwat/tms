@@ -3,6 +3,7 @@ package com.s3group.tmsapi.common.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.s3group.tmsapi.parcel.entities.request.UPSPackage;
+import com.s3group.tmsapi.rating.entity.RatePackage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,5 +32,10 @@ public class PackageWeight {
   private String weight;
 
   @OneToOne(mappedBy = "packageWeight")
+  @JsonIgnore
   private UPSPackage uPSPackage;
+
+  @OneToOne(mappedBy = "packageWeight")
+  @JsonIgnore
+  private RatePackage ratePackage;
 }

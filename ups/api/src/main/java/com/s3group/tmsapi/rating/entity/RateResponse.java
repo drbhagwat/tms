@@ -31,4 +31,8 @@ public class RateResponse {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "rated_shipment_id")
   private List<RatedShipment> ratedShipments = new ArrayList<>();
+
+  @OneToOne(mappedBy = "rateResponse")
+  @JsonIgnore
+  private QueryRateResponse queryRateResponse;
 }
