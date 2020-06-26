@@ -16,4 +16,5 @@ public class UpsParameter {
   private List<String> ImageFormats;
   private List<String> LabelStockHeightAndWidth;
   private List<String> PackageDimensionCodes;
+  private String transactionNumber;
 }
