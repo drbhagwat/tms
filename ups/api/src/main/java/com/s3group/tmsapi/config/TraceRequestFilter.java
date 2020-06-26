@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class TraceRequestFilter extends HttpTraceFilter {
+  private static final String RESPONSE_BODY = "resBody";
+  private static final String REQUEST_BODY = "reqBody";
+
   public TraceRequestFilter(HttpTraceRepository repository, HttpExchangeTracer tracer) {
     super(repository, tracer);
   }
