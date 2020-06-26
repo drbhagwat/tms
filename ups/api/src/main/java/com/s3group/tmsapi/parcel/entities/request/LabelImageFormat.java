@@ -27,5 +27,6 @@ public class LabelImageFormat {
   private String code;
 
   @OneToOne(mappedBy = "labelImageFormat")
+  @JsonIgnore
   private LabelSpecification labelSpecification;
 }

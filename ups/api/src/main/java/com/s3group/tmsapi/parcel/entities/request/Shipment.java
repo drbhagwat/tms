@@ -81,5 +81,6 @@ public class Shipment {
   private ShipmentRatingOptions shipmentRatingOptions;
 
   @OneToOne(mappedBy = "shipment")
+  @JsonIgnore
   private ShipmentRequest shipmentRequest;
 }

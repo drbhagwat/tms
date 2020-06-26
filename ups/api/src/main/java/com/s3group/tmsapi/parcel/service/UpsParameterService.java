@@ -1,5 +1,7 @@
 package com.s3group.tmsapi.parcel.service;
 
+import com.s3group.tmsapi.common.entities.TransactionId;
+import com.s3group.tmsapi.common.service.TransactionIdService;
 import com.s3group.tmsapi.parcel.entities.UpsParameter;
 import com.s3group.tmsapi.parcel.repo.LabelImageFormatRepository;
 import com.s3group.tmsapi.parcel.repo.LabelStockSizeRepository;
@@ -9,35 +11,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * @author : Thamilarasi
  * @version : 1.0
- * @since : 2020-06-22
+ * @since : 2020-06-23
  */
 @Service
 @Transactional
 public class UpsParameterService {
-  @Autowired
-  private ShipmentChargeRepository shipmentChargeRepository;
+    @Autowired
+    private ShipmentChargeRepository shipmentChargeRepository;
 
-  @Autowired
-  private LabelImageFormatRepository labelImageFormatRepository;
+    @Autowired
+    private LabelImageFormatRepository labelImageFormatRepository;
 
-  @Autowired
-  private LabelStockSizeRepository labelStockSizeRepository;
+    @Autowired
+    private LabelStockSizeRepository labelStockSizeRepository;
 
-  @Autowired
-  private UnitOfMeasurementRepository unitOfMeasurementRepository;
+    @Autowired
+    private UnitOfMeasurementRepository unitOfMeasurementRepository;
 
-  public UpsParameter getAllUpsParameters() {
-    UpsParameter upsParameter = new UpsParameter();
-    upsParameter.setShipmentChargeTypes(shipmentChargeRepository.getAllTypes());
-    upsParameter.setImageFormats(labelImageFormatRepository.getAllImageFormatCode());
-    upsParameter.setLabelStockHeightAndWidth(labelStockSizeRepository.getAllHeightAndWidth());
-    upsParameter.setPackageDimensionCodes(unitOfMeasurementRepository.getAllDimensionCode());
+    @Autowired
+    TransactionIdService transactionIdService;
 
-    return upsParameter;
-  }
+    public UpsParameter getAllUpsParameters() {
+        UpsParameter upsParameter = new UpsParameter();
+        upsParameter.setShipmentChargeTypes(shipmentChargeRepository.getAllTypes());
+        upsParameter.setImageFormats(labelImageFormatRepository.getAllImageFormatCode());
+        upsParameter.setLabelStockHeightAndWidth(labelStockSizeRepository.getAllHeightAndWidth());
+        upsParameter.setPackageDimensionCodes(unitOfMeasurementRepository.getAllDimensionCode());
+
+        TransactionId transactionId = transactionIdService.get();
+        upsParameter.setTransactionNumber(transactionId.getTransactionNumber());
+        return upsParameter;
+    }
 }

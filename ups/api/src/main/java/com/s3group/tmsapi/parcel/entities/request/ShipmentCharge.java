@@ -29,5 +29,6 @@ public class ShipmentCharge {
   private BillShipper billShipper;
 
   @OneToOne(mappedBy = "shipmentCharge")
+  @JsonIgnore
   private PaymentInformation paymentInformation;
 }
