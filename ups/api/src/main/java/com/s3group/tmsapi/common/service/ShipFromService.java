@@ -1,6 +1,5 @@
 package com.s3group.tmsapi.common.service;
 
-import com.s3group.tmsapi.common.entities.Phone;
 import com.s3group.tmsapi.common.entities.ShipFrom;
 import com.s3group.tmsapi.common.errors.ShipFromPhoneNumberNotFound;
 import com.s3group.tmsapi.common.repo.ShipFromRepository;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author : Thamilarasi
@@ -27,13 +24,13 @@ public class ShipFromService {
   @Autowired
   private ShipFromRepository shipFromRepository;
 
-  public Optional<ShipFrom> get(Phone phone) throws ShipFromPhoneNumberNotFound {
-    List<ShipFrom> shipFromList = shipFromRepository.findByPhone_Number(phone.getNumber());
+  public ShipFrom get(String shipFromPhoneNumber) throws ShipFromPhoneNumberNotFound {
+   ShipFrom shipFrom = shipFromRepository.findFirstByPhone_Number(shipFromPhoneNumber);
 
-    if(shipFromList.isEmpty()) {
+    if(shipFrom == null) {
       throw new ShipFromPhoneNumberNotFound(shipFromPhoneNumberNotFound);
     } else {
-      return shipFromList.stream().findFirst();
+      return shipFrom;
     }
   }
 }

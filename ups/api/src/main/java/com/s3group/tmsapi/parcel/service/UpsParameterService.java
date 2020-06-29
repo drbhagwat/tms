@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Thamilarasi
@@ -21,26 +23,28 @@ import javax.transaction.Transactional;
 @Transactional
 public class UpsParameterService {
     @Autowired
-    private ShipmentChargeRepository shipmentChargeRepository;
-
-    @Autowired
-    private LabelImageFormatRepository labelImageFormatRepository;
-
-    @Autowired
-    private LabelStockSizeRepository labelStockSizeRepository;
-
-    @Autowired
-    private UnitOfMeasurementRepository unitOfMeasurementRepository;
-
-    @Autowired
     TransactionIdService transactionIdService;
 
     public UpsParameter getAllUpsParameters() {
+        ArrayList<String> shipmentChargeTypes = new ArrayList<>();
+        shipmentChargeTypes.add("01");
+        shipmentChargeTypes.add("02");
+        shipmentChargeTypes.add("03");
+        ArrayList<String> imageFormats = new ArrayList<>();
+        imageFormats.add("GIF");
+        imageFormats.add("ZPL");
+        ArrayList<String> heightAndWeight = new ArrayList<>();
+        heightAndWeight.add("6,4");
+        heightAndWeight.add("8,4");
+        ArrayList<String> dimensionCode = new ArrayList<>();
+        dimensionCode.add("IN");
+        dimensionCode.add("CM");
+
         UpsParameter upsParameter = new UpsParameter();
-        upsParameter.setShipmentChargeTypes(shipmentChargeRepository.getAllTypes());
-        upsParameter.setImageFormats(labelImageFormatRepository.getAllImageFormatCode());
-        upsParameter.setLabelStockHeightAndWidth(labelStockSizeRepository.getAllHeightAndWidth());
-        upsParameter.setPackageDimensionCodes(unitOfMeasurementRepository.getAllDimensionCode());
+        upsParameter.setShipmentChargeTypes(shipmentChargeTypes);
+        upsParameter.setImageFormats(imageFormats);
+        upsParameter.setLabelStockHeightAndWidth(heightAndWeight);
+        upsParameter.setPackageDimensionCodes(dimensionCode);
 
         TransactionId transactionId = transactionIdService.get();
         upsParameter.setTransactionNumber(transactionId.getTransactionNumber());

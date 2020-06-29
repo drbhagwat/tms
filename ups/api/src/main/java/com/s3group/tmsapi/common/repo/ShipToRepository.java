@@ -4,8 +4,6 @@ import com.s3group.tmsapi.common.entities.ShipTo;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * This represents the repository for shipper entity.
  *
@@ -15,6 +13,5 @@ import java.util.List;
  */
 @Repository
 public interface ShipToRepository extends PagingAndSortingRepository<ShipTo, String> {
-
-    List<ShipTo> findByPhone_Number(String shipFromPhoneNumber);
+    ShipTo findFirstByPhone_Number(String shipFromPhoneNumber);
 }
