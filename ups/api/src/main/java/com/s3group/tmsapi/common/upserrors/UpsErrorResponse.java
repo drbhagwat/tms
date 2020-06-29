@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.s3group.tmsapi.cancel.entity.CancelResponseHistory;
 import com.s3group.tmsapi.parcel.entities.response.ParcelResponseHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,4 +37,8 @@ public class UpsErrorResponse {
   @OneToOne(mappedBy = "upsErrorResponse")
   @JsonIgnore
   private ParcelResponseHistory parcelResponseHistory;
+
+  @OneToOne(mappedBy = "upsErrorResponse")
+  @JsonIgnore
+  private CancelResponseHistory cancelResponseHistory;
 }

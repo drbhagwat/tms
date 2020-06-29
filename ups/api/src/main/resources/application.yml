@@ -78,7 +78,9 @@ WAREHOUSE_CODE_MAX_LENGTH: 10
 
 # following are shipper specific.
 UPS_BASE_URL_SHIPMENTS: https://wwwcie.ups.com/ship/v1801/shipments
+#UPS_BASE_URL_SHIPMENTS: https://onlinetools.ups.com/ship/v1801/shipments
 UPS_BASE_URL_RATING_SHOP_REQUEST: https://wwwcie.ups.com/ship/v1801/rating/Shop
+UPS_BASE_URL_CACNCEL_REQUEST: https://onlinetools.ups.com/ship/v1/shipments/cancel
 UPS_CONTENT_TYPE: application/json
 UPS_USERNAME: vboopathi
 UPS_PASSWORD: vb20UPS@s3

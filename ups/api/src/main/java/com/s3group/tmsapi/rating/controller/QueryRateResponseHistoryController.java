@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
  * @since : 2020-06-08
  */
 @RestController
-@RequestMapping()
 class QueryRateResponseHistoryController {
     @Autowired
     private QueryRateResponseHistoryService queryRateResponseHistoryService;
@@ -35,7 +34,7 @@ class QueryRateResponseHistoryController {
                                                                          @RequestParam(defaultValue = "10") Integer pageSize,
                                                                          @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
                                                                          @RequestParam(defaultValue = "D") String orderBy) {
-        return queryRateResponseHistoryService.getAllQueryRateResponseHistory(pageNo, pageSize, sortBy, orderBy);
+        return queryRateResponseHistoryService.getAll(pageNo, pageSize, sortBy, orderBy);
     }
 
     /**
@@ -47,7 +46,7 @@ class QueryRateResponseHistoryController {
      *                                          which displays an appropriate error message.
      */
     @GetMapping("/queryrateresponsehistory/{transactionId}")
-    public QueryRateResponseHistory getSpecificQueryRateResponseHistory(@PathVariable String transactionId) throws QueryRateResponseHistoryNotFound {
-        return queryRateResponseHistoryService.getSpecificQueryRateResponseHistory(transactionId);
+    public QueryRateResponseHistory get(@PathVariable String transactionId) throws QueryRateResponseHistoryNotFound {
+        return queryRateResponseHistoryService.get(transactionId);
     }
 }

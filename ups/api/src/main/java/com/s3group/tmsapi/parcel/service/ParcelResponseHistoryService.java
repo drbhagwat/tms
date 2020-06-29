@@ -39,7 +39,7 @@ public class ParcelResponseHistoryService {
      * @throws ParcelResponseHistoryNotFound - on failure, a global exception handler is called
      *                                       which displays an appropriate error message.
      */
-    public ParcelResponseHistory getResponseHistory(String transactionId) throws ParcelResponseHistoryNotFound {
+    public ParcelResponseHistory get(String transactionId) throws ParcelResponseHistoryNotFound {
         Optional<ParcelResponseHistory> parcelResponseHistory = Optional.ofNullable(parcelResponseHistoryRepository.findByTransactionId(transactionId));
 
         if (parcelResponseHistory.isEmpty())

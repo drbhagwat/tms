@@ -17,36 +17,37 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping()
 public class QueryRateRequestHistoryController {
-    @Autowired
-    private QueryRateRequestHistoryService queryRateRequestHistoryService;
+  @Autowired
+  private QueryRateRequestHistoryService queryRateRequestHistoryService;
 
-    /**
-     * Retrieves the first page of queryraterequesthistory found in the db (when there is no queryraterequesthistory this will be empty).
-     *
-     * @param pageNo   - default is 0, can be overridden
-     * @param pageSize - default is 10, can be overridden
-     * @param sortBy   - default is descending, can be overridden
-     * @param orderBy  - default is by last updated date time, can be overridden
-     * @return - first page of the queryraterequesthistories found
-     */
-    @GetMapping("/queryraterequesthistory")
-    public Page<QueryRateRequestHistory> getAllQueryRateRequestHistory(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                                       @RequestParam(defaultValue = "10") Integer pageSize,
-                                                                       @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
-                                                                       @RequestParam(defaultValue = "D") String orderBy) {
-        return queryRateRequestHistoryService.getAllQueryRateRequestHistory(pageNo, pageSize, sortBy, orderBy);
-    }
+  /**
+   * Retrieves the first page of queryraterequesthistory found in the db (when there is no queryraterequesthistory this
+   * will be empty).
+   *
+   * @param pageNo   - default is 0, can be overridden
+   * @param pageSize - default is 10, can be overridden
+   * @param sortBy   - default is descending, can be overridden
+   * @param orderBy  - default is by last updated date time, can be overridden
+   * @return - first page of the queryraterequesthistories found
+   */
+  @GetMapping("/queryraterequesthistory")
+  public Page<QueryRateRequestHistory> getAll(@RequestParam(defaultValue = "0") Integer pageNo,
+                                              @RequestParam(defaultValue = "10") Integer pageSize,
+                                              @RequestParam(defaultValue = "lastUpdatedDateTime") String sortBy,
+                                              @RequestParam(defaultValue = "D") String orderBy) {
+    return queryRateRequestHistoryService.getAll(pageNo, pageSize, sortBy, orderBy);
+  }
 
-    /**
-     * This retrieves a single queryraterequesthistory based on a transactionId mentioned below
-     *
-     * @param transactionId - represents the value of queryraterequesthistory
-     * @return - on success, returns the found queryraterequesthistory.
-     * @throws QueryRateRequestHistoryNotFound - on failure, a global exception handler is called
-     *                                         which displays an appropriate error message.
-     */
-    @GetMapping("/queryraterequesthistory/{transactionId}")
-    public QueryRateRequestHistory getSpecificQueryRateRequestHistory(@PathVariable String transactionId) throws QueryRateRequestHistoryNotFound {
-        return queryRateRequestHistoryService.getSpecificQueryRateRequestHistory(transactionId);
-    }
+  /**
+   * This retrieves a single queryraterequesthistory based on a transactionId mentioned below
+   *
+   * @param transactionId - represents the value of queryraterequesthistory
+   * @return - on success, returns the found queryraterequesthistory.
+   * @throws QueryRateRequestHistoryNotFound - on failure, a global exception handler is called which displays an
+   *                                         appropriate error message.
+   */
+  @GetMapping("/queryraterequesthistory/{transactionId}")
+  public QueryRateRequestHistory get(@PathVariable String transactionId) throws QueryRateRequestHistoryNotFound {
+    return queryRateRequestHistoryService.get(transactionId);
+  }
 }

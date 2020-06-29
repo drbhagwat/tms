@@ -35,6 +35,6 @@ public class ParcelResponseHistoryController {
      */
     @GetMapping("/responsehistory/{transactionId}")
     public ParcelResponseHistory getResponseHistory(@PathVariable String transactionId) throws ParcelResponseHistoryNotFound {
-        return responseHistoryService.getResponseHistory(transactionId);
+        return responseHistoryService.get(transactionId);
     }
 }

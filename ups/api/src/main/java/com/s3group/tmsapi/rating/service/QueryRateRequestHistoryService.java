@@ -37,7 +37,7 @@ public class QueryRateRequestHistoryService {
      * @param orderBy  - default is by last updated date time, can be overridden
      * @return - first page of the queryraterequesthistories found
      */
-    public Page<QueryRateRequestHistory> getAllQueryRateRequestHistory(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    public Page<QueryRateRequestHistory> getAll(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
         Pageable pageable = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         return queryRateRequestHistoryRepository.findAll(pageable);
@@ -51,7 +51,7 @@ public class QueryRateRequestHistoryService {
      * @throws QueryRateRequestHistoryNotFound - on failure, a global exception handler is called
      *                                         which displays an appropriate error message.
      */
-    public QueryRateRequestHistory getSpecificQueryRateRequestHistory(String transactionId) throws QueryRateRequestHistoryNotFound {
+    public QueryRateRequestHistory get(String transactionId) throws QueryRateRequestHistoryNotFound {
         Optional<QueryRateRequestHistory> queryRateRequestHistory = Optional.ofNullable(queryRateRequestHistoryRepository.findByTransactionId(transactionId));
 
         if (queryRateRequestHistory.isEmpty())

@@ -38,7 +38,7 @@ public class QueryRateResponseHistoryService {
      * @return - first page of the queryrateresponsehistories found
      */
 
-    public Page<QueryRateResponseHistory> getAllQueryRateResponseHistory(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
+    public Page<QueryRateResponseHistory> getAll(Integer pageNo, Integer pageSize, String sortBy, String orderBy) {
         Pageable pageable = orderBy.equals("A") ? PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending())
                 : PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         return queryRateResponseHistoryRepository.findAll(pageable);
@@ -52,7 +52,7 @@ public class QueryRateResponseHistoryService {
      * @throws QueryRateResponseHistoryNotFound - on failure, a global exception handler is called
      *                                          which displays an appropriate error message.
      */
-    public QueryRateResponseHistory getSpecificQueryRateResponseHistory(String transactionId) throws QueryRateResponseHistoryNotFound {
+    public QueryRateResponseHistory get(String transactionId) throws QueryRateResponseHistoryNotFound {
         Optional<QueryRateResponseHistory> queryRateResponseHistory = Optional.ofNullable(queryRateResponseHistoryRepository.findByTransactionId(transactionId));
 
         if (queryRateResponseHistory.isEmpty())

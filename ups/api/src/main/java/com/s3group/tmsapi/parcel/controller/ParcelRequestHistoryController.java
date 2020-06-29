@@ -35,6 +35,6 @@ public class ParcelRequestHistoryController {
      */
     @GetMapping("/requesthistory/{transactionId}")
     public ParcelRequestHistory getRequestHistory(@PathVariable String transactionId) throws ParcelRequestHistoryNotFound {
-        return requestHistoryService.getRequestHistory(transactionId);
+        return requestHistoryService.get(transactionId);
     }
 }
