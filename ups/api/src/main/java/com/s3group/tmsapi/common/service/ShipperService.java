@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author : Thamilarasi
@@ -26,13 +24,13 @@ public class ShipperService {
   @Autowired
   private ShipperRepository shipperRepository;
 
-  public Optional<Shipper> getShipper(Shipper shipper) throws ShipperNumberNotFound {
-    List<Shipper> shipperList = shipperRepository.findByShipperNumber(shipper.getShipperNumber());
+  public Shipper getShipper(String shipperNumber) throws ShipperNumberNotFound {
+    Shipper shipper = shipperRepository.findFirstByShipperNumber(shipperNumber);
 
-    if(shipperList.isEmpty()) {
+    if(shipper == null) {
       throw new ShipperNumberNotFound(shipperNumberNotFound);
     } else {
-      return shipperList.stream().findFirst();
+      return shipper;
     }
   }
 }
