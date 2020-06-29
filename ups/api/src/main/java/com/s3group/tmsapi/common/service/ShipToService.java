@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class ShipToService {
-
   @Value("${SHIP_TO_NUMBER_NOT_FOUND}")
   private String shipToPhoneNumberNotFound;
 

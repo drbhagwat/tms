@@ -15,15 +15,15 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class TransactionIdService {
-    @Autowired
-    private TransactionIdRepository transactionIdRepository;
+  @Autowired
+  private TransactionIdRepository transactionIdRepository;
 
-    public TransactionId get() {
-      TransactionId transactionId = new TransactionId();
-      String prefix = "WFL";
-      transactionId.setPrefix(prefix);
-      transactionIdRepository.save(transactionId);
-      transactionId.setTransactionNumber((prefix + transactionId.getId()));
-      return transactionId;
-    }
+  public TransactionId get() {
+    TransactionId transactionId = new TransactionId();
+    String prefix = "WFL";
+    transactionId.setPrefix(prefix);
+    transactionIdRepository.save(transactionId);
+    transactionId.setTransactionNumber((prefix + transactionId.getId()));
+    return transactionId;
+  }
 }

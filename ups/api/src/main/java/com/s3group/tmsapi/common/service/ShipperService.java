@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class ShipperService {
-
   @Value("${SHIPPER_NUMBER_NOT_FOUND}")
   private String shipperNumberNotFound;
 
