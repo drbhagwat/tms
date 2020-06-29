@@ -23,7 +23,7 @@ public class TransactionIdService {
     String prefix = "WFL";
     transactionId.setPrefix(prefix);
     TransactionId savedTransactionId = transactionIdRepository.save(transactionId);
-    transactionId.setTransactionNumber((prefix + savedTransactionId.getId()));
+    savedTransactionId.setTransactionNumber((prefix + savedTransactionId.getId()));
     return savedTransactionId;
   }
 }
