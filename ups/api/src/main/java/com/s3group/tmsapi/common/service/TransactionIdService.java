@@ -22,8 +22,8 @@ public class TransactionIdService {
     TransactionId transactionId = new TransactionId();
     String prefix = "WFL";
     transactionId.setPrefix(prefix);
-    transactionIdRepository.save(transactionId);
-    transactionId.setTransactionNumber((prefix + transactionId.getId()));
-    return transactionId;
+    TransactionId savedTransactionId = transactionIdRepository.save(transactionId);
+    transactionId.setTransactionNumber((prefix + savedTransactionId.getId()));
+    return savedTransactionId;
   }
 }
