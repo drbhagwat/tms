@@ -47,7 +47,17 @@ management:
         include: httptrace
   trace:
     http:
-      include: RESPONSE_HEADERS
+      tracebody: true
+      include: request-headers,response-headers,cookie-headers,principal,time-taken,authorization-header,remote-address,session-id
+
+logging:
+  file: /tmp/tms/tmsapi.log
+  level:
+    root: INFO
+    org.springframework.web: ERROR
+    com.s3groupinc: DEBUG
+    org.hibernate: ERROR
+
 
 #eureka:
 #  client:
